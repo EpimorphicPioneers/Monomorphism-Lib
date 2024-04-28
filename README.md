@@ -1,2 +1,2 @@
-# Epimorphism-TemplateDevEnv
-TemplateDevEnv for developing GTM addon.
+# Monomorphism-Lib
+A library makes GTM addon development easy.
