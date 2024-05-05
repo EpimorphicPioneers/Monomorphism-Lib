@@ -14,6 +14,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epimorphismmc.monomorphism.gui.MOGuiTextures.*;
+
 public class ParallelFancyConfigurator implements IFancyConfigurator {
     protected IParallelMachine machine;
 

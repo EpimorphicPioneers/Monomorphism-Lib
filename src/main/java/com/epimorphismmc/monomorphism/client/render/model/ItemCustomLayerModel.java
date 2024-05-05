@@ -8,6 +8,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -107,7 +108,7 @@ public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerMod
 
 
             float[][] list = !jsonObject.has("layer_pos") ? null :
-                    GSON.fromJson(jsonObject.getAsJsonArray("layer_pos"), float[][].class);
+                    LDLib.GSON.fromJson(jsonObject.getAsJsonArray("layer_pos"), float[][].class);
             return new ItemCustomLayerModel(null, emissiveLayers, list, renderTypeNames);
         }
 

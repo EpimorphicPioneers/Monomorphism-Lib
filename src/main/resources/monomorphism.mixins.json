@@ -9,6 +9,8 @@
   ],
   "mixins": [
     "accessors.BlockEntityBuilderAccessor",
+    "accessors.ShapedRecipeAccessor",
+    "accessors.ShapelessRecipeAccessor",
     "gtm.ICoilTypeMixin",
     "gtm.IMaterialPartItemMixin"
   ],
