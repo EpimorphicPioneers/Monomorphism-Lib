@@ -123,11 +123,11 @@ public class FactoryEnhancePattern {
         return this;
     }
 
-    public EnhanceBlockPattern build() {
+    public MOBlockPattern build() {
         return build(0);
     }
 
-    public EnhanceBlockPattern build(int tier) {
+    public MOBlockPattern build(int tier) {
         this.checkMissingPredicates();
         int[] centerOffset = new int[5];
         int[][] aisleRepetitions = this.aisleRepetitions.toArray(new int[this.aisleRepetitions.size()][]);
@@ -144,7 +144,7 @@ public class FactoryEnhancePattern {
             }
         }
 
-        return new EnhanceBlockPattern(tier, predicate, structureDir, aisleRepetitions, centerOffset);
+        return new MOBlockPattern(tier, predicate, structureDir, aisleRepetitions, centerOffset);
     }
 
     private TraceabilityPredicate[][][] makePredicateArray() {

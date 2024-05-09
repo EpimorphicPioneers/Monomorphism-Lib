@@ -11,23 +11,23 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class EnhancePredicate extends SimplePredicate {
+public class MOPredicate extends SimplePredicate {
 
-    @Getter @Setter @Accessors(chain = true)
-    private boolean isBlockTier;
+    @Getter @Setter @Accessors(chain = true, fluent = true)
+    private boolean previewCandidates;
 
-    public EnhancePredicate() {
+    public MOPredicate() {
     }
 
-    public EnhancePredicate(String type) {
+    public MOPredicate(String type) {
         super(type);
     }
 
-    public EnhancePredicate(Predicate<MultiblockState> predicate, @Nullable Supplier<BlockInfo[]> candidates) {
+    public MOPredicate(Predicate<MultiblockState> predicate, @Nullable Supplier<BlockInfo[]> candidates) {
         super(predicate, candidates);
     }
 
-    public EnhancePredicate(String type, Predicate<MultiblockState> predicate, @Nullable Supplier<BlockInfo[]> candidates) {
+    public MOPredicate(String type, Predicate<MultiblockState> predicate, @Nullable Supplier<BlockInfo[]> candidates) {
         super(type, predicate, candidates);
     }
 }

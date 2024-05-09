@@ -1,5 +1,6 @@
 package com.epimorphismmc.monomorphism.pattern;
 
+import com.epimorphismmc.monomorphism.block.MOBlockMaps;
 import com.epimorphismmc.monomorphism.pattern.predicates.TierPredicateFactory;
 import com.epimorphismmc.monomorphism.pattern.utils.containers.IValueContainer;
 import com.epimorphismmc.monomorphism.pattern.utils.containers.SimpleValueContainer;
@@ -12,6 +13,7 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.PredicateBlocks;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
+import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
@@ -30,15 +32,17 @@ public class MOPredicates {
     }
 
     public static TraceabilityPredicate coilBlock() {
-        return TierPredicateFactory.create(TierPredicateFactory.TraceabilityPredicateType.TIER, "Coil")
-                .map(BlockMaps.ALL_COIL_BLOCKS)
+        return TierPredicateFactory.create("Coil")
+                .map(MOBlockMaps.ALL_COIL_BLOCKS)
                 .errorKey(Component.translatable("gtceu.multiblock.pattern.error.coils"))
+                .strict(true)
                 .build();
     }
 
     public static TraceabilityPredicate machineCasingBlock() {
-        return TierPredicateFactory.create(TierPredicateFactory.TraceabilityPredicateType.TIER, "MachineCasing")
-                .map(BlockMaps.ALL_MACHINE_CASINGS)
+        return TierPredicateFactory.create("MachineCasing")
+                .map(MOBlockMaps.ALL_MACHINE_CASINGS)
+                .strict(true)
                 .build();
     }
 

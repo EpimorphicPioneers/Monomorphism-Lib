@@ -11,6 +11,7 @@
     "accessors.BlockEntityBuilderAccessor",
     "accessors.ShapedRecipeAccessor",
     "accessors.ShapelessRecipeAccessor",
+    "gtm.GTBlocksMixin",
     "gtm.ICoilTypeMixin",
     "gtm.IMaterialPartItemMixin"
   ],

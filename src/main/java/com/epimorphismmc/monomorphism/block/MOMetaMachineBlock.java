@@ -14,12 +14,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MOMetaMachineBlock extends MetaMachineBlock {
     public MOMetaMachineBlock(Properties properties, MachineDefinition definition) {
         super(properties, definition);
-        this.registerDefaultState(this.stateDefinition.any().setValue(MOBlockProperties.MULTIBLOCK_TIER, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(MOBlockProperties.STRUCTURE_TIER, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder);
-        pBuilder.add(MOBlockProperties.MULTIBLOCK_TIER);
+        pBuilder.add(MOBlockProperties.STRUCTURE_TIER);
     }
 }

@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.pattern.utils;
 
 import com.epimorphismmc.monomorphism.block.MOBlockProperties;
-import com.epimorphismmc.monomorphism.pattern.EnhanceBlockPattern;
+import com.epimorphismmc.monomorphism.pattern.MOBlockPattern;
 import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -31,8 +31,8 @@ public class StructureUtil {
     };
     public static BlockState getTierController(IMachineBlock controller, int tier, Direction direction) {
         return controller.getRotationState() == RotationState.NONE ?
-                controller.self().defaultBlockState().setValue(MOBlockProperties.MULTIBLOCK_TIER, tier) :
-                controller.self().defaultBlockState().setValue(controller.getRotationState().property, direction).setValue(MOBlockProperties.MULTIBLOCK_TIER, tier);
+                controller.self().defaultBlockState().setValue(MOBlockProperties.STRUCTURE_TIER, tier) :
+                controller.self().defaultBlockState().setValue(controller.getRotationState().property, direction).setValue(MOBlockProperties.STRUCTURE_TIER, tier);
     }
 
     public static BlockPattern emptyPattern(MultiblockMachineDefinition definition) {
@@ -44,24 +44,24 @@ public class StructureUtil {
         return repetitionDFS(blockPattern, new ArrayList<>(), aisleRepetitions, new Stack<>());
     }
 
-    public static List<MultiblockShapeInfo> getMatchingShapes(EnhanceBlockPattern blockPattern, int maxTier) {
+    public static List<MultiblockShapeInfo> getMatchingShapes(MOBlockPattern blockPattern, int maxIndex) {
         int[][] aisleRepetitions = blockPattern.aisleRepetitions;
-        var pages = repetitionDFSWithTier(blockPattern, new ArrayList<>(), aisleRepetitions, new Stack<>());
-        if (pages.size() < maxTier) {
+        var pages = repetitionMO(blockPattern, new ArrayList<>(), aisleRepetitions, new Stack<>());
+        if (pages.size() < maxIndex) {
             int[] repetition = new int[aisleRepetitions.length];
             for (int i = 0; i < repetition.length; i++) {
                 repetition[i] = aisleRepetitions[i][1];
             }
-            for (int i = pages.size(); i < maxTier; i++) {
+            for (int i = pages.size(); i < maxIndex; i++) {
                 pages.add(new MultiblockShapeInfo(blockPattern.getPreview(repetition, i)));
             }
         }
         return pages;
     }
 
-    public static List<MultiblockShapeInfo> getTierMatchingShapes(EnhanceBlockPattern blockPattern, int tier) {
+    public static List<MultiblockShapeInfo> getTierMatchingShapes(MOBlockPattern blockPattern, int index) {
         int[][] aisleRepetitions = blockPattern.aisleRepetitions;
-        return repetitionDFSTier(blockPattern, new ArrayList<>(), aisleRepetitions, new Stack<>(), tier);
+        return repetitionMO(blockPattern, new ArrayList<>(), aisleRepetitions, new Stack<>(), index);
     }
 
     private static List<MultiblockShapeInfo> repetitionDFS(BlockPattern pattern, List<MultiblockShapeInfo> pages, int[][] aisleRepetitions, Stack<Integer> repetitionStack) {
@@ -81,24 +81,24 @@ public class StructureUtil {
         return pages;
     }
 
-    private static List<MultiblockShapeInfo> repetitionDFSTier(EnhanceBlockPattern pattern, List<MultiblockShapeInfo> pages, int[][] aisleRepetitions, Stack<Integer> repetitionStack, int tier) {
+    private static List<MultiblockShapeInfo> repetitionMO(MOBlockPattern pattern, List<MultiblockShapeInfo> pages, int[][] aisleRepetitions, Stack<Integer> repetitionStack, int index) {
         if (repetitionStack.size() == aisleRepetitions.length) {
             int[] repetition = new int[repetitionStack.size()];
             for (int i = 0; i < repetitionStack.size(); i++) {
                 repetition[i] = repetitionStack.get(i);
             }
-            pages.add(new MultiblockShapeInfo(pattern.getPreview(repetition, tier)));
+            pages.add(new MultiblockShapeInfo(pattern.getPreview(repetition, index)));
         } else {
             for (int i = aisleRepetitions[repetitionStack.size()][0]; i <= aisleRepetitions[repetitionStack.size()][1]; i++) {
                 repetitionStack.push(i);
-                repetitionDFSWithTier(pattern, pages, aisleRepetitions, repetitionStack);
+                repetitionMO(pattern, pages, aisleRepetitions, repetitionStack, index);
                 repetitionStack.pop();
             }
         }
         return pages;
     }
 
-    private static List<MultiblockShapeInfo> repetitionDFSWithTier(EnhanceBlockPattern pattern, List<MultiblockShapeInfo> pages, int[][] aisleRepetitions, Stack<Integer> repetitionStack) {
+    private static List<MultiblockShapeInfo> repetitionCandidates(MOBlockPattern pattern, List<MultiblockShapeInfo> pages, int[][] aisleRepetitions, Stack<Integer> repetitionStack) {
         if (repetitionStack.size() == aisleRepetitions.length) {
             int[] repetition = new int[repetitionStack.size()];
             for (int i = 0; i < repetitionStack.size(); i++) {
@@ -108,7 +108,7 @@ public class StructureUtil {
         } else {
             for (int i = aisleRepetitions[repetitionStack.size()][0]; i <= aisleRepetitions[repetitionStack.size()][1]; i++) {
                 repetitionStack.push(i);
-                repetitionDFSWithTier(pattern, pages, aisleRepetitions, repetitionStack);
+                repetitionMO(pattern, pages, aisleRepetitions, repetitionStack);
                 repetitionStack.pop();
             }
         }

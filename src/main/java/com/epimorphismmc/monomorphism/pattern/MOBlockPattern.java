@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.pattern;
 
 import com.epimorphismmc.monomorphism.block.MOBlockProperties;
-import com.epimorphismmc.monomorphism.pattern.predicates.EnhancePredicate;
+import com.epimorphismmc.monomorphism.pattern.predicates.MOPredicate;
 import com.epimorphismmc.monomorphism.utility.MOUtils;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -26,25 +26,25 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-public class EnhanceBlockPattern extends BlockPattern {
+public class MOBlockPattern extends BlockPattern {
 
     static Direction[] FACINGS = {Direction.SOUTH, Direction.NORTH, Direction.WEST, Direction.EAST, Direction.UP, Direction.DOWN};
     static Direction[] FACINGS_H = {Direction.SOUTH, Direction.NORTH, Direction.WEST, Direction.EAST};
 
     protected final Map<String, TraceabilityPredicate[][][]> blockMatchesMap; //[z][y][x]
 
-    protected int tier;
+    protected int structureTier;
 
-    public EnhanceBlockPattern(int tier, TraceabilityPredicate[][][] predicatesIn, RelativeDirection[] structureDir, int[][] aisleRepetitions, int[] centerOffset) {
+    public MOBlockPattern(int structureTier, TraceabilityPredicate[][][] predicatesIn, RelativeDirection[] structureDir, int[][] aisleRepetitions, int[] centerOffset) {
         super(predicatesIn, structureDir, aisleRepetitions, centerOffset);
         this.blockMatchesMap = new HashMap<>();
-        this.tier = tier;
+        this.structureTier = structureTier;
     }
 
-    public EnhanceBlockPattern(int tier, Map<String, TraceabilityPredicate[][][]> predicatesIn, RelativeDirection[] structureDir, int[][] aisleRepetitions, int[] centerOffset) {
+    public MOBlockPattern(int structureTier, Map<String, TraceabilityPredicate[][][]> predicatesIn, RelativeDirection[] structureDir, int[][] aisleRepetitions, int[] centerOffset) {
         super(new TraceabilityPredicate[0][0][0], structureDir, aisleRepetitions, centerOffset);
         this.blockMatchesMap = predicatesIn;
-        this.tier = tier;
+        this.structureTier = structureTier;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class EnhanceBlockPattern extends BlockPattern {
         return getPreview(repetition, -1);
     }
 
-    public BlockInfo[][][] getPreview(int[] repetition, int blockTier) {
+    public BlockInfo[][][] getPreview(int[] repetition, int index) {
         Map<SimplePredicate, Integer> cacheGlobal = new HashMap<>();
         Map<BlockPos, BlockInfo> blocks = new HashMap<>();
         int minX = Integer.MAX_VALUE;
@@ -74,7 +74,7 @@ public class EnhanceBlockPattern extends BlockPattern {
                     for (int z = 0; z < this.palmLength; z++) {
                         TraceabilityPredicate predicate = this.blockMatches[l][y][z];
                         boolean find = false;
-                        boolean isBlockTier = false;
+                        boolean preview = false;
                         BlockInfo[] infos = null;
                         for (SimplePredicate limit : predicate.limited) { // check layer and previewCount
                             if (limit.minLayerCount > 0) {
@@ -99,7 +99,7 @@ public class EnhanceBlockPattern extends BlockPattern {
                             }
                             infos = limit.candidates == null ? null : limit.candidates.get();
                             find = true;
-                            isBlockTier = isBlockTier(limit);
+                            preview = shouldPreviewCandidates(limit);
                             break;
                         }
                         if (!find) { // check global and previewCount
@@ -126,7 +126,7 @@ public class EnhanceBlockPattern extends BlockPattern {
                                 }
                                 infos = limit.candidates == null ? null : limit.candidates.get();
                                 find = true;
-                                isBlockTier = isBlockTier(limit);
+                                preview = shouldPreviewCandidates(limit);
                                 break;
                             }
                         }
@@ -145,7 +145,7 @@ public class EnhanceBlockPattern extends BlockPattern {
                                 }
                                 infos = common.candidates == null ? null : common.candidates.get();
                                 find = true;
-                                isBlockTier = isBlockTier(common);
+                                preview = shouldPreviewCandidates(common);
                                 break;
                             }
                         }
@@ -154,7 +154,7 @@ public class EnhanceBlockPattern extends BlockPattern {
                                 if (common.previewCount == -1) {
                                     infos = common.candidates == null ? null : common.candidates.get();
                                     find = true;
-                                    isBlockTier = isBlockTier(common);
+                                    preview = shouldPreviewCandidates(common);
                                     break;
                                 }
                             }
@@ -182,14 +182,14 @@ public class EnhanceBlockPattern extends BlockPattern {
                                 }
 
                                 infos = limit.candidates == null ? null : limit.candidates.get();
-                                isBlockTier = isBlockTier(limit);
+                                preview = shouldPreviewCandidates(limit);
                                 break;
                             }
                         }
 
                         BlockInfo info;
-                        if (isBlockTier && blockTier > -1) {
-                            info = infos == null || infos.length == 0 ? BlockInfo.EMPTY : MOUtils.getOrLast(infos, blockTier);
+                        if (preview && index > -1) {
+                            info = infos == null || infos.length == 0 ? BlockInfo.EMPTY : MOUtils.getOrLast(infos, index);
                         } else {
                             info = infos == null || infos.length == 0 ? BlockInfo.EMPTY : infos[0];
                         }
@@ -228,15 +228,15 @@ public class EnhanceBlockPattern extends BlockPattern {
                     return true;
                 }
                 return false;
-            }, state -> info.setBlockState(state.hasProperty(MOBlockProperties.MULTIBLOCK_TIER) ? state.setValue(MOBlockProperties.MULTIBLOCK_TIER, tier) : state));
+            }, state -> info.setBlockState(state.hasProperty(MOBlockProperties.STRUCTURE_TIER) ? state.setValue(MOBlockProperties.STRUCTURE_TIER, structureTier) : state));
             result[pos.getX() - finalMinX][pos.getY() - finalMinY][pos.getZ() - finalMinZ] = info;
         });
         return result;
     }
 
-    private boolean isBlockTier(SimplePredicate predicate) {
-        if (predicate instanceof EnhancePredicate enhancePredicate) {
-            return enhancePredicate.isBlockTier();
+    private boolean shouldPreviewCandidates(SimplePredicate predicate) {
+        if (predicate instanceof MOPredicate moPredicate) {
+            return moPredicate.previewCandidates();
         }
         return false;
     }

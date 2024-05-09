@@ -2,7 +2,6 @@ package com.epimorphismmc.monomorphism.pattern.predicates;
 
 import com.epimorphismmc.monomorphism.block.tier.ITierType;
 import com.epimorphismmc.monomorphism.pattern.utils.containers.IValueContainer;
-import com.epimorphismmc.monomorphism.utility.MOUtils;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
@@ -20,60 +19,54 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class TierPredicateFactory {
+import static com.epimorphismmc.monomorphism.utility.MOUtils.*;
 
-    private final TraceabilityPredicateType type;
-    private final String tName;
-    @Setter @Accessors(fluent = true, chain = true)
+@Setter @Accessors(fluent = true, chain = true)
+public class TierPredicateFactory {
+    private final String name;
+    private boolean strict;
     private Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map;
-    @Setter @Accessors(fluent = true, chain = true)
     private Object2ObjectOpenHashMap<ITierType, Supplier<Block>> candidatesMap;
-    @Setter @Accessors(fluent = true, chain = true)
     private Component errorKey;
-    @Setter @Accessors(fluent = true, chain = true)
     private Comparator<ITierType> comparator;
-    @Setter @Accessors(fluent = true, chain = true)
     private Predicate<ITierType> predicate;
-    @Setter @Accessors(fluent = true, chain = true)
     private Supplier<IValueContainer<?>> container;
+
     private static final Map<String, BlockInfo[]> CACHE = new HashMap<>();
 
-    protected TierPredicateFactory(TraceabilityPredicateType type, String name) {
-        this.type = type;
-        this.tName = name;
+    protected TierPredicateFactory(String name) {
+        this.name = name;
     }
 
-    public static TierPredicateFactory create(TraceabilityPredicateType type, String name) {
-        return new TierPredicateFactory(type, name);
+    public static TierPredicateFactory create(String name) {
+        return new TierPredicateFactory(name);
     }
 
     public TraceabilityPredicate build() {
-        return switch (type) {
-            case TIER -> new TraceabilityPredicate(new EnhancePredicate(
-                    getTierPredicate(tName,
-                            MOUtils.getOrDefault(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            MOUtils.getOrDefault(container, () -> IValueContainer::noop),
-                            MOUtils.getOrDefault(errorKey, () -> Component.translatable("structure.multiblock.pattern.error.casing"))
+        return strict ? new TraceabilityPredicate(new MOPredicate(
+                    getStrictPredicate(name,
+                            getOrDefault(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            getOrDefault(container, () -> IValueContainer::noop),
+                            getOrDefault(errorKey, () -> Component.translatable("structure.multiblock.pattern.error.casing"))
                     ),
-                    getCandidates(tName,
-                            MOUtils.getOrDefault(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            MOUtils.getOrDefault(comparator, () -> Comparator.comparingInt(ITierType::tier)),
-                            MOUtils.getOrDefault(predicate, () -> BlockState -> true)
-                    )).setBlockTier(true));
-            case LOOSE -> new TraceabilityPredicate(new EnhancePredicate(
-                    getLoosePredicate(tName,
-                            MOUtils.getOrDefault(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            MOUtils.getOrDefault(container, () -> IValueContainer::noop)
+                    getCandidates(name,
+                            getOrDefault(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            getOrDefault(comparator, () -> Comparator.comparingInt(ITierType::tier)),
+                            getOrDefault(predicate, () -> BlockState -> true)
+                    )).previewCandidates(true))
+            : new TraceabilityPredicate(new MOPredicate(
+                    getPredicate(name,
+                            getOrDefault(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            getOrDefault(container, () -> IValueContainer::noop)
                     ),
-                    getCandidates(tName,
-                            MOUtils.getOrDefault(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            MOUtils.getOrDefault(comparator, () -> Comparator.comparingInt(ITierType::tier)),
-                            MOUtils.getOrDefault(predicate, () -> BlockState -> true)
-                    )).setBlockTier(true));
-        };
+                    getCandidates(name,
+                            getOrDefault(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            getOrDefault(comparator, () -> Comparator.comparingInt(ITierType::tier)),
+                            getOrDefault(predicate, () -> BlockState -> true)
+                    )).previewCandidates(true));
     }
 
-    private Predicate<MultiblockState> getLoosePredicate(String name, Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map, Supplier<IValueContainer<?>> containerSupplier) {
+    private Predicate<MultiblockState> getPredicate(String name, Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map, Supplier<IValueContainer<?>> containerSupplier) {
         return  (blockWorldState) -> {
             var blockState = blockWorldState.getBlockState();
             var objectIterator = map.object2ObjectEntrySet().fastIterator();
@@ -89,7 +82,7 @@ public class TierPredicateFactory {
         };
     }
 
-    private Predicate<MultiblockState> getTierPredicate(String name, Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map, Supplier<IValueContainer<?>> containerSupplier, Component errorKey) {
+    private Predicate<MultiblockState> getStrictPredicate(String name, Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map, Supplier<IValueContainer<?>> containerSupplier, Component errorKey) {
         return  (blockWorldState) -> {
             var blockState = blockWorldState.getBlockState();
             var objectIterator = map.object2ObjectEntrySet().fastIterator();
@@ -117,10 +110,5 @@ public class TierPredicateFactory {
                         .sorted(comparator)
                         .map(type -> BlockInfo.fromBlock(map.get(type).get()))
                         .toArray(BlockInfo[]::new));
-    }
-
-    public enum TraceabilityPredicateType {
-        TIER,
-        LOOSE
     }
 }
