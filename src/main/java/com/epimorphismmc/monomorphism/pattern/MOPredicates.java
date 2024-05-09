@@ -63,9 +63,9 @@ public class MOPredicates {
         return new TraceabilityPredicate(new SimplePredicate(predicate, () -> candidates));
     }
 
-    public static TraceabilityPredicate tierOptionalPredicate(String name, int tier, TraceabilityPredicate inner) {
-        return enhancePredicate(name, TierOptionalContainer::new, optionalPredicate(name + tier, inner), tier);
-    }
+//    public static TraceabilityPredicate tierOptionalPredicate(String name, int tier, TraceabilityPredicate inner) {
+//        return enhancePredicate(name, TierOptionalContainer::new, optionalPredicate(name + tier, inner), tier);
+//    }
 
     public static TraceabilityPredicate enhancePredicate(String name, Supplier<IValueContainer<?>> containerSupplier, TraceabilityPredicate inner, @Nullable Object data) {
         Predicate<MultiblockState> predicate = state -> {
