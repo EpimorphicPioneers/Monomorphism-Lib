@@ -7,7 +7,9 @@ package com.epimorphismmc.monomorphism.client.utils;
  * */
 
 import com.epimorphismmc.monomorphism.Monomorphism;
+import com.epimorphismmc.monomorphism.client.render.CubeRenderer;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
+import com.lowdragmc.lowdraglib.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
@@ -19,6 +21,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
@@ -33,6 +36,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -44,6 +48,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+
+import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderHelper {
@@ -335,18 +341,38 @@ public class RenderHelper {
                                            VertexConsumer buffer, boolean checkSides, RandomSource random, long rand, int overlay, ModelData modelData, RenderType renderType) {
         getBlockRenderer().tesselateBlock(world, model, state, pos, transforms, buffer, checkSides, random, rand, overlay, modelData, renderType);
     }
-    
-    public static void renderFluid(PoseStack poseStack, MultiBufferSource buffer, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, FluidStack fluidStack) {
-        if (fluidStack.isEmpty()) return;
 
-        var fluidTexture = FluidHelper.getStillTexture(fluidStack);
-        if (fluidTexture == null) {
-            fluidTexture = ModelFactory.getBlockSprite(MissingTextureAtlasSprite.getLocation());
+    public static void renderStillFluidInWorld(FluidStack fluid, Model3D model3D, PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, int combinedLight, int combinedOverlay, CubeRenderer.FaceDisplay faceDisplay) {
+        CubeRenderer.renderCube(
+                model3D.prepStill(fluid), poseStack,
+                bufferSource.getBuffer(Sheets.translucentCullBlockSheet()),
+                FluidHelper.getColor(fluid) | 0xff000000,
+                combinedLight, combinedOverlay, faceDisplay, camera, null);
+    }
+
+    public static void renderFlowingFluidInWorld(FluidStack fluid, Model3D model3D, PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, int combinedLight, int combinedOverlay, CubeRenderer.FaceDisplay faceDisplay) {
+        CubeRenderer.renderCube(
+                model3D.prepFlowing(fluid), poseStack,
+                bufferSource.getBuffer(Sheets.translucentCullBlockSheet()),
+                FluidHelper.getColor(fluid) | 0xff000000,
+                combinedLight, combinedOverlay, faceDisplay, camera, null);
+    }
+
+    public static BakedModel getVanillaModel(ItemStack stack, @Nullable Level level, @Nullable LivingEntity entity) {
+        var shaper = getItemRenderer().getItemModelShaper();
+        var model = shaper.getItemModel(stack.getItem());
+        var clientlevel = level instanceof ClientLevel ? (ClientLevel) level : null;
+        if (model != null) {
+            var bakedmodel = model.getOverrides().resolve(model, stack, clientlevel, entity, 0);
+            if (bakedmodel != null) return bakedmodel;
         }
-        poseStack.pushPose();
-        VertexConsumer builder = buffer.getBuffer(Sheets.translucentCullBlockSheet());
-        RenderBufferUtils.renderCubeFace(poseStack, builder, minX, minY, minZ, maxX, maxY, maxZ, FluidHelper.getColor(fluidStack) | 0xff000000, LightTexture.FULL_BRIGHT, fluidTexture);
-        poseStack.popPose();
+        return shaper.getModelManager().getMissingModel();
+    }
+
+    public static void vanillaRender(ItemStack stack, ItemDisplayContext transformType, boolean leftHand, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, BakedModel model) {
+        IItemRendererProvider.disabled.set(true);
+        Minecraft.getInstance().getItemRenderer().render(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
+        IItemRendererProvider.disabled.set(false);
     }
 
     /**

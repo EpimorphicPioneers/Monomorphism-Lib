@@ -13,39 +13,7 @@ import static com.gregtechceu.gtceu.api.GTValues.RNG;
 public class MOMathUtils {
     public static final double PI2 = Math.PI * 2;
 
-    /**
-     * The number of units in a block.
-     */
-    public static final int WHOLE = 16;
-
-    /**
-     * The value of 1/16 as represented in float form. Pre-calculated as to cut
-     * back on calculations.
-     */
-    public static final float UNIT = 1.0f / WHOLE;
-
-    /**
-     * The value of half a block. Pre-calculated as to cut
-     * back on calculations.
-     */
-    public static final float HALF = UNIT * WHOLE / 2;
-
-    /**
-     * The value of quarter a block. Pre-calculated as to cut
-     * back on calculations.
-     */
-    public static final float QUARTER = UNIT * WHOLE / 4;
-
-    /**
-     * The value of three quarter a block. Pre-calculated as to cut
-     * back on calculations.
-     */
-    public static final float THREE_QUARTER = 3 * QUARTER;
-
     public static BigInteger LONG_MAX_VALUE = BigInteger.valueOf(Long.MAX_VALUE);
-
-    public static int K = 1000;
-    public static int M = 1000000;
 
     public static long clamp(long value, long min, long max) {
         if (value < min) {
