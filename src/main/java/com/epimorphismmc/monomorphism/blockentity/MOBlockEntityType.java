@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.block.blockentity;
+package com.epimorphismmc.monomorphism.blockentity;
 
 import com.google.common.collect.Sets;
 import lombok.Getter;

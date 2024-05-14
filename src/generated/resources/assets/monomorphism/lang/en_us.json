@@ -1,0 +1,8 @@
+{
+  "gui.monomorphism.change_parallel.desc": "Adjust the number of machine parallels",
+  "gui.monomorphism.machine_parallel.title": "The number of current machine parallels",
+  "monomorphism.alt_desc_extended_info": "§7Hold down §6ALT§7 to show more information",
+  "monomorphism.ctrl_desc_extended_info": "§7Hold down §6CTRL§7 to show more information",
+  "monomorphism.shift_desc_extended_info": "§7Hold down §6SHIFT§7 to show more information",
+  "monomorphism.universal.desc.tier": "§7Tier: %s"
+}

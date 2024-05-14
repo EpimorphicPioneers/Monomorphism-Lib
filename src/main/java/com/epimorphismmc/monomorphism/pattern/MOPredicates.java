@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.PredicateBlocks;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
-import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;

@@ -24,14 +24,9 @@ dependencies {
 
     // LDLib
     modApi(forge.ldlib.forge) { transitive = false }
-    include(forge.ldlib.forge)
 
     // Registrate
-    modApi(include("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}"))
-
-    // Create and its dependencies
-    modCompileOnly("com.simibubi.create:create-${libs.versions.minecraft.get()}:${forge.versions.createForge.get()}:all") { transitive = false }
-    modCompileOnly forge.flywheel
+    modApi("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
 
     // JEI
     modCompileOnly(forge.jei.common.api) { transitive = false }
@@ -47,14 +42,8 @@ dependencies {
     modCompileOnly("dev.emi:emi-forge:${forge.versions.emi.get()}:api")
     modImplementation forge.emi
 
-    // TOP
-    modCompileOnly(forge.theoneprobe) { transitive = false }
-
     // Jade
     modImplementation(forge.jade)
-
-    // AE2
-    modImplementation(forge.ae2) { transitive = false }
 
     //AlmostUnified
     modImplementation(forge.almostUnified.forge)
@@ -68,7 +57,6 @@ dependencies {
 
     // Configuration
     modApi(forge.configuration)
-    include(forge.configuration)
 
     // Shimmer
     modImplementation(forge.shimmer.forge) { transitive = false }

@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.block.blockentity;
+package com.epimorphismmc.monomorphism.blockentity;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.lowdragmc.lowdraglib.syncdata.IManagedStorage;

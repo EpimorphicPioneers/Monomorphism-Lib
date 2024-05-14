@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.client.render.item;
 
-import com.lowdragmc.lowdraglib.client.renderer.impl.IModelRenderer;
+import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 
-public class IItemRenderer extends IModelRenderer {
+public interface IItemRenderer extends IRenderer {
 
 }

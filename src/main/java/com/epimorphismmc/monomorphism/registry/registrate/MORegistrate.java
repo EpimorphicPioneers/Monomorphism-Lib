@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.registry.registrate;
 
 import com.epimorphismmc.monomorphism.block.MOMetaMachineBlock;
+import com.epimorphismmc.monomorphism.datagen.MOProviderTypes;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -9,6 +10,8 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockEntityBuilder;
+import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.providers.RegistrateProvider;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +30,16 @@ public class MORegistrate extends GTRegistrate {
     @NotNull
     public static MORegistrate create(String modId) {
         return new MORegistrate(modId);
+    }
+
+    @Override
+    public <T extends RegistrateProvider> void genData(ProviderType<? extends T> type, T gen) {
+        if (type == ProviderType.LANG) return;
+
+        if (type == MOProviderTypes.MO_LANG) {
+            super.genData(type, gen);
+            super.genData(ProviderType.LANG, gen);
+        }
     }
 
     // Block Entities

@@ -6,19 +6,19 @@ package com.epimorphismmc.monomorphism.client.utils;
  * https://github.com/BluSunrize/ImmersiveEngineering
  * */
 
+import com.epimorphismmc.monomorphism.Monomorphism;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import com.lowdragmc.lowdraglib.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Transformation;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
@@ -32,7 +32,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -42,11 +42,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
-import org.joml.*;
-
-import javax.annotation.Nullable;
-import java.lang.Math;
-import java.util.Random;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderHelper {
@@ -299,45 +296,45 @@ public class RenderHelper {
         return Minecraft.getInstance().getWindow().getGuiScaledHeight();
     }
 
-//    /**
-//     * Renders an item
-//     */
-//    public static void renderItem(ItemStack stack, ItemDisplayContext transformType, int light,
-//                            PoseStack transforms, MultiBufferSource buffer) {
-//        renderItem(stack, transformType, light, OverlayTexture.NO_OVERLAY, transforms, buffer);
-//    }
+    /**
+     * Renders an item
+     */
+    public static void renderItem(ItemStack stack, ItemDisplayContext transformType, int light,
+                            PoseStack transforms, MultiBufferSource buffer) {
+        renderItem(stack, transformType, light, OverlayTexture.NO_OVERLAY, transforms, buffer);
+    }
 
-//    /**
-//     * Renders an item
-//     */
-//    public static void renderItem(ItemStack stack, ItemDisplayContext transformType, int light, int overlay,
-//                            PoseStack transforms, MultiBufferSource buffer) {
-//        getItemRenderer().renderStatic(stack, transformType, light, overlay, transforms, buffer, 0);
-//    }
+    /**
+     * Renders an item
+     */
+    public static void renderItem(ItemStack stack, ItemDisplayContext transformType, int light, int overlay,
+                            PoseStack transforms, MultiBufferSource buffer) {
+        getItemRenderer().renderStatic(stack, transformType, light, overlay, transforms, buffer, null, 0);
+    }
 
-//    /**
-//     * Renders a block state
-//     */
-//    public static boolean renderBlockState(BlockState state, PoseStack transforms, VertexConsumer buffer) {
-//        return renderBlockState(state, Objects.DEFAULT_POS, transforms, buffer, OverlayTexture.NO_OVERLAY);
-//    }
+    /**
+     * Renders a block state
+     */
+    public static void renderBlockState(BlockState state, PoseStack transforms, VertexConsumer buffer, RenderType renderType) {
+        renderBlockState(state, Objects.DEFAULT_POS, transforms, buffer, OverlayTexture.NO_OVERLAY, renderType);
+    }
 
-//    /**
-//     * Renders a block state
-//     */
-//    public static boolean renderBlockState(BlockState state, BlockPos pos, PoseStack transforms, VertexConsumer buffer, int overlay) {
-//        Level world =InfinityLib.instance.getClientWorld();
-//        return renderBlockModel(world, getModelForState(state), state, pos,
-//                transforms, buffer, false, world.getRandom(), state.getSeed(pos), overlay, ModelData.EMPTY);
-//    }
+    /**
+     * Renders a block state
+     */
+    public static void renderBlockState(BlockState state, BlockPos pos, PoseStack transforms, VertexConsumer buffer, int overlay, RenderType renderType) {
+        Level level = Monomorphism.instance.getClientWorld();
+        renderBlockModel(level, getModelForState(state), state, pos,
+                transforms, buffer, false, level.getRandom(), state.getSeed(pos), overlay, ModelData.EMPTY, renderType);
+    }
 
-//    /**
-//     * Renders a block model
-//     */
-//    public static boolean renderBlockModel(BlockAndTintGetter world, BakedModel model, BlockState state, BlockPos pos, PoseStack transforms,
-//                                     VertexConsumer buffer, boolean checkSides, Random random, long rand, int overlay, ModelData modelData) {
-//        return getBlockRenderer().tesselateBlock(world, model, state, pos, transforms, buffer, checkSides, random, rand, overlay, modelData);
-//    }
+    /**
+     * Renders a block model
+     */
+    public static void renderBlockModel(BlockAndTintGetter world, BakedModel model, BlockState state, BlockPos pos, PoseStack transforms,
+                                           VertexConsumer buffer, boolean checkSides, RandomSource random, long rand, int overlay, ModelData modelData, RenderType renderType) {
+        getBlockRenderer().tesselateBlock(world, model, state, pos, transforms, buffer, checkSides, random, rand, overlay, modelData, renderType);
+    }
     
     public static void renderFluid(PoseStack poseStack, MultiBufferSource buffer, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, FluidStack fluidStack) {
         if (fluidStack.isEmpty()) return;

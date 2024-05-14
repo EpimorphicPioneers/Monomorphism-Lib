@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FactoryEnhancePattern {
+public class FactoryMOPattern {
     private static final Joiner COMMA_JOIN = Joiner.on(",");
     private final List<String[]> depth;
     private final List<int[]> aisleRepetitions;
@@ -22,7 +22,7 @@ public class FactoryEnhancePattern {
     private int aisleHeight;
     private int rowWidth;
 
-    private FactoryEnhancePattern(RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
+    private FactoryMOPattern(RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
         depth = new ArrayList<>();
         aisleRepetitions = new ArrayList<>();
         symbolMap = new HashMap<>();
@@ -45,7 +45,7 @@ public class FactoryEnhancePattern {
     /**
      * Adds a repeatable aisle to this pattern.
      */
-    public FactoryEnhancePattern aisleRepeatable(int minRepeat, int maxRepeat, String... aisle) {
+    public FactoryMOPattern aisleRepeatable(int minRepeat, int maxRepeat, String... aisle) {
         if (!ArrayUtils.isEmpty(aisle) && !StringUtils.isEmpty(aisle[0])) {
             if (this.depth.isEmpty()) {
                 this.aisleHeight = aisle.length;
@@ -81,14 +81,14 @@ public class FactoryEnhancePattern {
     /**
      * Adds a single aisle to this pattern. (so multiple calls to this will increase the aisleDir by 1)
      */
-    public FactoryEnhancePattern aisle(String... aisle) {
+    public FactoryMOPattern aisle(String... aisle) {
         return aisleRepeatable(1, 1, aisle);
     }
 
     /**
      * Set last aisle repeatable
      */
-    public FactoryEnhancePattern setRepeatable(int minRepeat, int maxRepeat) {
+    public FactoryMOPattern setRepeatable(int minRepeat, int maxRepeat) {
         if (minRepeat > maxRepeat)
             throw new IllegalArgumentException("Lower bound of repeat counting must smaller than upper bound!");
         aisleRepetitions.set(aisleRepetitions.size() - 1, new int[]{minRepeat, maxRepeat});
@@ -98,23 +98,23 @@ public class FactoryEnhancePattern {
     /**
      * Set last aisle repeatable
      */
-    public FactoryEnhancePattern setRepeatable(int repeatCount) {
+    public FactoryMOPattern setRepeatable(int repeatCount) {
         return setRepeatable(repeatCount, repeatCount);
     }
 
-    public static FactoryEnhancePattern start() {
-        return new FactoryEnhancePattern(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT);
+    public static FactoryMOPattern start() {
+        return new FactoryMOPattern(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT);
     }
 
-    public static FactoryEnhancePattern start(RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
-        return new FactoryEnhancePattern(charDir, stringDir, aisleDir);
+    public static FactoryMOPattern start(RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
+        return new FactoryMOPattern(charDir, stringDir, aisleDir);
     }
 
-    public FactoryEnhancePattern where(String symbol, TraceabilityPredicate blockMatcher) {
+    public FactoryMOPattern where(String symbol, TraceabilityPredicate blockMatcher) {
         return this.where(symbol.charAt(0), blockMatcher);
     }
 
-    public FactoryEnhancePattern where(char symbol, TraceabilityPredicate blockMatcher) {
+    public FactoryMOPattern where(char symbol, TraceabilityPredicate blockMatcher) {
         if (blockMatcher.isAny()|| blockMatcher.isAir()) {
             this.symbolMap.put(symbol, blockMatcher);
         } else {

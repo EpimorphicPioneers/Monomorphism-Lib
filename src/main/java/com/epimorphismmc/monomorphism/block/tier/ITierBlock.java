@@ -1,6 +1,4 @@
-package com.epimorphismmc.monomorphism.block;
-
-import com.epimorphismmc.monomorphism.block.tier.ITierType;
+package com.epimorphismmc.monomorphism.block.tier;
 
 public interface ITierBlock {
     default ITierType getTierType() {

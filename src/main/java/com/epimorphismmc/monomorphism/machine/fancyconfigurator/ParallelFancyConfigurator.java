@@ -24,7 +24,7 @@ public class ParallelFancyConfigurator implements IFancyConfigurator {
     }
     @Override
     public Component getTitle() {
-        return Component.translatable("gui.epimorphism.machine_parallel.title");
+        return Component.translatable("gui.monomorphism.machine_parallel.title");
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ParallelFancyConfigurator implements IFancyConfigurator {
     @Override
     public List<Component> getTooltips() {
         List<Component> tooltip = new ArrayList<>();
-        tooltip.add(Component.translatable("gui.epimorphism.change_parallel.desc"));
+        tooltip.add(Component.translatable("gui.monomorphism.change_parallel.desc"));
         return tooltip;
     }
 }

@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.registry.registrate;
 
-import com.epimorphismmc.monomorphism.block.blockentity.MOBlockEntityType;
+import com.epimorphismmc.monomorphism.blockentity.MOBlockEntityType;
 import com.epimorphismmc.monomorphism.mixins.accessors.BlockEntityBuilderAccessor;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.BlockEntityBuilder;

@@ -11,9 +11,11 @@
     "accessors.BlockEntityBuilderAccessor",
     "accessors.ShapedRecipeAccessor",
     "accessors.ShapelessRecipeAccessor",
+    "gtm.ComponentItemMixin",
     "gtm.GTBlocksMixin",
     "gtm.ICoilTypeMixin",
-    "gtm.IMaterialPartItemMixin"
+    "gtm.IMaterialPartItemMixin",
+    "gtm.TagPrefixItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.block.blockentity;
+package com.epimorphismmc.monomorphism.blockentity;
 
 public interface IMOBlockEntityType {
 
