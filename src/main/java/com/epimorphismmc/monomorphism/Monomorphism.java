@@ -2,8 +2,7 @@ package com.epimorphismmc.monomorphism;
 
 import com.epimorphismmc.monomorphism.datagen.lang.MOLangHandler;
 import com.epimorphismmc.monomorphism.proxy.ClientProxy;
-import com.epimorphismmc.monomorphism.proxy.IProxy;
-import com.epimorphismmc.monomorphism.proxy.ServerProxy;
+import com.epimorphismmc.monomorphism.proxy.CommonProxy;
 import com.epimorphismmc.monomorphism.registry.registrate.MORegistrate;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import static com.epimorphismmc.monomorphism.datagen.MOProviderTypes.*;
 
 @Mod(Monomorphism.MODID)
-public class Monomorphism extends MOMod<IProxy> {
+public class Monomorphism extends MOMod<CommonProxy> {
     public static final String MODID = "monomorphism";
     public static final String NAME = "Monomorphism";
 
@@ -41,14 +40,14 @@ public class Monomorphism extends MOMod<IProxy> {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    protected IProxy createClientProxy() {
+    protected CommonProxy createClientProxy() {
         return new ClientProxy();
     }
 
     @Override
     @OnlyIn(Dist.DEDICATED_SERVER)
-    protected IProxy createServerProxy() {
-        return new ServerProxy();
+    protected CommonProxy createServerProxy() {
+        return new CommonProxy();
     }
 
     @Override

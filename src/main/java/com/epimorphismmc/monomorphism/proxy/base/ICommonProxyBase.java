@@ -38,7 +38,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
 
-public interface IProxyBase {
+public interface ICommonProxyBase {
 
     /**
      * Called to register the event handlers
@@ -204,17 +204,23 @@ public interface IProxyBase {
     /**
      * @return registry access instance
      */
-    RegistryAccess getRegistryAccess();
+    default RegistryAccess getRegistryAccess() {
+        return this.getMinecraftServer().registryAccess();
+    }
 
     /**
      * @return the instance of the EntityPlayer on the client, null on the server
      */
-    Player getClientPlayer();
+    default Player getClientPlayer() {
+        return null;
+    }
 
     /**
      * @return the client World object on the client, null on the server
      */
-    Level getClientWorld();
+    default Level getClientWorld() {
+        return null;
+    }
 
     /**
      *  @return  the entity in that World object with that id
@@ -246,7 +252,9 @@ public interface IProxyBase {
     /**
      *  @return the World object ofr a given dimension key
      */
-    Level getWorldFromDimension(ResourceKey<Level> dimension);
+    default Level getWorldFromDimension(ResourceKey<Level> dimension) {
+        return this.getMinecraftServer().getLevel(dimension);
+    }
 
     /**
      * @return the fov setting on the client, 70 on the server

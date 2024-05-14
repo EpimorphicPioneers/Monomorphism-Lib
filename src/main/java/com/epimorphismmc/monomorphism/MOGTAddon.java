@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism;
 
-import com.epimorphismmc.monomorphism.proxy.base.IProxyBase;
+import com.epimorphismmc.monomorphism.proxy.base.ICommonProxyBase;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
@@ -8,9 +8,9 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 public abstract class MOGTAddon implements IGTAddon {
 
-    private static MOMod<? extends IProxyBase> instance;
+    private static MOMod<? extends ICommonProxyBase> instance;
 
-    public static void initialize(MOMod<? extends IProxyBase> mod) {
+    public static void initialize(MOMod<? extends ICommonProxyBase> mod) {
         instance = mod;
     }
 

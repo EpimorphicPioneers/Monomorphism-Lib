@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism;
 
-import com.epimorphismmc.monomorphism.proxy.base.IProxyBase;
+import com.epimorphismmc.monomorphism.proxy.base.ICommonProxyBase;
 import com.epimorphismmc.monomorphism.registry.registrate.MORegistrate;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.lowdragmc.lowdraglib.networking.INetworking;
@@ -29,7 +29,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class MOMod<P extends IProxyBase> {
+public abstract class MOMod<P extends ICommonProxyBase> {
     private final Logger logger;
     private final INetworking network;
     private final P proxy;
@@ -146,7 +146,7 @@ public abstract class MOMod<P extends IProxyBase> {
     /**
      * Use to initialize the GTAddon
      */
-    public void initializeGTAddon(MOMod<? extends IProxyBase> mod) {
+    public void initializeGTAddon(MOMod<? extends ICommonProxyBase> mod) {
         MOGTAddon.initialize(mod);
     }
 

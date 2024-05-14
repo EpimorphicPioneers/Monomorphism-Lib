@@ -6,9 +6,20 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.LogicalSide;
 
-public interface IClientProxyBase extends IProxyBase {
+public interface IClientProxyBase extends ICommonProxyBase {
+
+    default void registerClientModBusEventHandlers(IEventBus bus) {
+        bus.addListener(this::registerGeometryLoaders);
+    }
+
+    default void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
+
+    }
+
     @Override
     default Entity getRenderViewEntity() {
         return Minecraft.getInstance().getCameraEntity();
@@ -53,7 +64,7 @@ public interface IClientProxyBase extends IProxyBase {
         if(getLogicalSide() == LogicalSide.CLIENT) {
             Minecraft.getInstance().submit(task);
         } else {
-            IProxyBase.super.queueTask(task);
+            ICommonProxyBase.super.queueTask(task);
         }
     }
 
