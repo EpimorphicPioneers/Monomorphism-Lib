@@ -5,13 +5,19 @@ import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import net.minecraftforge.fml.ModList;
 
 public abstract class MOGTAddon implements IGTAddon {
 
-    private static MOMod<? extends ICommonProxyBase> instance;
+    private final MOMod<? extends ICommonProxyBase> instance;
 
-    public static void initialize(MOMod<? extends ICommonProxyBase> mod) {
-        instance = mod;
+    public MOGTAddon(String modid) {
+        Object object = ModList.get().getModObjectById(modid).orElseThrow(() -> new RuntimeException("Unable to get mod instance."));
+        if (object instanceof MOMod<? extends ICommonProxyBase>) {
+            instance = (MOMod<? extends ICommonProxyBase>) object;
+        } else {
+            throw new IllegalStateException("Mod class should extend the MOMod class.");
+        }
     }
 
     @Override
@@ -31,32 +37,32 @@ public abstract class MOGTAddon implements IGTAddon {
 
     @Override
     public void registerTagPrefixes() {
-        instance.proxy().registerTagPrefixes();
+        instance.getProxy().registerTagPrefixes();
     }
 
     @Override
     public void collectMaterialCasings(MaterialCasingCollectionEvent event) {
-        instance.proxy().collectMaterialCasings(event);
+        instance.getProxy().collectMaterialCasings(event);
     }
 
     @Override
     public void registerRecipeKeys(KJSRecipeKeyEvent event) {
-        instance.proxy().registerRecipeKeys(event);
+        instance.getProxy().registerRecipeKeys(event);
     }
 
     @Override
     public void registerWorldgenLayers() {
-        instance.proxy().registerWorldgenLayers();
+        instance.getProxy().registerWorldgenLayers();
     }
 
     @Override
     public void registerVeinGenerators() {
-        instance.proxy().registerVeinGenerators();
+        instance.getProxy().registerVeinGenerators();
     }
 
     @Override
     public void registerIndicatorGenerators() {
-        instance.proxy().registerIndicatorGenerators();
+        instance.getProxy().registerIndicatorGenerators();
     }
 
 }

@@ -11,9 +11,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import static com.gregtechceu.gtceu.api.GTValues.RNG;
 
 public class MOMathUtils {
+
     public static final double PI2 = Math.PI * 2;
 
-    public static BigInteger LONG_MAX_VALUE = BigInteger.valueOf(Long.MAX_VALUE);
+    public static final BigInteger LONG_MAX_VALUE = BigInteger.valueOf(Long.MAX_VALUE);
 
     public static long clamp(long value, long min, long max) {
         if (value < min) {

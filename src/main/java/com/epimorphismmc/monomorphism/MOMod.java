@@ -55,14 +55,12 @@ public abstract class MOMod<P extends ICommonProxyBase> {
         bus.addListener(this::onInterModEnqueueEvent);
         bus.addListener(this::onInterModProcessEvent);
         bus.addListener(this::onModLoadCompleteEvent);
-        this.proxy().registerModBusEventHandlers(bus);
+        this.proxy.registerModBusEventHandlers(bus);
         MinecraftForge.EVENT_BUS.register(this);
         registrate.registerEventListeners(bus);
         addDataGenerator(registrate);
         // Register capabilities
-        this.proxy().registerCapabilities();
-        // Initialize the GTAddon
-        this.initializeGTAddon(this);
+        this.proxy.registerCapabilities();
     }
 
     private P createProxy() {
@@ -79,7 +77,7 @@ public abstract class MOMod<P extends ICommonProxyBase> {
 
     private void init() {
         // Register event handlers
-        this.proxy().registerEventHandlers();
+        this.proxy.registerEventHandlers();
         // Register messages
         registerMessages(network);
     }
@@ -96,7 +94,7 @@ public abstract class MOMod<P extends ICommonProxyBase> {
         return this.network;
     }
 
-    public final P proxy() {
+    public final P getProxy() {
         return this.proxy;
     }
 
@@ -144,13 +142,6 @@ public abstract class MOMod<P extends ICommonProxyBase> {
     }
 
     /**
-     * Use to initialize the GTAddon
-     */
-    public void initializeGTAddon(MOMod<? extends ICommonProxyBase> mod) {
-        MOGTAddon.initialize(mod);
-    }
-
-    /**
      * --------------------------
      * FML Mod Loading Listeners
      * --------------------------
@@ -160,61 +151,61 @@ public abstract class MOMod<P extends ICommonProxyBase> {
         //self init
         this.init();
         //forward to proxy
-        this.proxy().onCommonSetupEvent(event);
+        this.proxy.onCommonSetupEvent(event);
     }
 
     public final void onClientSetupEvent(final FMLClientSetupEvent event) {
         //self init
         this.initClient();
         //forward to proxy
-        this.proxy().onClientSetupEvent(event);}
+        this.proxy.onClientSetupEvent(event);}
 
     public final void onDedicatedServerSetupEvent(final FMLDedicatedServerSetupEvent event) {
         //forward to proxy
-        this.proxy().onDedicatedServerSetupEvent(event);
+        this.proxy.onDedicatedServerSetupEvent(event);
     }
 
     public final void onInterModEnqueueEvent(final InterModEnqueueEvent event) {
         //forward to proxy
-        this.proxy().onInterModEnqueueEvent(event);
+        this.proxy.onInterModEnqueueEvent(event);
     }
 
     public final void onInterModProcessEvent(final InterModProcessEvent event) {
         //forward to proxy
-        this.proxy().onInterModProcessEvent(event);
+        this.proxy.onInterModProcessEvent(event);
     }
 
     public final void onModLoadCompleteEvent(final FMLLoadCompleteEvent event) {
         //forward to proxy
-        this.proxy().onModLoadCompleteEvent(event);
+        this.proxy.onModLoadCompleteEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerStartingEvent(final ServerStartingEvent event) {
         //forward to proxy
-        this.proxy().onServerStartingEvent(event);
+        this.proxy.onServerStartingEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerAboutToStartEvent(final ServerAboutToStartEvent event) {
         //forward to proxy
-        this.proxy().onServerAboutToStartEvent(event);
+        this.proxy.onServerAboutToStartEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerStoppingEvent(final ServerStoppingEvent event) {
         //forward to proxy
-        this.proxy().onServerStoppingEvent(event);
+        this.proxy.onServerStoppingEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerStoppedEvent(final ServerStoppedEvent event) {
         //forward to proxy
-        this.proxy().onServerStoppedEvent(event);
+        this.proxy.onServerStoppedEvent(event);
     }
 
     @SubscribeEvent
@@ -231,72 +222,72 @@ public abstract class MOMod<P extends ICommonProxyBase> {
      * @return The physical side, is always Side.SERVER on the server and Side.CLIENT on the client
      */
     public final Dist getPhysicalSide() {
-        return this.proxy().getPhysicalSide();
+        return this.proxy.getPhysicalSide();
     }
 
     /**
      * @return The effective side, on the server, this is always Side.SERVER, on the client it is dependent on the thread
      */
     public final LogicalSide getEffectiveSide() {
-        return this.proxy().getLogicalSide();
+        return this.proxy.getLogicalSide();
     }
 
     /**
      * @return The minecraft server instance
      */
     public final MinecraftServer getMinecraftServer() {
-        return this.proxy().getMinecraftServer();
+        return this.proxy.getMinecraftServer();
     }
 
     /**
      * @return a registry access object based on the logical side
      */
     public final RegistryAccess getRegistryAccess() {
-        return this.proxy().getRegistryAccess();
+        return this.proxy.getRegistryAccess();
     }
 
     /**
      * @return the instance of the EntityPlayer on the client, null on the server
      */
     public final Player getClientPlayer() {
-        return this.proxy().getClientPlayer();
+        return this.proxy.getClientPlayer();
     }
 
     /**
      * @return the client World object on the client, null on the server
      */
     public final Level getClientWorld() {
-        return this.proxy().getClientWorld();
+        return this.proxy.getClientWorld();
     }
 
     /**
      * @return the client World object on the client, null on the server
      */
     public final Level getWorldFromDimension(ResourceKey<Level> dimension) {
-        return this.proxy().getWorldFromDimension(dimension);
+        return this.proxy.getWorldFromDimension(dimension);
     }
 
     /**
      *  @return  the entity in that World object with that id
      */
     public final Entity getEntityById(Level world, int id) {
-        return this.proxy().getEntityById(world, id);
+        return this.proxy.getEntityById(world, id);
     }
 
     /**
      *  @return  the entity in that World object with that id
      */
     public final Entity getEntityById(ResourceKey<Level> dimension, int id) {
-        return this.proxy().getEntityById(dimension, id);
+        return this.proxy.getEntityById(dimension, id);
     }
 
     /** Queues a task to be executed on this side */
     public final void queueTask(Runnable task) {
-        this.proxy().queueTask(task);
+        this.proxy.queueTask(task);
     }
 
     /** Registers an event handler */
     public final void registerEventHandler(Object handler) {
-        this.proxy().registerEventHandler(handler);
+        this.proxy.registerEventHandler(handler);
     }
 }

@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.render;
+package com.epimorphismmc.monomorphism.client.utils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

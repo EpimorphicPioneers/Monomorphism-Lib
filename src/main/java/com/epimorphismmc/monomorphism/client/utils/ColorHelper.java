@@ -40,7 +40,7 @@ public class ColorHelper {
     }
 
     public static Vector4f pulseRGBAlpha(Vector4f rgba, int tickRate, float min, float max) {
-        var player = RenderHelper.getMC().player;
+        var player = ClientUtils.getMC().player;
         if (player == null) return rgba;
 
         float f_alpha = player.tickCount % (tickRate * 2) / (float) tickRate;

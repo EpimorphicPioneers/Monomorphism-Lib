@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.data.chemical.Element;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
+import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -55,8 +56,9 @@ public interface ICommonProxyBase {
      * @param bus the bus for the mod
      */
     default void registerModBusEventHandlers(IEventBus bus) {
+        bus.addListener(this::registerMaterialRegistry);
         bus.addListener(this::registerMaterials);
-        bus.addListener(this::modifyMaterials);
+        bus.addListener(this::postRegisterMaterials);
 
         bus.addGenericListener(Element.class, this::registerElements);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
@@ -105,11 +107,14 @@ public interface ICommonProxyBase {
 
     }
 
+    default void registerMaterialRegistry(MaterialRegistryEvent event) {
+    }
+
     default void registerMaterials(MaterialEvent event) {
 
     }
 
-    default void modifyMaterials(MaterialRegistryEvent event) {
+    default void postRegisterMaterials(PostMaterialEvent event) {
 
     }
 

@@ -33,8 +33,13 @@ public class MOValues {
      */
     public static final float THREE_QUARTER = 3 * QUARTER;
 
-    public static int K = 1000;
-    public static int M = 1000000;
+    public static final int
+            K = (int) Math.pow(10, 3),
+            M = (int) Math.pow(10, 6),
+            G = (int) Math.pow(10, 9),
+            T = (int) Math.pow(10, 12),
+            P = (int) Math.pow(10, 15);
+
 
     public static final String[] CVLVH = new String[]{
             "蒸汽", // not doing the gray color for these first two because it looks weird

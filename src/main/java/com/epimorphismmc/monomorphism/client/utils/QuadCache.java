@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.render;
+package com.epimorphismmc.monomorphism.client.utils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
