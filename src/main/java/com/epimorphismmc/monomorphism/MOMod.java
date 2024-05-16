@@ -137,10 +137,6 @@ public abstract class MOMod<P extends ICommonProxyBase> {
 
     public void addDataGenerator(MORegistrate registrate) {}
 
-    public boolean requiresHighTier() {
-        return false;
-    }
-
     /**
      * --------------------------
      * FML Mod Loading Listeners

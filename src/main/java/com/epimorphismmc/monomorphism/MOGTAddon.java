@@ -6,12 +6,23 @@ import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
+import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 
 public abstract class MOGTAddon implements IGTAddon {
 
-    private final MOMod<? extends ICommonProxyBase> instance;
+    private final String modid;
+    private MOMod<? extends ICommonProxyBase> instance;
 
     public MOGTAddon(String modid) {
+        this.modid = modid;
+        ModList.get().getModContainerById(modid)
+                .map(FMLModContainer.class::cast)
+                .map(FMLModContainer::getEventBus)
+                .ifPresent(bus -> bus.addListener(this::onModConstructed));
+    }
+
+    private void onModConstructed(FMLConstructModEvent event) {
         Object object = ModList.get().getModObjectById(modid).orElseThrow(() -> new RuntimeException("Unable to get mod instance."));
         if (object instanceof MOMod<? extends ICommonProxyBase>) {
             instance = (MOMod<? extends ICommonProxyBase>) object;
@@ -27,12 +38,7 @@ public abstract class MOGTAddon implements IGTAddon {
 
     @Override
     public String addonModId() {
-        return instance.getModId();
-    }
-
-    @Override
-    public boolean requiresHighTier() {
-        return instance.requiresHighTier();
+        return modid;
     }
 
     @Override

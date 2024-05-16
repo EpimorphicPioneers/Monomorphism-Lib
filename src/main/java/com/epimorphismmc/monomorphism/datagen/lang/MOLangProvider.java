@@ -98,14 +98,9 @@ public class MOLangProvider extends RegistrateLangProvider {
         this.simplifiedChinese = new CNLanguageProvider(packOutput, owner.getModid());
     }
 
-    @Override
-    public void addBlock(NonNullSupplier<? extends Block> block) {
-        // We don't need an auto-generated name
-    }
-
-    @Override
-    public void addItem(NonNullSupplier<? extends Item> item) {
-        // We don't need an auto-generated name
+    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String name, String tooltip) {
+        addItem(item, name);
+        addTooltip(item, tooltip);
     }
 
     public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String name, List<@NonnullType String> tooltip) {
@@ -179,8 +174,13 @@ public class MOLangProvider extends RegistrateLangProvider {
         addItem(item, enName);
     }
 
-    public void addItemCNName(NonNullSupplier<? extends Item> item, String cnName) {
+    public void addItemName(NonNullSupplier<? extends Item> item, String cnName) {
         simplifiedChinese.addItem(item, cnName);
+    }
+
+    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String enName, String cnName, String enTooltip, String cnTooltip) {
+        simplifiedChinese.addItemWithTooltip(item, cnName, cnTooltip);
+        addItemWithTooltip(item, enName, enTooltip);
     }
 
     public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String cnName, String enTooltip, String cnTooltip) {
@@ -188,26 +188,36 @@ public class MOLangProvider extends RegistrateLangProvider {
         addTooltip(item, enTooltip);
     }
 
+    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String enName, String cnName, List<String> enTooltip, List<String> cnTooltip) {
+        simplifiedChinese.addItemWithTooltip(item, cnName, cnTooltip);
+        addItemWithTooltip(item, enName, enTooltip);
+    }
+
     public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String cnName, List<String> enTooltip, List<String> cnTooltip) {
         simplifiedChinese.addItemWithTooltip(item, cnName, cnTooltip);
         addTooltip(item, enTooltip);
     }
 
-    public void addBlock(NonNullSupplier<? extends Block> block, String enName, String cnName) {
+    public void addBlockName(NonNullSupplier<? extends Block> block, String enName, String cnName) {
         simplifiedChinese.addBlock(block, cnName);
         addBlock(block, enName);
     }
 
-    public void addBlockCNName(NonNullSupplier<? extends Block> block, String cnName) {
+    public void addBlockName(NonNullSupplier<? extends Block> block, String cnName) {
         simplifiedChinese.addBlock(block, cnName);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String enName, String cnName, List<String> enTooltip, List<String> cnTooltip) {
+    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String enName, String cnName, String enTooltip, String cnTooltip) {
         simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
         addBlockWithTooltip(block, enName, enTooltip);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String enName, String cnName, String enTooltip, String cnTooltip) {
+    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String cnName, String enTooltip, String cnTooltip) {
+        simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
+        addTooltip(block, enTooltip);
+    }
+
+    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String enName, String cnName, List<String> enTooltip, List<String> cnTooltip) {
         simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
         addBlockWithTooltip(block, enName, enTooltip);
     }
@@ -217,15 +227,44 @@ public class MOLangProvider extends RegistrateLangProvider {
         addTooltip(block, enTooltip);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String cnName, String enTooltip, String cnTooltip) {
-        simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
-        addTooltip(block, enTooltip);
-    }
-
     public void addBlockWithTooltip(String blockName, List<String> enTooltip, List<String> cnTooltip) {
         for (int i = 0; i < cnTooltip.size(); i++) {
             simplifiedChinese.add(getBlockKey(modid, blockName) + ".desc." + i, cnTooltip.get(i));
             add(getBlockKey(modid, blockName) + ".desc." + i, enTooltip.get(i));
+        }
+    }
+
+    public void addTieredBlockName(Function<Integer, String> keyGetter, Function<Integer, String> enNameGetter, Function<Integer, String> cnNameGetter, int... tiers) {
+        for (int tier : tiers) {
+            var name = getBlockKey(modid, keyGetter.apply(tier));
+            simplifiedChinese.add(name, cnNameGetter.apply(tier));
+            add(name, enNameGetter.apply(tier));
+        }
+    }
+
+    public void addTieredBlockWithTooltip(Function<Integer, String> keyGetter, Function<Integer, String> enNameGetter, Function<Integer, String> cnNameGetter, Function<Integer, String> enTooltipGetter, Function<Integer, String> cnTooltipGetter, int... tiers) {
+        for (int tier : tiers) {
+            var name = getBlockKey(modid, keyGetter.apply(tier));
+            simplifiedChinese.add(name, cnNameGetter.apply(tier));
+            simplifiedChinese.add(name + ".desc", cnTooltipGetter.apply(tier));
+            add(name, enNameGetter.apply(tier));
+            add(name + ".desc", enTooltipGetter.apply(tier));
+        }
+    }
+
+    public void addTieredMachineName(String key, Function<Integer, String> cnNameGetter, int... tiers) {
+        addTieredMachineName(tier -> GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key, cnNameGetter, tiers);
+    }
+
+    public void addTieredMachineName(Function<Integer, String> keyGetter, Function<Integer, String> cnNameGetter, int... tiers) {
+        for (int tier : tiers) {
+            simplifiedChinese.add(getBlockKey(modid, keyGetter.apply(tier)), cnNameGetter.apply(tier));
+        }
+    }
+
+    public void addTieredMachineName(String key, String cnName, int... tiers) {
+        for (int tier : tiers) {
+            simplifiedChinese.add(getBlockKey(modid, GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key), "%s§r%s".formatted(GTValues.VNF[tier], cnName));
         }
     }
 
@@ -261,40 +300,6 @@ public class MOLangProvider extends RegistrateLangProvider {
 
         for (int i = 0; i < enTooltip.size(); i++) {
             add(item.get().asItem().getDescriptionId() + ".alt_desc." + i, enTooltip.get(i));
-        }
-    }
-
-    public void addTieredBlockWithTooltip(Function<Integer, String> keyGetter, Function<Integer, String> enNameGetter, Function<Integer, String> cnNameGetter, Function<Integer, String> enTooltipGetter, Function<Integer, String> cnTooltipGetter, int... tiers) {
-        for (int tier : tiers) {
-            var name = getBlockKey(modid, keyGetter.apply(tier));
-            simplifiedChinese.add(name, cnNameGetter.apply(tier));
-            simplifiedChinese.add(name + ".desc", cnTooltipGetter.apply(tier));
-            add(name, enNameGetter.apply(tier));
-            add(name + ".desc", enTooltipGetter.apply(tier));
-        }
-    }
-
-    public void addTieredBlock(Function<Integer, String> keyGetter, Function<Integer, String> enNameGetter, Function<Integer, String> cnNameGetter, int... tiers) {
-        for (int tier : tiers) {
-            var name = getBlockKey(modid, keyGetter.apply(tier));
-            simplifiedChinese.add(name, cnNameGetter.apply(tier));
-            add(name, enNameGetter.apply(tier));
-        }
-    }
-
-    public void addTieredMachineName(String key, Function<Integer, String> cnNameGetter, int... tiers) {
-        addTieredMachineName(tier -> GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key, cnNameGetter, tiers);
-    }
-
-    public void addTieredMachineName(Function<Integer, String> keyGetter, Function<Integer, String> cnNameGetter, int... tiers) {
-        for (int tier : tiers) {
-            simplifiedChinese.add(getBlockKey(modid, keyGetter.apply(tier)), cnNameGetter.apply(tier));
-        }
-    }
-
-    public void addTieredMachineName(String key, String cnName, int... tiers) {
-        for (int tier : tiers) {
-            simplifiedChinese.add(getBlockKey(modid, GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key), "%s§r%s".formatted(GTValues.VNF[tier], cnName));
         }
     }
 

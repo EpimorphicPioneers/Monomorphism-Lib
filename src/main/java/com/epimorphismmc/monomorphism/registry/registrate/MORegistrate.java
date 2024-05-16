@@ -9,11 +9,18 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.BlockEntityBuilder;
+import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.providers.RegistrateProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -37,8 +44,10 @@ public class MORegistrate extends GTRegistrate {
         if (type == ProviderType.LANG) return;
 
         if (type == MOProviderTypes.MO_LANG) {
-            super.genData(type, gen);
             super.genData(ProviderType.LANG, gen);
+            super.genData(type, gen);
+        } else {
+            super.genData(type, gen);
         }
     }
 
@@ -68,4 +77,18 @@ public class MORegistrate extends GTRegistrate {
         return MultiblockMachineBuilder.createMulti(this, name, metaMachine, MOMetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::createBlockEntity);
     }
 
+    @Override
+    public <T extends Item, P> ItemBuilder<T, P> item(P parent, String name, NonNullFunction<Item.Properties, T> factory) {
+        return super.item(parent, name, factory).setData(ProviderType.LANG, NonNullBiConsumer.noop()); // We don't need an auto-generated name
+    }
+
+    @Override
+    public <T extends Item> ItemBuilder<T, Registrate> item(String name, NonNullFunction<Item.Properties, T> factory) {
+        return item(self(), name, factory); // We don't need an auto-generated name
+    }
+
+    @Override
+    public <T extends Block, P> BlockBuilder<T, P> block(P parent, String name, NonNullFunction<BlockBehaviour.Properties, T> factory) {
+        return super.block(parent, name, factory).setData(ProviderType.LANG, NonNullBiConsumer.noop()); // We don't need an auto-generated name
+    }
 }
