@@ -4,6 +4,7 @@ import com.epimorphismmc.monomorphism.datagen.lang.MOLangHandler;
 import com.epimorphismmc.monomorphism.proxy.ClientProxy;
 import com.epimorphismmc.monomorphism.proxy.CommonProxy;
 import com.epimorphismmc.monomorphism.registry.registrate.MORegistrate;
+import com.gregtechceu.gtceu.api.addon.AddonFinder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.networking.INetworking;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +39,7 @@ public class Monomorphism extends MOMod<CommonProxy> {
     @Override
     protected void onModConstructed() {
         instance = this;
+        AddonFinder.getAddons();
     }
 
     @Override

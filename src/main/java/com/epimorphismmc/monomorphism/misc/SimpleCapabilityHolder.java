@@ -69,6 +69,17 @@ public class SimpleCapabilityHolder implements IRecipeCapabilityHolder {
             }
 
             @Override
+            public double getTotalContentAmount() {
+                long amount = 0;
+                for (ItemStack item : items) {
+                    if (!item.isEmpty()) {
+                        amount += item.getCount();
+                    }
+                }
+                return amount;
+            }
+
+            @Override
             public RecipeCapability<FluidIngredient> getCapability() {
                 return FluidRecipeCapability.CAP;
             }
@@ -121,6 +132,17 @@ public class SimpleCapabilityHolder implements IRecipeCapabilityHolder {
             }
 
             @Override
+            public double getTotalContentAmount() {
+                long amount = 0;
+                for (FluidStack fluid : fluids) {
+                    if (!fluid.isEmpty()) {
+                        amount += fluid.getAmount();
+                    }
+                }
+                return amount;
+            }
+
+            @Override
             public RecipeCapability<Ingredient> getCapability() {
                 return ItemRecipeCapability.CAP;
             }
@@ -140,6 +162,11 @@ public class SimpleCapabilityHolder implements IRecipeCapabilityHolder {
             @Override
             public List<Object> getContents() {
                 return Collections.emptyList();
+            }
+
+            @Override
+            public double getTotalContentAmount() {
+                return 0;
             }
 
             @Override
@@ -163,6 +190,11 @@ public class SimpleCapabilityHolder implements IRecipeCapabilityHolder {
             @Override
             public List<Object> getContents() {
                 return Collections.emptyList();
+            }
+
+            @Override
+            public double getTotalContentAmount() {
+                return 0;
             }
 
             @Override
