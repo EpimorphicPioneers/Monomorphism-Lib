@@ -23,7 +23,7 @@ dependencyResolutionManagement {
         def emiVersion = "1.1.4"
         def kjsVersion = "2001.6.4-build.120"
         def auVersion = "1.20.1-0.6.0"
-        def gtmVersion = "1.2.2"
+        def gtmVersion = "1.2.2.a"
 
         // Forge
         def forgeVersion = "47.1.3"
