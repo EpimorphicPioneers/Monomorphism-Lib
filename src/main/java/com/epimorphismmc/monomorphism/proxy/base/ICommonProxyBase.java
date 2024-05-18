@@ -62,7 +62,7 @@ public interface ICommonProxyBase {
 
         bus.addGenericListener(Element.class, this::registerElements);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
-        bus.addGenericListener(RecipeCondition.class, this::registerRecipeConditions);
+        bus.addGenericListener((Class<Class<? extends RecipeCondition>>) RecipeCondition.class.getClass(), this::registerRecipeConditions);
         bus.addGenericListener(RecipeCapability.class, this::registerRecipeCapabilities);
         bus.addGenericListener(MachineDefinition.class, this::registerMachineDefinitions);
         bus.addGenericListener(CoverDefinition.class, this::registerCoverDefinitions);
@@ -87,11 +87,11 @@ public interface ICommonProxyBase {
 
     }
 
-    default void registerRecipeCapabilities(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeCapability<?>> event) {
+    default void registerRecipeCapabilities(GTCEuAPI.RegisterEvent<String, RecipeCapability<?>> event) {
 
     }
 
-    default void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeCondition> event) {
+    default void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, Class<? extends RecipeCondition>> event) {
 
     }
 
@@ -103,7 +103,7 @@ public interface ICommonProxyBase {
 
     }
 
-    default void registerElements(GTCEuAPI.RegisterEvent<ResourceLocation, Element> event) {
+    default void registerElements(GTCEuAPI.RegisterEvent<String, Element> event) {
 
     }
 
