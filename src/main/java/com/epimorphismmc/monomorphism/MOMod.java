@@ -79,7 +79,7 @@ public abstract class MOMod<P extends ICommonProxyBase> {
         // Register event handlers
         this.proxy.registerEventHandlers();
         // Register messages
-        registerMessages(network);
+        registerPackets(network);
     }
 
     private void initClient() {
@@ -133,7 +133,7 @@ public abstract class MOMod<P extends ICommonProxyBase> {
      * Register all messages added by this mod
      * @param network NetworkWrapper instance to register messages to
      */
-    public void registerMessages(INetworking network) {}
+    public void registerPackets(INetworking network) {}
 
     public void addDataGenerator(MORegistrate registrate) {}
 
