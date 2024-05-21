@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.render;
+package com.epimorphismmc.monomorphism.client.renderer;
 
 /*
  * Referenced some code from Mekanism

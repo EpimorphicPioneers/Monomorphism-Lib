@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.client.utils;
 
 import com.epimorphismmc.monomorphism.Monomorphism;
-import com.epimorphismmc.monomorphism.client.render.CubeRenderer;
+import com.epimorphismmc.monomorphism.client.renderer.CubeRenderer;
 import com.lowdragmc.lowdraglib.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;

@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.render.model;
+package com.epimorphismmc.monomorphism.client.renderer.model;
 
 import com.epimorphismmc.monomorphism.mixins.accessors.client.ItemModelGeneratorAccessor;
 import com.google.common.collect.ImmutableList;

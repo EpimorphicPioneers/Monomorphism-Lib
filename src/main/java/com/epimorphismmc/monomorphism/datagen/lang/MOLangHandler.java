@@ -27,6 +27,10 @@ public class MOLangHandler {
         provider.add("gui.monomorphism.change_parallel.desc",
                 "Adjust the number of machine parallels",
                 "调整机器并行数");
+
+        provider.add("monomorphism.machine.owner",
+                "Owner: %s",
+                "所有者：%s");
     }
 
 }

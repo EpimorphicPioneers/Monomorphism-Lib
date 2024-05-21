@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.proxy;
 
-import com.epimorphismmc.monomorphism.client.render.model.ItemCustomLayerModel;
+import com.epimorphismmc.monomorphism.client.renderer.model.ItemCustomLayerModel;
 import com.epimorphismmc.monomorphism.proxy.base.IClientProxyBase;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

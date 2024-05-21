@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.render.item;
+package com.epimorphismmc.monomorphism.client.renderer.item;
 
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 
