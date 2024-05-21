@@ -20,13 +20,14 @@ public class BigIntStorage {
     }
 
     public BigIntStorage(@Nullable BigInteger maxCapacity) {
-        this.storage = BigInteger.ZERO;
-        this.maxCapacity = maxCapacity;
+        this(BigInteger.ZERO, maxCapacity);
+
     }
 
     public BigIntStorage(BigInteger storage, @Nullable BigInteger maxCapacity) {
         this.storage = storage;
         this.maxCapacity = maxCapacity;
+        flushBuffers();
     }
 
     public long add(long value) {
