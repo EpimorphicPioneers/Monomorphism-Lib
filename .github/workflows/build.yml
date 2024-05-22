@@ -8,11 +8,13 @@ on:
       - build.gradle
       - gradle.properties
       - settings.gradle
-  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all
     env:
       GITHUB_ACTION_NUMBER: ${{ vars.GITHUB_RUN_NUMBER }}
     steps:
@@ -56,3 +58,14 @@ jobs:
         with:
           name: "${{ steps.properties.outputs.mod_name }}-${{ steps.var.outputs.version }}"
           path: build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}.jar
+          
+      - uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: "${{ steps.properties.outputs.mod_name }}-${{ steps.var.outputs.version }}"
+
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-tag: "${{ steps.var.outputs.version }}"
+          github-generate-changelog: true
+          github-prerelease: true
+
+          files: build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}.jar
