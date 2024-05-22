@@ -9,7 +9,7 @@ on:
       - gradle.properties
       - settings.gradle
     branches:
-      - main
+      - 1.20.1
 
 jobs:
   build:
