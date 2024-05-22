@@ -60,15 +60,17 @@ public class BigIntStorage {
         if (bufferOutput < value) {
             var output = bufferOutput;
             this.bufferOutput = 0;
-            flushBuffers();
-
             value -= output;
+
+            flushBuffers();
             if (value > bufferOutput) {
+                output += bufferOutput;
                 this.bufferOutput = 0;
-                return output + bufferOutput;
+                return output;
             }
             this.bufferOutput -= value;
-            return value + output;
+            output += value;
+            return output;
         }
         this.bufferOutput -= value;
         return value;
