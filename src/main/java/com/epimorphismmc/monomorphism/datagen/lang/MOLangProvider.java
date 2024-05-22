@@ -227,6 +227,11 @@ public class MOLangProvider extends RegistrateLangProvider {
         addTooltip(block, enTooltip);
     }
 
+    public void addBlockWithTooltip(String blockName, String enTooltip, String cnTooltip) {
+        simplifiedChinese.add(getBlockKey(modid, blockName) + ".desc", cnTooltip);
+        add(getBlockKey(modid, blockName) + ".desc", enTooltip);
+    }
+
     public void addBlockWithTooltip(String blockName, List<String> enTooltip, List<String> cnTooltip) {
         for (int i = 0; i < cnTooltip.size(); i++) {
             simplifiedChinese.add(getBlockKey(modid, blockName) + ".desc." + i, cnTooltip.get(i));
