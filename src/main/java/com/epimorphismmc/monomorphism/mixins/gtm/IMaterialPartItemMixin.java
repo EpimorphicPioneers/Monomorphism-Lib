@@ -1,13 +1,13 @@
 package com.epimorphismmc.monomorphism.mixins.gtm;
 
-import com.epimorphismmc.monomorphism.item.component.IDurabilityItem;
+import com.epimorphismmc.monomorphism.item.component.IMODurabilityBar;
 import com.gregtechceu.gtceu.api.item.component.*;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = IMaterialPartItem.class, remap = false)
-public interface IMaterialPartItemMixin extends IItemComponent, IDurabilityBar, IAddInformation, ICustomDescriptionId, IDurabilityItem {
+public interface IMaterialPartItemMixin extends IItemComponent, IDurabilityBar, IAddInformation, ICustomDescriptionId, IMODurabilityBar {
     @Shadow int getPartDamage(ItemStack itemStack);
 
     @Shadow void setPartDamage(ItemStack itemStack, int damage);
@@ -31,6 +31,6 @@ public interface IMaterialPartItemMixin extends IItemComponent, IDurabilityBar, 
 
     @Override
     default float getDurabilityForDisplay(ItemStack itemStack) {
-        return IDurabilityItem.super.getDurabilityForDisplay(itemStack);
+        return IMODurabilityBar.super.getDurabilityForDisplay(itemStack);
     }
 }

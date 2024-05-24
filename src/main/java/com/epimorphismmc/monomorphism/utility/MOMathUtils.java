@@ -1,62 +1,44 @@
 package com.epimorphismmc.monomorphism.utility;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.gregtechceu.gtceu.api.GTValues.RNG;
 
+/**
+ * Utility class for math operations.
+ * <p>
+ * Commonly used math Utilities：
+ * {@link Mth},
+ * {@link org.joml.Math},
+ * {@link com.google.common.primitives.Ints},
+ * {@link com.google.common.primitives.Longs}
+ *
+ * @author GateGuardian
+ * @date : 2024/5/24
+ */
 public class MOMathUtils {
 
     public static final double PI2 = Math.PI * 2;
 
-    public static final BigInteger LONG_MAX_VALUE = BigInteger.valueOf(Long.MAX_VALUE);
-
     public static long clamp(long value, long min, long max) {
-        if (value < min) {
-            return min;
-        }else {
-            return Math.min(value, max);
-        }
+        return value < min ? min : Math.min(value, max);
     }
 
-    public static int clamp(int value, int min, int max) {
-        if (value < min) {
-            return min;
-        }else {
-            return Math.min(value, max);
-        }
+    public static int nextInt(int minimum, int maximum) {
+        return Mth.nextInt(RNG, minimum, maximum);
     }
 
-    public static double clamp(double value, double min, double max) {
-        if (value < min) {
-            return min;
-        }else {
-            return Math.min(value, max);
-        }
+    public static float nextFloat(float minimum, float maximum) {
+        return Mth.nextFloat(RNG, minimum, maximum);
     }
 
-    public static int max(int... nums) {
-        return Arrays.stream(nums).max().orElse(0);
-    }
-
-    public static long getLongNumber(BigInteger number) {
-        if (number != null) {
-            return number.compareTo(LONG_MAX_VALUE) >= 0 ? Long.MAX_VALUE : number.longValue();
-        }
-        return 0;
-    }
-
-    public static int getIntegerNumber(long number) {
-        return (int) clamp(number, Integer.MIN_VALUE, Integer.MAX_VALUE);
-    }
-
-    public static float nextFloat(float a, float b) {
-        return RNG.nextFloat() * (b - a) + a;
+    public static double nextDouble(double minimum, double maximum) {
+        return Mth.nextDouble(RNG, minimum, maximum);
     }
 
     public static Vector3f randomSpherePoint(double x0, double y0, double z0, Vec3 radius) {

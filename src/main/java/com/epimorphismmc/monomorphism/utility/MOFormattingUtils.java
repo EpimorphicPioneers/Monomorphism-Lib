@@ -47,7 +47,7 @@ public class MOFormattingUtils {
         return DECIMAL_FORMAT_0F.format(number / divisor.doubleValue()) + unit;
     }
 
-    public static String abbreviate(long number) {
+    public static String abbreviate2F(long number) {
         Map.Entry<BigInteger, String> entry = UNITS.floorEntry(BigInteger.valueOf(number));
         if (entry == null) {
             return FormattingUtil.formatNumbers(number);
@@ -57,7 +57,7 @@ public class MOFormattingUtils {
         return DECIMAL_FORMAT_2F.format(number / divisor.doubleValue()) + unit;
     }
 
-    public static String abbreviate(BigInteger number) {
+    public static String abbreviate2F(BigInteger number) {
         Map.Entry<BigInteger, String> entry = UNITS.floorEntry(number);
         if (entry == null) {
             return FormattingUtil.formatNumbers(number);

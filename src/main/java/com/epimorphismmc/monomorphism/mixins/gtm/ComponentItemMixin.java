@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.mixins.gtm;
 
-import com.epimorphismmc.monomorphism.item.component.IRendererItem;
+import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 
 @Mixin(value = ComponentItem.class, remap = false)
-public abstract class ComponentItemMixin extends Item implements IRendererItem {
+public abstract class ComponentItemMixin extends Item implements IMOItemRendererProvider {
     @Shadow
     protected List<IItemComponent> components;
 

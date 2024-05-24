@@ -21,7 +21,6 @@ public class BigIntStorage {
 
     public BigIntStorage(@Nullable BigInteger maxCapacity) {
         this(BigInteger.ZERO, maxCapacity);
-
     }
 
     public BigIntStorage(BigInteger storage, @Nullable BigInteger maxCapacity) {
@@ -30,54 +29,65 @@ public class BigIntStorage {
         flushBuffers();
     }
 
-    public long add(long value) {
+    public long add(long toAdd) {
         if (capacityInput == 0) return 0;
 
-        long free = capacityInput - bufferInput;
-        if (free <= value) {
+        long freeInput = capacityInput - bufferInput;
+        if (freeInput <= toAdd) {
+            var added = freeInput;
             this.bufferInput = capacityInput;
+            toAdd -= added;
+
             flushBuffers();
-            return free;
+            freeInput = capacityInput - bufferInput;
+            if (toAdd > freeInput) {
+                added += freeInput;
+                this.bufferInput = capacityInput;
+                return added;
+            }
+            this.bufferInput += toAdd;
+            added += toAdd;
+            return added;
         }
-        this.bufferInput += value;
-        return value;
+        this.bufferInput += toAdd;
+        return toAdd;
     }
 
-    public BigInteger add(BigInteger value) {
+    public BigInteger add(BigInteger toAdd) {
         if (maxCapacity != null) {
-            var free = maxCapacity.subtract(storage);
-            if (free.compareTo(value) < 0) {
+            var freeStorage = maxCapacity.subtract(storage);
+            if (freeStorage.compareTo(toAdd) < 0) {
                 this.storage = maxCapacity;
-                return free;
+                return freeStorage;
             }
         }
 
-        this.storage = storage.add(value);
-        return value;
+        this.storage = storage.add(toAdd);
+        return toAdd;
     }
 
-    public long remove(long value) {
-        if (bufferOutput < value) {
-            var output = bufferOutput;
+    public long remove(long toRemove) {
+        if (bufferOutput < toRemove) {
+            var removed = bufferOutput;
             this.bufferOutput = 0;
-            value -= output;
+            toRemove -= removed;
 
             flushBuffers();
-            if (value > bufferOutput) {
-                output += bufferOutput;
+            if (toRemove > bufferOutput) {
+                removed += bufferOutput;
                 this.bufferOutput = 0;
-                return output;
+                return removed;
             }
-            this.bufferOutput -= value;
-            output += value;
-            return output;
+            this.bufferOutput -= toRemove;
+            removed += toRemove;
+            return removed;
         }
-        this.bufferOutput -= value;
-        return value;
+        this.bufferOutput -= toRemove;
+        return toRemove;
     }
 
-    public BigInteger remove(BigInteger value) {
-        return add(value.negate()).negate();
+    public BigInteger remove(BigInteger toRemove) {
+        return add(toRemove.negate()).negate();
     }
 
     public BigInteger getStorage() {
@@ -108,6 +118,6 @@ public class BigIntStorage {
             }
         }
 
-        this.capacityInput = maxCapacity != null ? MOMathUtils.getLongNumber(maxCapacity.subtract(storage)) : Long.MAX_VALUE;
+        this.capacityInput = maxCapacity != null ? BigIntMath.getLongValue(maxCapacity.subtract(storage)) : Long.MAX_VALUE;
     }
 }

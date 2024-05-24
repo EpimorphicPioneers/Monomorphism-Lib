@@ -3,7 +3,7 @@ package com.epimorphismmc.monomorphism.item.component;
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
 import net.minecraft.world.item.ItemStack;
 
-public interface IDurabilityItem extends IDurabilityBar {
+public interface IMODurabilityBar extends IDurabilityBar {
 
     @Override
     int getMaxDurability(ItemStack itemStack);

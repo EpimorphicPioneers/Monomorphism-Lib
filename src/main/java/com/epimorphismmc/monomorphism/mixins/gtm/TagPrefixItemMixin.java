@@ -2,7 +2,7 @@ package com.epimorphismmc.monomorphism.mixins.gtm;
 
 import com.epimorphismmc.monomorphism.data.chemical.material.info.MOMaterialIconSet;
 import com.epimorphismmc.monomorphism.data.tag.MOTagPrefix;
-import com.epimorphismmc.monomorphism.item.component.IRendererItem;
+import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.TagPrefixItem;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = TagPrefixItem.class, remap = false)
-public abstract class TagPrefixItemMixin extends Item implements IRendererItem {
+public abstract class TagPrefixItemMixin extends Item implements IMOItemRendererProvider {
 
     @Unique
     private ICustomRenderer monomorphism$customRenderer;

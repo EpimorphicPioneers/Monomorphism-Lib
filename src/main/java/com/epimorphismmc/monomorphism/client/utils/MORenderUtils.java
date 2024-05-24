@@ -94,23 +94,6 @@ public class MORenderUtils {
                 combinedLight, combinedOverlay, faceDisplay, camera, null);
     }
 
-    public static BakedModel getVanillaModel(ItemStack stack, @Nullable Level level, @Nullable LivingEntity entity) {
-        var shaper = getItemRenderer().getItemModelShaper();
-        var model = shaper.getItemModel(stack.getItem());
-        var clientlevel = level instanceof ClientLevel ? (ClientLevel) level : null;
-        if (model != null) {
-            var bakedmodel = model.getOverrides().resolve(model, stack, clientlevel, entity, 0);
-            if (bakedmodel != null) return bakedmodel;
-        }
-        return shaper.getModelManager().getMissingModel();
-    }
-
-    public static void vanillaRender(ItemStack stack, ItemDisplayContext transformType, boolean leftHand, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, BakedModel model) {
-        IItemRendererProvider.disabled.set(true);
-        Minecraft.getInstance().getItemRenderer().render(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
-        IItemRendererProvider.disabled.set(false);
-    }
-
     /**
      * Method to render the coordinate system for the current matrix. Renders three lines with
      * length 1 starting from (0, 0, 0): red line along x axis, green line along y axis and blue
