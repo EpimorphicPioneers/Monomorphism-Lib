@@ -16,13 +16,15 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Objects.requireNonNullElseGet;
+
 public class MOTransferUtils {
 
     public static FluidStack drainFluid(Table<IO, RecipeCapability<?>, List<IRecipeHandler<?>>> capabilitiesProxy, FluidStack stack, boolean simulate) {
-        List<IRecipeHandler<?>> handlers = MOUtils.getOrDefault(capabilitiesProxy.get(IO.IN, GTRecipeCapabilities.FLUID), Collections::emptyList);
+        List<IRecipeHandler<?>> handlers = requireNonNullElseGet(capabilitiesProxy.get(IO.IN, GTRecipeCapabilities.FLUID), Collections::emptyList);
         List<?> list = List.of(FluidIngredient.of(stack));
         for (var handler : handlers) {
-            list = MOUtils.getOrDefault(handler.handleRecipe(IO.IN, null, list, null, simulate), Collections::emptyList);
+            list = requireNonNullElseGet(handler.handleRecipe(IO.IN, null, list, null, simulate), Collections::emptyList);
         }
 
         if (!list.isEmpty()) {

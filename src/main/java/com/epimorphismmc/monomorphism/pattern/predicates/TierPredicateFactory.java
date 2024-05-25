@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import static com.epimorphismmc.monomorphism.utility.MOUtils.*;
+import static java.util.Objects.requireNonNullElseGet;
 
 @Setter @Accessors(fluent = true, chain = true)
 public class TierPredicateFactory {
@@ -45,24 +45,24 @@ public class TierPredicateFactory {
     public TraceabilityPredicate build() {
         return strict ? new TraceabilityPredicate(new MOPredicate(
                     getStrictPredicate(name,
-                            getOrDefault(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            getOrDefault(container, () -> IValueContainer::noop),
-                            getOrDefault(errorKey, () -> Component.translatable("structure.multiblock.pattern.error.casing"))
+                            requireNonNullElseGet(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            requireNonNullElseGet(container, () -> IValueContainer::noop),
+                            requireNonNullElseGet(errorKey, () -> Component.translatable("structure.multiblock.pattern.error.casing"))
                     ),
                     getCandidates(name,
-                            getOrDefault(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            getOrDefault(comparator, () -> Comparator.comparingInt(ITierType::tier)),
-                            getOrDefault(predicate, () -> BlockState -> true)
+                            requireNonNullElseGet(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            requireNonNullElseGet(comparator, () -> Comparator.comparingInt(ITierType::tier)),
+                            requireNonNullElseGet(predicate, () -> BlockState -> true)
                     )).previewCandidates(true))
             : new TraceabilityPredicate(new MOPredicate(
                     getPredicate(name,
-                            getOrDefault(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            getOrDefault(container, () -> IValueContainer::noop)
+                            requireNonNullElseGet(candidatesMap != null ? candidatesMap : map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            requireNonNullElseGet(container, () -> IValueContainer::noop)
                     ),
                     getCandidates(name,
-                            getOrDefault(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
-                            getOrDefault(comparator, () -> Comparator.comparingInt(ITierType::tier)),
-                            getOrDefault(predicate, () -> BlockState -> true)
+                            requireNonNullElseGet(map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                            requireNonNullElseGet(comparator, () -> Comparator.comparingInt(ITierType::tier)),
+                            requireNonNullElseGet(predicate, () -> BlockState -> true)
                     )).previewCandidates(true));
     }
 

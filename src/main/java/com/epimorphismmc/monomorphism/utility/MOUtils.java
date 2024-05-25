@@ -18,11 +18,6 @@ public class MOUtils {
         return defaultValue;
     }
 
-    public static <T> T getOrDefault(T value, Supplier<T> defaultSupplier) {
-        if (value == null) return defaultSupplier.get();
-        return value;
-    }
-
     public static <T> T getOrDefault(BooleanSupplier canGet, Supplier<T> getter, T defaultValue){
         return canGet.getAsBoolean() ? getter.get() : defaultValue;
     }
