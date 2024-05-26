@@ -14,29 +14,16 @@ public class MOFormattingUtils {
     public static final DecimalFormat DECIMAL_FORMAT_SIC = new DecimalFormat("0E00");
 
     private static final TreeMap<BigDecimal, String> UNITS = new TreeMap<>();
-    private static final String[] UNITS_SUFFIX = {"K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q", ""};
+    private static final String[] UNIT_SUFFIXES = {"", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q", ""};
 
     static {
-        for (int i = 0; i < UNITS_SUFFIX.length; i++) {
-            UNITS.put(BigDecimal.TEN.pow(3 * (i + 1)), UNITS_SUFFIX[i]);
+        for (int i = 1; i < UNIT_SUFFIXES.length; i++) {
+            UNITS.put(BigDecimal.TEN.pow(3 * i), UNIT_SUFFIXES[i]);
         }
     }
 
-    // TODO long应单独处理
-    public static String formatNumber(int number) {
-        return abbreviate2F(BigInteger.valueOf(number));
-    }
-
-    public static String formatNumber(int number, DecimalFormat df) {
-        return abbreviate(BigInteger.valueOf(number), df);
-    }
-
-    public static String formatNumber(long number) {
-        return abbreviate2F(BigInteger.valueOf(number));
-    }
-
-    public static String formatNumber(long number, DecimalFormat df) {
-        return abbreviate(BigInteger.valueOf(number), df);
+    public static String abbreviate0F(double number) {
+        return abbreviate(number, DECIMAL_FORMAT_0F);
     }
 
     public static String abbreviate0F(BigInteger number) {
@@ -47,6 +34,10 @@ public class MOFormattingUtils {
         return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_0F);
     }
 
+    public static String abbreviate1F(double number) {
+        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_1F);
+    }
+
     public static String abbreviate1F(BigInteger number) {
         return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_1F);
     }
@@ -55,12 +46,35 @@ public class MOFormattingUtils {
         return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_1F);
     }
 
+    public static String abbreviate2F(double number) {
+        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_2F);
+    }
+
     public static String abbreviate2F(BigInteger number) {
         return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_2F);
     }
 
     public static String abbreviate2F(BigDecimal number) {
         return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_2F);
+    }
+
+    public static String abbreviate(double number, DecimalFormat df) {
+        if (number < 0L) {
+            return "-" + abbreviate(-number, df);
+        }
+
+        int unitIndex = 0;
+        double temp = number;
+        while (temp >= 1000D && unitIndex < UNIT_SUFFIXES.length - 1) {
+            temp /= 1000D;
+            unitIndex++;
+        }
+
+        if (unitIndex >= UNIT_SUFFIXES.length - 1) {
+            return DECIMAL_FORMAT_SIC.format(number);
+        }
+
+        return df.format(temp) + UNIT_SUFFIXES[unitIndex];
     }
 
     public static String abbreviate(BigInteger number, DecimalFormat df) {
