@@ -74,7 +74,7 @@ public class MOFormattingUtils {
 
         Map.Entry<BigDecimal, String> entry = UNITS.floorEntry(number);
         if (entry == null) {
-            return df.format(number.doubleValue());
+            return df.format(number);
         }
         if (entry.getValue().isEmpty()) {
             return DECIMAL_FORMAT_SIC.format(number);
