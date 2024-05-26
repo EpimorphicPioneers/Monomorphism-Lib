@@ -1,70 +1,56 @@
 package com.epimorphismmc.monomorphism.utility;
 
-import com.gregtechceu.gtceu.utils.FormattingUtil;
-
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class MOFormattingUtils {
 
-    private static final TreeMap<BigInteger, String> UNITS = new TreeMap<>();
     public static final DecimalFormat DECIMAL_FORMAT_0F = new DecimalFormat("#");
     public static final DecimalFormat DECIMAL_FORMAT_1F = new DecimalFormat("#.#");
     public static final DecimalFormat DECIMAL_FORMAT_2F = new DecimalFormat("#.##");
 
-    static {
-        UNITS.put(BigInteger.TEN.pow(30), "Q");
-        UNITS.put(BigInteger.TEN.pow(27), "R");
-        UNITS.put(BigInteger.TEN.pow(24), "Y");
-        UNITS.put(BigInteger.TEN.pow(21), "Z");
-        UNITS.put(BigInteger.TEN.pow(18), "E");
-        UNITS.put(BigInteger.TEN.pow(15), "P");
-        UNITS.put(BigInteger.TEN.pow(12), "T");
-        UNITS.put(BigInteger.TEN.pow(9), "G");
-        UNITS.put(BigInteger.TEN.pow(6), "M");
-        UNITS.put(BigInteger.TEN.pow(3), "K");
+    private static final String[] UNITS = {"", "K", "M", "G", "T", "P", "E"};
+
+    public static String formatNumber(int number) {
+        return formatNumber(BigInteger.valueOf(number));
     }
 
-    public static String abbreviate1F(int number) {
-        Map.Entry<BigInteger, String> entry = UNITS.floorEntry(BigInteger.valueOf(number));
-        if (entry == null) {
-            return FormattingUtil.formatNumbers(number);
+    public static String formatNumber(int number, DecimalFormat df) {
+        return formatNumber(BigInteger.valueOf(number), df);
+    }
+
+    public static String formatNumber(long number) {
+        return formatNumber(BigInteger.valueOf(number));
+    }
+
+    public static String formatNumber(long number, DecimalFormat df) {
+        return formatNumber(BigInteger.valueOf(number), df);
+    }
+
+    public static String formatNumber(BigInteger number) {
+        return formatNumber(number, MOFormattingUtils.DECIMAL_FORMAT_2F);
+    }
+
+    public static String formatNumber(BigInteger number, DecimalFormat df) {
+        if (number.compareTo(BigInteger.ZERO) < 0) {
+            return "-" + formatNumber(number.negate(), df);
         }
-        BigInteger divisor = entry.getKey();
-        String unit = entry.getValue();
-        return DECIMAL_FORMAT_1F.format(number / divisor.doubleValue()) + unit;
-    }
 
-    public static String abbreviate0F(int number) {
-        Map.Entry<BigInteger, String> entry = UNITS.floorEntry(BigInteger.valueOf(number));
-        if (entry == null) {
-            return FormattingUtil.formatNumbers(number);
+        int unitIndex = 0;
+        BigDecimal temp = new BigDecimal(number, 0);
+        while (temp.compareTo(BigDecimal.TEN.pow(3)) >= 0 && unitIndex < UNITS.length) {
+            temp = temp.divide(BigDecimal.TEN.pow(3), 2, RoundingMode.HALF_DOWN);
+            unitIndex++;
         }
-        BigInteger divisor = entry.getKey();
-        String unit = entry.getValue();
-        return DECIMAL_FORMAT_0F.format(number / divisor.doubleValue()) + unit;
-    }
 
-    public static String abbreviate2F(long number) {
-        Map.Entry<BigInteger, String> entry = UNITS.floorEntry(BigInteger.valueOf(number));
-        if (entry == null) {
-            return FormattingUtil.formatNumbers(number);
+        String formattedNumber = df.format(temp.doubleValue());
+
+        if (unitIndex >= UNITS.length) {
+            return String.format("%.2e", number.doubleValue());
         }
-        BigInteger divisor = entry.getKey();
-        String unit = entry.getValue();
-        return DECIMAL_FORMAT_2F.format(number / divisor.doubleValue()) + unit;
-    }
 
-    public static String abbreviate2F(BigInteger number) {
-        Map.Entry<BigInteger, String> entry = UNITS.floorEntry(number);
-        if (entry == null) {
-            return FormattingUtil.formatNumbers(number);
-        }
-        BigInteger divisor = entry.getKey();
-        String unit = entry.getValue();
-        return DECIMAL_FORMAT_2F.format(number.doubleValue() / divisor.doubleValue()) + unit;
+        return formattedNumber + UNITS[unitIndex];
     }
-
 }

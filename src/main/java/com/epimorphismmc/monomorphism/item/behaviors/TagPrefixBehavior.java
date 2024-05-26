@@ -45,8 +45,8 @@ public class TagPrefixBehavior implements IAddInformation, ICustomDescriptionId 
     }
 
     @Override
-    public String getItemStackDisplayName(ItemStack itemStack) {
-        return tagPrefix.getLocalizedName(material).getString();
+    public @Nullable Component getItemName(ItemStack stack) {
+        return tagPrefix.getLocalizedName(material);
     }
 
     @OnlyIn(Dist.CLIENT)
