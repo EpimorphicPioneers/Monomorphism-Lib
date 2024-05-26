@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.proxy.base;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -66,6 +67,11 @@ public interface IClientProxyBase extends ICommonProxyBase {
         } else {
             ICommonProxyBase.super.queueTask(task);
         }
+    }
+
+    @Override
+    default MinecraftServer getMinecraftServer() {
+        return ICommonProxyBase.super.getMinecraftServer();
     }
 
     /**

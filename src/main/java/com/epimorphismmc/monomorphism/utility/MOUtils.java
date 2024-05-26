@@ -1,11 +1,15 @@
 package com.epimorphismmc.monomorphism.utility;
 
+import com.epimorphismmc.monomorphism.Monomorphism;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
@@ -127,5 +131,22 @@ public class MOUtils {
             //10010 - 1向左移(index-1)
             return num - (1 << (index - 1));
         }
+    }
+
+    public static @Nullable ServerPlayer getPlayerByUUID(@Nullable UUID id) {
+        var server = Monomorphism.instance.getMinecraftServer();
+        if (server != null) {
+            return (id != null && id != Util.NIL_UUID) ? server.getPlayerList().getPlayer(id) : null;
+        }
+        return null;
+    }
+
+    public static String getPlayerName(@NotNull UUID playerId, @Nullable ServerPlayer player) {
+        return player != null ? player.getDisplayName().getString() :
+                Optional.ofNullable(Monomorphism.instance.getMinecraftServer())
+                .map(MinecraftServer::getProfileCache)
+                .flatMap(cache -> cache.get(playerId))
+                .map(GameProfile::getName)
+                .orElse("[Anonymous]");
     }
 }
