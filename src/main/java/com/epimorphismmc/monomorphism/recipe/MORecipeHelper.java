@@ -80,7 +80,7 @@ public class MORecipeHelper {
     }
 
     public static List<ItemStack> getOutputItem(GTRecipe recipe) {
-        return recipe.getInputContents(ItemRecipeCapability.CAP).stream()
+        return recipe.getOutputContents(ItemRecipeCapability.CAP).stream()
                 .map(content -> ItemRecipeCapability.CAP.of(content.getContent()))
                 .flatMap(ingredient -> Arrays.stream(ingredient.getItems()))
                 .collect(Collectors.toList());
@@ -94,7 +94,7 @@ public class MORecipeHelper {
     }
 
     public static List<FluidStack> getOutputFluid(GTRecipe recipe) {
-        return recipe.getInputContents(FluidRecipeCapability.CAP).stream()
+        return recipe.getOutputContents(FluidRecipeCapability.CAP).stream()
                 .map(content -> FluidRecipeCapability.CAP.of(content.getContent()))
                 .flatMap(ingredient -> Arrays.stream(ingredient.getStacks()))
                 .collect(Collectors.toList());
