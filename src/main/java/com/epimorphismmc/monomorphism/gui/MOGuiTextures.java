@@ -6,6 +6,8 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
 public class MOGuiTextures {
 
+    public static final ResourceTexture OVERLAY_INVENTORY_CONFIGURATOR = createTexture("overlay/inventory_configurator.png");
+    public static final ResourceTexture OVERLAY_TANK_CONFIGURATOR = createTexture("overlay/tank_configurator.png");
     public static final ResourceTexture OVERLAY_PARALLEL_CONFIGURATOR = createTexture("overlay/parallel_configurator.png");
 
     private static ResourceTexture createTexture(String imageLocation) {
