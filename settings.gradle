@@ -21,8 +21,8 @@ dependencyResolutionManagement {
         def jeiVersion = "15.2.0.27"
         def reiVersion = "12.0.684"
         def emiVersion = "1.1.4"
+        def ae2Version = "15.0.18"
         def kjsVersion = "2001.6.4-build.120"
-        def auVersion = "1.20.1-0.6.0"
         def gtmVersion = "1.2.3.a"
 
         // Forge
@@ -83,11 +83,11 @@ dependencyResolutionManagement {
             def configuration = version("configuration", configurationVersion)
             library("configuration", "dev.toma.configuration", "configuration-forge-1.20.1").versionRef(configuration)
 
+            def ae2 = version("ae2", ae2Version)
+            library("ae2", "appeng", "appliedenergistics2-forge").versionRef(ae2)
+
             def worldStripper = version("worldStripper", worldStripperForgeFile)
             library("worldStripper", "curse.maven", "worldStripper-250603").versionRef(worldStripper)
-
-            def au = version("au", auVersion)
-            library("almostUnified-forge", "com.almostreliable.mods", "almostunified-forge").versionRef(au)
 
             def gtm = version("gtm", gtmVersion)
             library("gtm", "com.gregtechceu.gtceu", "gtceu-${minecraftVersion}").versionRef(gtm)

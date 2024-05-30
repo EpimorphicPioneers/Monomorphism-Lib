@@ -1,5 +1,6 @@
 package com.epimorphismmc.monomorphism.utility;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -27,6 +28,16 @@ public class MOMathUtils {
 
     public static long clamp(long value, long min, long max) {
         return value < min ? min : Math.min(value, max);
+    }
+
+    public static int[] split(long value) {
+        IntArrayList result = new IntArrayList();
+        while (value > 0) {
+            int intValue = (int) Math.min(value, Integer.MAX_VALUE);
+            result.add(intValue);
+            value -= intValue;
+        }
+        return result.toIntArray();
     }
 
     public static int nextInt(int minimum, int maximum) {
