@@ -72,12 +72,14 @@ public class CustomModeFancyConfigurator implements IFancyConfigurator {
         return group;
     }
 
-    public void setTooltips(String key) {
+    public CustomModeFancyConfigurator setTooltips(String key) {
         this.tooltipSupplier = SupplierMemoizer.memoize(() -> List.copyOf(LangHandler.getSingleOrMultiLang(key)));
+        return this;
     }
 
-    public void setModeTooltips(String key) {
+    public CustomModeFancyConfigurator setModeTooltips(String key) {
         this.modeTooltipSupplier = SupplierMemoizer.memoize(() -> List.copyOf(LangHandler.getSingleOrMultiLang(key)));
+        return this;
     }
 
     @Override

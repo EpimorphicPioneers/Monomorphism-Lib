@@ -5,12 +5,14 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Accessors(chain = true)
 public class ButtonConfigurator implements IFancyConfiguratorButton {
     @Getter
     protected IGuiTexture icon;

@@ -10,11 +10,13 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.misc.FluidStorage;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.List;
 
+@Accessors(chain = true)
 public class TankFancyConfigurator implements IFancyConfigurator {
     private final FluidStorage[] tanks;
     @Getter
