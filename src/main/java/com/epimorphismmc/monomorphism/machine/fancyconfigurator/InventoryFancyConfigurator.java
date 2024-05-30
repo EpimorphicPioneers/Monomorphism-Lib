@@ -11,11 +11,13 @@ import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.List;
 
+@Accessors(chain = true)
 public class InventoryFancyConfigurator implements IFancyConfigurator {
     private final ItemStackTransfer inventory;
     @Getter
