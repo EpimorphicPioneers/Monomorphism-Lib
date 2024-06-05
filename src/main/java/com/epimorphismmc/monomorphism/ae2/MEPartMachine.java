@@ -102,7 +102,7 @@ public class MEPartMachine extends TieredIOPartMachine implements IInWorldGridNo
     }
 
     public boolean onGridNodeDirty(SerializableManagedGridNode node) {
-        return node.isActive() && node.isOnline();
+        return node.isOnline();
     }
 
     public CompoundTag serializeGridNode(SerializableManagedGridNode node) {
@@ -127,8 +127,8 @@ public class MEPartMachine extends TieredIOPartMachine implements IInWorldGridNo
     @Override
     public void setFrontFacing(Direction facing) {
         super.setFrontFacing(facing);
-        if (isFacingValid(facing)) {
-            this.mainNode.setExposedOnSides(this.hasFrontFacing() ? EnumSet.of(facing) : EnumSet.allOf(Direction.class));
+        if (facing == getFrontFacing()) {
+            this.mainNode.setExposedOnSides(EnumSet.of(facing));
         }
     }
 
