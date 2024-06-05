@@ -31,7 +31,6 @@ import java.util.function.Supplier;
 public class CustomModeFancyConfigurator implements IFancyConfigurator {
     @Getter
     private final IGuiTexture icon;
-    @Getter
     private final String title;
     private final int modes;
     @Setter
@@ -75,6 +74,11 @@ public class CustomModeFancyConfigurator implements IFancyConfigurator {
                                     .setType(TextTexture.TextType.ROLL))));
         }
         return group;
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.translatable(title);
     }
 
     @Override
