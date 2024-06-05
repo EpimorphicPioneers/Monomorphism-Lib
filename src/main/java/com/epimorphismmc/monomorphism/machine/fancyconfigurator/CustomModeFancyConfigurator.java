@@ -31,7 +31,7 @@ import java.util.function.Supplier;
 public class CustomModeFancyConfigurator implements IFancyConfigurator {
     @Getter
     private final IGuiTexture icon;
-    private final String title;
+    private final String key;
     private final int modes;
     @Setter
     private boolean hasTooltips;
@@ -42,11 +42,11 @@ public class CustomModeFancyConfigurator implements IFancyConfigurator {
     private final Supplier<Integer> modeGetter;
     private final Consumer<Integer> modeSetter;
 
-    public CustomModeFancyConfigurator(String title, IGuiTexture icon, int modes,
+    public CustomModeFancyConfigurator(String key, IGuiTexture icon, int modes,
                                        Function<Integer, String> nameGetter,
                                        Supplier<Integer> modeGetter,
                                        Consumer<Integer> modeSetter) {
-        this.title = title;
+        this.key = key;
         this.icon = icon;
         this.modes = modes;
         this.nameGetter = nameGetter;
@@ -78,12 +78,12 @@ public class CustomModeFancyConfigurator implements IFancyConfigurator {
 
     @Override
     public Component getTitle() {
-        return Component.translatable(title);
+        return Component.translatable(key + ".title");
     }
 
     @Override
     public List<Component> getTooltips() {
-        return hasTooltips ? List.copyOf(LangHandler.getSingleOrMultiLang(title + ".desc")) : Collections.emptyList();
+        return hasTooltips ? List.copyOf(LangHandler.getSingleOrMultiLang(key + ".desc")) : Collections.emptyList();
     }
 
     @Override
