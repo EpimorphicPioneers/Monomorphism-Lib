@@ -3,7 +3,6 @@ package com.epimorphismmc.monomorphism.machine.fancyconfigurator;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.data.lang.LangHandler;
-import com.gregtechceu.gtceu.utils.SupplierMemoizer;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -14,6 +13,8 @@ import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,21 +27,23 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@Accessors(chain = true)
 public class CustomModeFancyConfigurator implements IFancyConfigurator {
     @Getter
     private final IGuiTexture icon;
     @Getter
-    private final Component title;
+    private final String title;
     private final int modes;
+    @Setter
+    private boolean hasTooltips;
+    @Setter
+    private boolean hasModeTooltips;
 
     private final Function<Integer, String> nameGetter;
     private final Supplier<Integer> modeGetter;
     private final Consumer<Integer> modeSetter;
 
-    private Supplier<List<Component>> tooltipSupplier = Collections::emptyList;
-    private Supplier<List<Component>> modeTooltipSupplier = Collections::emptyList;
-
-    public CustomModeFancyConfigurator(Component title, IGuiTexture icon, int modes,
+    public CustomModeFancyConfigurator(String title, IGuiTexture icon, int modes,
                                        Function<Integer, String> nameGetter,
                                        Supplier<Integer> modeGetter,
                                        Consumer<Integer> modeSetter) {
@@ -61,7 +64,9 @@ public class CustomModeFancyConfigurator implements IFancyConfigurator {
             int tMode = i;
             group.addWidget(new ButtonWidget(2, 2 + i * 20, 136, 20,
                     IGuiTexture.EMPTY, cd -> modeSetter.accept(tMode))
-                    .setHoverTooltips(modeTooltipSupplier.get()));
+                    .setHoverTooltips(hasModeTooltips
+                        ? List.copyOf(LangHandler.getSingleOrMultiLang(nameGetter.apply(tMode) + ".desc"))
+                        : Collections.emptyList()));
             group.addWidget(new ImageWidget(2, 2 + i * 20, 136, 20,
                     () -> new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON.copy()
                             .setColor(modeGetter.get() == tMode ? ColorPattern.CYAN.color : -1),
@@ -72,19 +77,9 @@ public class CustomModeFancyConfigurator implements IFancyConfigurator {
         return group;
     }
 
-    public CustomModeFancyConfigurator setTooltips(String key) {
-        this.tooltipSupplier = SupplierMemoizer.memoize(() -> List.copyOf(LangHandler.getSingleOrMultiLang(key)));
-        return this;
-    }
-
-    public CustomModeFancyConfigurator setModeTooltips(String key) {
-        this.modeTooltipSupplier = SupplierMemoizer.memoize(() -> List.copyOf(LangHandler.getSingleOrMultiLang(key)));
-        return this;
-    }
-
     @Override
     public List<Component> getTooltips() {
-        return tooltipSupplier.get();
+        return hasTooltips ? List.copyOf(LangHandler.getSingleOrMultiLang(title + ".desc")) : Collections.emptyList();
     }
 
     @Override
