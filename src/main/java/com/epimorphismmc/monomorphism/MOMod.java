@@ -40,12 +40,12 @@ public abstract class MOMod<P extends ICommonProxyBase> {
         //Populate static mod instance
         this.onModConstructed();
         //Create logger
-        this.logger = LoggerFactory.getLogger(getModName());
+        this.logger = createLogger();
         // Create network
-        this.network = LDLNetworking.createNetworking(new ResourceLocation(getModId(), "networking"), "0.0.1");
+        this.network = createNetworking();
         // Create proxy
         this.proxy = this.createProxy();
-        this.registrate = MORegistrate.create(getModId());
+        this.registrate = createRegistrate();
         // Register FML mod loading cycle listeners
         FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();
         IEventBus bus = context.getModEventBus();
@@ -128,6 +128,18 @@ public abstract class MOMod<P extends ICommonProxyBase> {
      */
     @OnlyIn(Dist.DEDICATED_SERVER)
     protected abstract P createServerProxy();
+
+    protected Logger createLogger() {
+        return LoggerFactory.getLogger(getModName());
+    }
+
+    protected INetworking createNetworking() {
+        return LDLNetworking.createNetworking(new ResourceLocation(getModId(), "networking"), "0.0.1");
+    }
+
+    protected MORegistrate createRegistrate() {
+        return MORegistrate.create(getModId());
+    }
 
     /**
      * Register all messages added by this mod

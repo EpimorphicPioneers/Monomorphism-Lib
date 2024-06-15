@@ -16,14 +16,20 @@ public abstract class MOGTAddon implements IGTAddon {
 
     public MOGTAddon(String modid) {
         this.modid = modid;
-        ModList.get().getModContainerById(modid)
-                .map(FMLModContainer.class::cast)
-                .map(FMLModContainer::getEventBus)
-                .ifPresent(bus -> bus.addListener(this::onModConstructed));
+        var modList = ModList.get();
+        modList.getModObjectById(modid).ifPresentOrElse(this::setInstance,
+                () -> modList.getModContainerById(modid)
+                        .map(FMLModContainer.class::cast)
+                        .map(FMLModContainer::getEventBus)
+                        .ifPresent(bus -> bus.addListener(this::onModConstructed)));
     }
 
     private void onModConstructed(FMLConstructModEvent event) {
         Object object = ModList.get().getModObjectById(modid).orElseThrow(() -> new RuntimeException("Unable to get mod instance."));
+        setInstance(object);
+    }
+
+    private void setInstance(Object object) {
         if (object instanceof MOMod<? extends ICommonProxyBase>) {
             instance = (MOMod<? extends ICommonProxyBase>) object;
         } else {
