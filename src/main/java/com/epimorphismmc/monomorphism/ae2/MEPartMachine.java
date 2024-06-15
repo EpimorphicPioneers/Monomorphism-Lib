@@ -125,11 +125,9 @@ public class MEPartMachine extends TieredIOPartMachine implements IInWorldGridNo
     }
 
     @Override
-    public void setFrontFacing(Direction facing) {
-        super.setFrontFacing(facing);
-        if (facing == getFrontFacing()) {
-            this.mainNode.setExposedOnSides(EnumSet.of(facing));
-        }
+    public void onRotated(Direction oldFacing, Direction newFacing) {
+        super.onRotated(oldFacing, newFacing);
+        getMainNode().setExposedOnSides(EnumSet.of(newFacing));
     }
 
     @Override
