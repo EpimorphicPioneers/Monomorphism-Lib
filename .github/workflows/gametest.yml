@@ -4,8 +4,6 @@ on: workflow_call
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      RUN_SERVER: RUN_SERVER
     steps:
       - name: checkout
         uses: actions/checkout@v4
