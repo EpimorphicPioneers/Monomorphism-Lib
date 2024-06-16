@@ -1,12 +1,15 @@
 package com.epimorphismmc.monomorphism.item;
 
 import com.epimorphismmc.monomorphism.block.IMaterialBlock;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.DustProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
+
 import com.lowdragmc.lowdraglib.client.renderer.IBlockRendererProvider;
 import com.lowdragmc.lowdraglib.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.network.chat.Component;
@@ -16,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -37,9 +41,7 @@ public class MOMaterialBlockItem extends BlockItem implements IItemRendererProvi
         return getItemBurnTime();
     }
 
-    public void onRegister() {
-
-    }
+    public void onRegister() {}
 
     @OnlyIn(Dist.CLIENT)
     public static ItemColor tintColor() {
@@ -52,8 +54,7 @@ public class MOMaterialBlockItem extends BlockItem implements IItemRendererProvi
         };
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     @OnlyIn(Dist.CLIENT)
     public IRenderer getRenderer(ItemStack stack) {
         if (getBlock() instanceof IBlockRendererProvider provider) {
@@ -86,7 +87,10 @@ public class MOMaterialBlockItem extends BlockItem implements IItemRendererProvi
         if (getBlock() instanceof IMaterialBlock block) {
             var material = block.getMaterial();
             DustProperty property = material == null ? null : material.getProperty(PropertyKey.DUST);
-            if (property != null) return (int) (property.getBurnTime() * block.getTagPrefix().getMaterialAmount(material) / GTValues.M);
+            if (property != null)
+                return (int) (property.getBurnTime()
+                        * block.getTagPrefix().getMaterialAmount(material)
+                        / GTValues.M);
         }
         return -1;
     }

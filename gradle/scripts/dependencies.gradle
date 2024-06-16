@@ -44,13 +44,13 @@ dependencies {
     modImplementation(forge.emi)
 
     modImplementation(forge.jade) // Jade
-    modImplementation(forge.kubejs) // KJS
+    modCompileOnly(forge.kubejs) // KJS
     modImplementation(forge.ae2) { transitive = false } // AE2
-    modImplementation(forge.shimmer.forge) { transitive = false } // Shimmer
+    minecraftClientLibraries(forge.shimmer.forge) { transitive = false } // Shimmer
 
     /* -------------------------------------------------- RuntimeOnly -------------------------------------------------- */
 
-    modRuntimeOnly 'maven.modrinth:embeddium:0.2.10+mc1.20.1' // Embeddium
-    modRuntimeOnly 'maven.modrinth:oculus:1.20.1-1.6.9' // Oculus
+    minecraftClientRuntimeLibraries 'maven.modrinth:embeddium:0.2.10+mc1.20.1' // Embeddium
+    minecraftClientRuntimeLibraries 'maven.modrinth:oculus:1.20.1-1.6.9' // Oculus
     //modRuntimeOnly(forge.worldStripper)
 }

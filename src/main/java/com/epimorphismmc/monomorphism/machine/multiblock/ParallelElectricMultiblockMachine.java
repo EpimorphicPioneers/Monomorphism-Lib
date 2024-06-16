@@ -1,24 +1,34 @@
 package com.epimorphismmc.monomorphism.machine.multiblock;
 
 import com.epimorphismmc.monomorphism.machine.feature.multiblock.stats.IParallelMachine;
+
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Function;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ParallelElectricMultiblockMachine extends MultiStatsElectricMultiblockMachine implements IParallelMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ParallelElectricMultiblockMachine.class, MultiStatsElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+public class ParallelElectricMultiblockMachine extends MultiStatsElectricMultiblockMachine
+        implements IParallelMachine {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            ParallelElectricMultiblockMachine.class,
+            MultiStatsElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     protected final ParallelStats parallelStats;
 
-    public ParallelElectricMultiblockMachine(IMachineBlockEntity holder, Function<WorkableElectricMultiblockMachine, Integer> parallelCalculator, Object... args) {
+    public ParallelElectricMultiblockMachine(
+            IMachineBlockEntity holder,
+            Function<WorkableElectricMultiblockMachine, Integer> parallelCalculator,
+            Object... args) {
         super(holder, args);
         this.parallelStats = new ParallelStats(this, machine -> {
             if (machine instanceof WorkableElectricMultiblockMachine workableElectricMultiblockMachine) {
@@ -29,7 +39,7 @@ public class ParallelElectricMultiblockMachine extends MultiStatsElectricMultibl
     }
 
     //////////////////////////////////////
-    //******     Recipe Logic    *******//
+    // ******     Recipe Logic    *******//
     //////////////////////////////////////
 
     @Override
@@ -48,7 +58,7 @@ public class ParallelElectricMultiblockMachine extends MultiStatsElectricMultibl
     }
 
     //////////////////////////////////////
-    //***       Multiblock Data      ***//
+    // ***       Multiblock Data      ***//
     //////////////////////////////////////
 
     @Override

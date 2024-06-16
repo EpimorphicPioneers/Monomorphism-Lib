@@ -1,9 +1,7 @@
 package com.epimorphismmc.monomorphism.crafting;
 
-import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.data.recipe.builder.ShapelessRecipeBuilder;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -11,10 +9,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
+
+import com.google.gson.JsonObject;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -65,14 +68,12 @@ public class ItemRepairRecipeBuilder extends ShapelessRecipeBuilder {
                 return ItemRepairRecipe.SERIALIZER;
             }
 
-            @Nullable
-            @Override
+            @Nullable @Override
             public JsonObject serializeAdvancement() {
                 return null;
             }
 
-            @Nullable
-            @Override
+            @Nullable @Override
             public ResourceLocation getAdvancementId() {
                 return null;
             }

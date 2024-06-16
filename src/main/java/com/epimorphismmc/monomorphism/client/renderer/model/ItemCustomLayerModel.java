@@ -1,18 +1,10 @@
 package com.epimorphismmc.monomorphism.client.renderer.model;
 
 import com.epimorphismmc.monomorphism.mixins.accessors.client.ItemModelGeneratorAccessor;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.SpriteContents;
@@ -31,6 +23,17 @@ import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import net.minecraftforge.client.model.geometry.UnbakedGeometryHelper;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -39,13 +42,17 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerModel> {
-    @Nullable
-    private ImmutableList<Material> textures;
+    @Nullable private ImmutableList<Material> textures;
+
     private final Int2ObjectMap<ForgeFaceData> layerData;
     private final Int2ObjectMap<ResourceLocation> renderTypeNames;
     private final float[][] layerPos;
 
-    private ItemCustomLayerModel(@Nullable ImmutableList<Material> textures, Int2ObjectMap<ForgeFaceData> layerData, float[][] layerPos, Int2ObjectMap<ResourceLocation> renderTypeNames) {
+    private ItemCustomLayerModel(
+            @Nullable ImmutableList<Material> textures,
+            Int2ObjectMap<ForgeFaceData> layerData,
+            float[][] layerPos,
+            Int2ObjectMap<ResourceLocation> renderTypeNames) {
         this.textures = textures;
         this.layerData = layerData;
         this.layerPos = layerPos;
@@ -53,7 +60,13 @@ public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerMod
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+    public BakedModel bake(
+            IGeometryBakingContext context,
+            ModelBaker baker,
+            Function<Material, TextureAtlasSprite> spriteGetter,
+            ModelState modelState,
+            ItemOverrides overrides,
+            ResourceLocation modelLocation) {
         if (textures == null) {
             ImmutableList.Builder<Material> builder = ImmutableList.builder();
             for (int i = 0; context.hasMaterial("layer" + i); i++) {
@@ -63,18 +76,22 @@ public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerMod
         }
 
         TextureAtlasSprite particle = spriteGetter.apply(
-                context.hasMaterial("particle") ? context.getMaterial("particle") : textures.get(0)
-        );
+                context.hasMaterial("particle") ? context.getMaterial("particle") : textures.get(0));
         var rootTransform = context.getRootTransform();
         if (!rootTransform.isIdentity())
-            modelState = UnbakedGeometryHelper.composeRootTransformIntoModelState(modelState, rootTransform);
+            modelState =
+                    UnbakedGeometryHelper.composeRootTransformIntoModelState(modelState, rootTransform);
 
-        var normalRenderTypes = new RenderTypeGroup(RenderType.cutout(), ForgeRenderTypes.ITEM_LAYERED_CUTOUT.get());
-        CompositeModel.Baked.Builder builder = CompositeModel.Baked.builder(context, particle, overrides, context.getTransforms());
+        var normalRenderTypes =
+                new RenderTypeGroup(RenderType.cutout(), ForgeRenderTypes.ITEM_LAYERED_CUTOUT.get());
+        CompositeModel.Baked.Builder builder =
+                CompositeModel.Baked.builder(context, particle, overrides, context.getTransforms());
         for (int i = 0; i < textures.size(); i++) {
             TextureAtlasSprite sprite = spriteGetter.apply(textures.get(i));
-            var unbaked = createUnbakedCustomItemElements(i, layerPos[i], sprite.contents(), this.layerData.get(i));
-            var quads = UnbakedGeometryHelper.bakeElements(unbaked, $ -> sprite, modelState, modelLocation);
+            var unbaked =
+                    createUnbakedCustomItemElements(i, layerPos[i], sprite.contents(), this.layerData.get(i));
+            var quads =
+                    UnbakedGeometryHelper.bakeElements(unbaked, $ -> sprite, modelState, modelLocation);
             var renderTypeName = renderTypeNames.get(i);
             var renderTypes = renderTypeName != null ? context.getRenderType(renderTypeName) : null;
             builder.addQuads(renderTypes != null ? renderTypes : normalRenderTypes, quads);
@@ -88,7 +105,8 @@ public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerMod
         public static final Loader INSTANCE = new Loader();
 
         @Override
-        public ItemCustomLayerModel read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) {
+        public ItemCustomLayerModel read(
+                JsonObject jsonObject, JsonDeserializationContext deserializationContext) {
             var renderTypeNames = new Int2ObjectOpenHashMap<ResourceLocation>();
             if (jsonObject.has("render_types")) {
                 var renderTypes = jsonObject.getAsJsonObject("render_types");
@@ -101,18 +119,22 @@ public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerMod
             }
 
             var emissiveLayers = new Int2ObjectArrayMap<ForgeFaceData>();
-            if(jsonObject.has("forge_data")) {
+            if (jsonObject.has("forge_data")) {
                 JsonObject forgeData = jsonObject.get("forge_data").getAsJsonObject();
                 readLayerData(forgeData, renderTypeNames, emissiveLayers, false);
             }
 
-
-            float[][] list = !jsonObject.has("layer_pos") ? null :
-                    LDLib.GSON.fromJson(jsonObject.getAsJsonArray("layer_pos"), float[][].class);
+            float[][] list = !jsonObject.has("layer_pos")
+                    ? null
+                    : LDLib.GSON.fromJson(jsonObject.getAsJsonArray("layer_pos"), float[][].class);
             return new ItemCustomLayerModel(null, emissiveLayers, list, renderTypeNames);
         }
 
-        private void readLayerData(JsonObject jsonObject, Int2ObjectOpenHashMap<ResourceLocation> renderTypeNames, Int2ObjectMap<ForgeFaceData> layerData, boolean logWarning) {
+        private void readLayerData(
+                JsonObject jsonObject,
+                Int2ObjectOpenHashMap<ResourceLocation> renderTypeNames,
+                Int2ObjectMap<ForgeFaceData> layerData,
+                boolean logWarning) {
             if (!jsonObject.has("layers")) return;
 
             var fullbrightLayers = jsonObject.getAsJsonObject("layers");
@@ -124,24 +146,40 @@ public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerMod
         }
     }
 
-    private List<BlockElement> createUnbakedCustomItemElements(int layerIndex, float[] pos, SpriteContents spriteContents, @Nullable ForgeFaceData faceData) {
-        var texture= "layer" + layerIndex;
+    private List<BlockElement> createUnbakedCustomItemElements(
+            int layerIndex,
+            float[] pos,
+            SpriteContents spriteContents,
+            @Nullable ForgeFaceData faceData) {
+        var texture = "layer" + layerIndex;
         Map<Direction, BlockElementFace> map = Maps.newHashMap();
-        map.put(Direction.SOUTH, new BlockElementFace(null, layerIndex, texture, new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0)));
-        map.put(Direction.NORTH, new BlockElementFace(null, layerIndex, texture, new BlockFaceUV(new float[]{16.0F, 0.0F, 0.0F, 16.0F}, 0)));
+        map.put(
+                Direction.SOUTH,
+                new BlockElementFace(
+                        null, layerIndex, texture, new BlockFaceUV(new float[] {0.0F, 0.0F, 16.0F, 16.0F}, 0)));
+        map.put(
+                Direction.NORTH,
+                new BlockElementFace(
+                        null, layerIndex, texture, new BlockFaceUV(new float[] {16.0F, 0.0F, 0.0F, 16.0F}, 0)));
         List<BlockElement> elements = Lists.newArrayList();
-        elements.add(new BlockElement(new Vector3f(pos[0], pos[1], 7.5F - 0.001F * layerIndex), new Vector3f(pos[2], pos[3], 8.5F + 0.001F * layerIndex), map, null, false));
+        elements.add(new BlockElement(
+                new Vector3f(pos[0], pos[1], 7.5F - 0.001F * layerIndex),
+                new Vector3f(pos[2], pos[3], 8.5F + 0.001F * layerIndex),
+                map,
+                null,
+                false));
         elements.addAll(createSideElements(spriteContents, texture, pos, layerIndex));
-        if(faceData != null) {
+        if (faceData != null) {
             elements.forEach(element -> element.setFaceData(faceData));
         }
         return elements;
     }
 
-    private List<BlockElement> createSideElements(SpriteContents sprite, String texture, float[] pos, int tintIndex) {
+    private List<BlockElement> createSideElements(
+            SpriteContents sprite, String texture, float[] pos, int tintIndex) {
         var generator = ((ItemModelGeneratorAccessor) ModelFactory.ITEM_MODEL_GENERATOR);
-        float spriteWidth = (float)sprite.width();
-        float spriteHeight = (float)sprite.height();
+        float spriteWidth = (float) sprite.width();
+        float spriteHeight = (float) sprite.height();
         List<BlockElement> list = Lists.newArrayList();
 
         for (ItemModelGenerator.Span span : generator.callGetSpans(sprite)) {
@@ -211,19 +249,42 @@ public class ItemCustomLayerModel implements IUnbakedGeometry<ItemCustomLayerMod
             n *= q;
             o *= q;
             Map<Direction, BlockElementFace> map = Maps.newHashMap();
-            map.put(spanFacing.getDirection(), new BlockElementFace(null, tintIndex, texture, new BlockFaceUV(new float[]{l, n, m, o}, 0)));
+            map.put(
+                    spanFacing.getDirection(),
+                    new BlockElementFace(
+                            null, tintIndex, texture, new BlockFaceUV(new float[] {l, n, m, o}, 0)));
             switch (spanFacing) {
                 case UP:
-                    list.add(new BlockElement(new Vector3f(h + pos[0], i - pos[0], 7.5F), new Vector3f(j + pos[0], i - pos[0], 8.5F), map, null, true));
+                    list.add(new BlockElement(
+                            new Vector3f(h + pos[0], i - pos[0], 7.5F),
+                            new Vector3f(j + pos[0], i - pos[0], 8.5F),
+                            map,
+                            null,
+                            true));
                     break;
                 case DOWN:
-                    list.add(new BlockElement(new Vector3f(h + pos[0], k - pos[0], 7.5F), new Vector3f(j + pos[0], k - pos[0], 8.5F), map, null, true));
+                    list.add(new BlockElement(
+                            new Vector3f(h + pos[0], k - pos[0], 7.5F),
+                            new Vector3f(j + pos[0], k - pos[0], 8.5F),
+                            map,
+                            null,
+                            true));
                     break;
                 case LEFT:
-                    list.add(new BlockElement(new Vector3f(h + pos[0], i - pos[0], 7.5F), new Vector3f(h + pos[0], k - pos[0], 8.5F), map, null, true));
+                    list.add(new BlockElement(
+                            new Vector3f(h + pos[0], i - pos[0], 7.5F),
+                            new Vector3f(h + pos[0], k - pos[0], 8.5F),
+                            map,
+                            null,
+                            true));
                     break;
                 case RIGHT:
-                    list.add(new BlockElement(new Vector3f(j + pos[0], i - pos[0], 7.5F), new Vector3f(j + pos[0], k - pos[0], 8.5F), map, null, true));
+                    list.add(new BlockElement(
+                            new Vector3f(j + pos[0], i - pos[0], 7.5F),
+                            new Vector3f(j + pos[0], k - pos[0], 8.5F),
+                            map,
+                            null,
+                            true));
             }
         }
 

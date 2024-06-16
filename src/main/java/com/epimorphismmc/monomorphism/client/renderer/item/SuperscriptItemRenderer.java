@@ -4,11 +4,10 @@ import com.epimorphismmc.monomorphism.Monomorphism;
 import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
 import com.epimorphismmc.monomorphism.item.component.INumberSuperscriptEffect;
 import com.epimorphismmc.monomorphism.item.component.IVoltageSuperscriptEffect;
+
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -19,6 +18,10 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -29,9 +32,12 @@ import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.bindTextur
 import static com.gregtechceu.gtceu.api.GTValues.VN;
 
 public class SuperscriptItemRenderer extends WrappedItemRenderer {
-    private final Int2ObjectOpenHashMap<ResourceLocation> voltageTextures = new Int2ObjectOpenHashMap<>();
-    private final Int2ObjectOpenHashMap<ResourceLocation> numberTextures = new Int2ObjectOpenHashMap<>();
-    private final Int2ObjectOpenHashMap<ResourceLocation> romaNumberTextures = new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectOpenHashMap<ResourceLocation> voltageTextures =
+            new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectOpenHashMap<ResourceLocation> numberTextures =
+            new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectOpenHashMap<ResourceLocation> romaNumberTextures =
+            new Int2ObjectOpenHashMap<>();
 
     public SuperscriptItemRenderer() {
         if (Platform.isClient()) {
@@ -41,11 +47,15 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void renderItem(ItemStack stack,
-                           ItemDisplayContext transformType,
-                           boolean leftHand, PoseStack poseStack,
-                           MultiBufferSource buffer, int combinedLight,
-                           int combinedOverlay, BakedModel model) {
+    public void renderItem(
+            ItemStack stack,
+            ItemDisplayContext transformType,
+            boolean leftHand,
+            PoseStack poseStack,
+            MultiBufferSource buffer,
+            int combinedLight,
+            int combinedOverlay,
+            BakedModel model) {
         model = getVanillaModel(stack, null, null);
         var texture = getTexture(stack);
         if (transformType == ItemDisplayContext.GUI && texture != null) {
@@ -53,7 +63,15 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
             Tesselator tess = Tesselator.getInstance();
 
             var buffers = MultiBufferSource.immediate(tess.getBuilder());
-            vanillaRender(stack, transformType, leftHand, poseStack, buffers, combinedLight, combinedOverlay, model);
+            vanillaRender(
+                    stack,
+                    transformType,
+                    leftHand,
+                    poseStack,
+                    buffers,
+                    combinedLight,
+                    combinedOverlay,
+                    model);
             buffers.endBatch();
 
             BufferBuilder buf = tess.getBuilder();
@@ -80,16 +98,18 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
 
             poseStack.popPose();
         } else {
-            vanillaRender(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
+            vanillaRender(
+                    stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
         }
     }
 
-    @Nullable
-    private ResourceLocation getTexture(ItemStack stack) {
+    @Nullable private ResourceLocation getTexture(ItemStack stack) {
         if (stack.getItem() instanceof IMOItemRendererProvider provider) {
             var info = provider.getRenderInfo(stack);
             if (info instanceof INumberSuperscriptEffect effect) {
-                return effect.isRoma() ? romaNumberTextures.get(effect.tier()) : numberTextures.get(effect.tier());
+                return effect.isRoma()
+                        ? romaNumberTextures.get(effect.tier())
+                        : numberTextures.get(effect.tier());
             }
 
             if (info instanceof IVoltageSuperscriptEffect effect) {
@@ -101,10 +121,12 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void onPrepareTextureAtlas(ResourceLocation atlasName, Consumer<ResourceLocation> register) {
+    public void onPrepareTextureAtlas(
+            ResourceLocation atlasName, Consumer<ResourceLocation> register) {
         if (atlasName.equals(InventoryMenu.BLOCK_ATLAS)) {
             for (int i = 0; i < 15; i++) {
-                var voltage = Monomorphism.id("superscript/voltage/%s".formatted(VN[i].toLowerCase(Locale.ROOT)));
+                var voltage =
+                        Monomorphism.id("superscript/voltage/%s".formatted(VN[i].toLowerCase(Locale.ROOT)));
                 register.accept(voltage);
                 voltageTextures.put(i, voltage);
 
@@ -119,4 +141,3 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
         }
     }
 }
-

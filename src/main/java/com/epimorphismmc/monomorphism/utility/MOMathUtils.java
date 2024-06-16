@@ -1,9 +1,10 @@
 package com.epimorphismmc.monomorphism.utility;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import org.joml.Vector3f;
 
 import java.util.concurrent.ThreadLocalRandom;

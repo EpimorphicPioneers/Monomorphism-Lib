@@ -1,17 +1,21 @@
 package com.epimorphismmc.monomorphism.machine.fancyconfigurator;
 
 import com.epimorphismmc.monomorphism.gui.MOGuiTextures;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
+
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.TankWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.misc.FluidStorage;
+
+import net.minecraft.network.chat.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,9 +23,12 @@ import java.util.List;
 @Accessors(chain = true)
 public class TankFancyConfigurator implements IFancyConfigurator {
     private final FluidStorage[] tanks;
+
     @Getter
     private final Component title;
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private List<Component> tooltips = Collections.emptyList();
 
     public TankFancyConfigurator(FluidStorage[] tanks, Component title) {

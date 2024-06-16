@@ -9,6 +9,7 @@ public class MOSyncedFieldAccessors {
     public static final IAccessor BIG_INTEGER_ACCESSOR = new BigIntegerAccessor();
 
     public static void init() {
-        TypedPayloadRegistries.register(StringPayload.class, StringPayload::new, BIG_INTEGER_ACCESSOR, -1);
+        TypedPayloadRegistries.register(
+                StringPayload.class, StringPayload::new, BIG_INTEGER_ACCESSOR, -1);
     }
 }

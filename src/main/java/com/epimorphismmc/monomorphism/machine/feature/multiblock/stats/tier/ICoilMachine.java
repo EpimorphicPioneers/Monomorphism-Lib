@@ -2,11 +2,14 @@ package com.epimorphismmc.monomorphism.machine.feature.multiblock.stats.tier;
 
 import com.epimorphismmc.monomorphism.machine.multiblock.MultiStatsElectricMultiblockMachine;
 import com.epimorphismmc.monomorphism.machine.trait.MultiblockStats;
+
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.common.block.CoilBlock;
+
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import lombok.Getter;
 
 public interface ICoilMachine extends IMachineFeature {
@@ -16,10 +19,11 @@ public interface ICoilMachine extends IMachineFeature {
 
     class CoilTierStats extends MultiblockStats implements ICoilMachine {
 
-        protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(CoilTierStats.class, MultiblockStats.MANAGED_FIELD_HOLDER);
+        protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER =
+                new ManagedFieldHolder(CoilTierStats.class, MultiblockStats.MANAGED_FIELD_HOLDER);
 
         @Getter
-        private ICoilType coilType  = CoilBlock.CoilType.CUPRONICKEL;
+        private ICoilType coilType = CoilBlock.CoilType.CUPRONICKEL;
 
         public CoilTierStats(MultiStatsElectricMultiblockMachine machine) {
             super(machine);

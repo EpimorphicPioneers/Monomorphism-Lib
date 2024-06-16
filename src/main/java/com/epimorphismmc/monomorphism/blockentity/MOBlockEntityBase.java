@@ -1,9 +1,11 @@
 package com.epimorphismmc.monomorphism.blockentity;
 
 import com.gregtechceu.gtceu.api.GTValues;
+
 import com.lowdragmc.lowdraglib.syncdata.IManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -11,7 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 @SuppressWarnings("unused")
 public abstract class MOBlockEntityBase extends BlockEntity implements IMOBlockEntity {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MOBlockEntityBase.class);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER =
+            new ManagedFieldHolder(MOBlockEntityBase.class);
 
     private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
     private final long offset = GTValues.RNG.nextInt(20);
@@ -20,8 +23,7 @@ public abstract class MOBlockEntityBase extends BlockEntity implements IMOBlockE
         super(type, pos, blockState);
     }
 
-    public static void onBlockEntityRegister(BlockEntityType<BlockEntity> blockEntityType) {
-    }
+    public static void onBlockEntityRegister(BlockEntityType<BlockEntity> blockEntityType) {}
 
     @Override
     public ManagedFieldHolder getFieldHolder() {

@@ -9,8 +9,10 @@ import java.math.BigInteger;
 public class BigIntStorage {
     @Setter
     private BigInteger storage;
-    @Getter @Nullable
-    private final BigInteger maxCapacity;
+
+    @Getter
+    @Nullable private final BigInteger maxCapacity;
+
     private long bufferInput;
     private long bufferOutput;
     private long capacityInput;
@@ -118,6 +120,8 @@ public class BigIntStorage {
             }
         }
 
-        this.capacityInput = maxCapacity != null ? BigIntMath.getLongValue(maxCapacity.subtract(storage)) : Long.MAX_VALUE;
+        this.capacityInput = maxCapacity != null
+                ? BigIntMath.getLongValue(maxCapacity.subtract(storage))
+                : Long.MAX_VALUE;
     }
 }

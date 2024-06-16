@@ -2,6 +2,7 @@ package com.epimorphismmc.monomorphism.block;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,7 +15,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MOMetaMachineBlock extends MetaMachineBlock {
     public MOMetaMachineBlock(Properties properties, MachineDefinition definition) {
         super(properties, definition);
-        this.registerDefaultState(this.stateDefinition.any().setValue(MOBlockProperties.STRUCTURE_TIER, 0));
+        this.registerDefaultState(
+                this.stateDefinition.any().setValue(MOBlockProperties.STRUCTURE_TIER, 0));
     }
 
     @Override

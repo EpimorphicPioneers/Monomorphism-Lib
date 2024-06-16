@@ -4,13 +4,17 @@ import com.epimorphismmc.monomorphism.datagen.lang.MOLangHandler;
 import com.epimorphismmc.monomorphism.proxy.ClientProxy;
 import com.epimorphismmc.monomorphism.proxy.CommonProxy;
 import com.epimorphismmc.monomorphism.registry.registrate.MORegistrate;
+
 import com.gregtechceu.gtceu.api.addon.AddonFinder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
+
 import com.lowdragmc.lowdraglib.networking.INetworking;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
+
 import org.slf4j.Logger;
 
 import static com.epimorphismmc.monomorphism.datagen.MOProviderTypes.*;

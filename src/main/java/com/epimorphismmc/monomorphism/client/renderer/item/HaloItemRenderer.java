@@ -4,12 +4,12 @@ import com.epimorphismmc.monomorphism.client.utils.AlphaVertexConsumer;
 import com.epimorphismmc.monomorphism.client.utils.ColorHelper;
 import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
 import com.epimorphismmc.monomorphism.item.component.IHaloEffect;
+
 import com.gregtechceu.gtceu.api.GTValues;
+
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -24,6 +24,10 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import org.joml.Matrix4f;
 
 import java.util.HashSet;
@@ -48,13 +52,18 @@ public class HaloItemRenderer extends WrappedItemRenderer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void renderItem(ItemStack stack,
-                           ItemDisplayContext transformType,
-                           boolean leftHand, PoseStack poseStack,
-                           MultiBufferSource buffer, int combinedLight,
-                           int combinedOverlay, BakedModel model) {
+    public void renderItem(
+            ItemStack stack,
+            ItemDisplayContext transformType,
+            boolean leftHand,
+            PoseStack poseStack,
+            MultiBufferSource buffer,
+            int combinedLight,
+            int combinedOverlay,
+            BakedModel model) {
         model = getVanillaModel(stack, null, null);
-        if (transformType == ItemDisplayContext.GUI && stack.getItem() instanceof IMOItemRendererProvider rendererItem) {
+        if (transformType == ItemDisplayContext.GUI
+                && stack.getItem() instanceof IMOItemRendererProvider rendererItem) {
 
             if (rendererItem.getRenderInfo(stack) instanceof IHaloEffect hri) {
                 Tesselator tess = Tesselator.getInstance();
@@ -64,7 +73,8 @@ public class HaloItemRenderer extends WrappedItemRenderer {
                 poseStack.pushPose();
                 RenderSystem.enableBlend();
                 RenderSystem.disableDepthTest();
-                RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                RenderSystem.blendFunc(
+                        GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
 
@@ -99,7 +109,15 @@ public class HaloItemRenderer extends WrappedItemRenderer {
                     poseStack.popPose();
                 }
 
-                vanillaRender(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
+                vanillaRender(
+                        stack,
+                        transformType,
+                        leftHand,
+                        poseStack,
+                        buffer,
+                        combinedLight,
+                        combinedOverlay,
+                        model);
 
                 if (hri.shouldDrawPulse()) {
                     poseStack.pushPose();
@@ -109,36 +127,73 @@ public class HaloItemRenderer extends WrappedItemRenderer {
                     poseStack.translate(trans, trans, 0);
                     poseStack.scale(scale, scale, 1.0001F);
 
-                    renderAlpha(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model, 0.6F);
+                    renderAlpha(
+                            stack,
+                            transformType,
+                            leftHand,
+                            poseStack,
+                            buffer,
+                            combinedLight,
+                            combinedOverlay,
+                            model,
+                            0.6F);
 
                     poseStack.popPose();
                 }
                 RenderSystem.enableDepthTest();
                 RenderSystem.disableBlend();
 
-            }else {
-                vanillaRender(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
+            } else {
+                vanillaRender(
+                        stack,
+                        transformType,
+                        leftHand,
+                        poseStack,
+                        buffer,
+                        combinedLight,
+                        combinedOverlay,
+                        model);
             }
 
-        }else {
-            vanillaRender(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
+        } else {
+            vanillaRender(
+                    stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void renderAlpha(ItemStack stack, ItemDisplayContext modelTransformationMode, boolean leftHanded, PoseStack matrices, MultiBufferSource buffer, int light, int overlay, BakedModel model, float alphaOverride) {
+    public static void renderAlpha(
+            ItemStack stack,
+            ItemDisplayContext modelTransformationMode,
+            boolean leftHanded,
+            PoseStack matrices,
+            MultiBufferSource buffer,
+            int light,
+            int overlay,
+            BakedModel model,
+            float alphaOverride) {
         if (!stack.isEmpty()) {
             model.getTransforms().getTransform(modelTransformationMode).apply(leftHanded, matrices);
             RenderType renderType = ItemBlockRenderTypes.getRenderType(stack, true);
-            VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(buffer, renderType, true, stack.hasFoil());
+            VertexConsumer vertexConsumer =
+                    ItemRenderer.getFoilBufferDirect(buffer, renderType, true, stack.hasFoil());
 
-            Minecraft.getInstance().getItemRenderer().renderModelLists(model, stack, light, overlay, matrices, new AlphaVertexConsumer(vertexConsumer, alphaOverride));
+            Minecraft.getInstance()
+                    .getItemRenderer()
+                    .renderModelLists(
+                            model,
+                            stack,
+                            light,
+                            overlay,
+                            matrices,
+                            new AlphaVertexConsumer(vertexConsumer, alphaOverride));
         }
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void onPrepareTextureAtlas(ResourceLocation atlasName, Consumer<ResourceLocation> register) {
+    public void onPrepareTextureAtlas(
+            ResourceLocation atlasName, Consumer<ResourceLocation> register) {
         if (atlasName.equals(InventoryMenu.BLOCK_ATLAS)) {
             textures.forEach(register);
         }

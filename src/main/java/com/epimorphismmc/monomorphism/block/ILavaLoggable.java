@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.block;
 
 import com.epimorphismmc.monomorphism.block.property.MOProperty;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -15,8 +16,9 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -27,7 +29,8 @@ public interface ILavaLoggable extends BucketPickup, LiquidBlockContainer {
     }
 
     @Override
-    default boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState state, FluidState fluid) {
+    default boolean placeLiquid(
+            LevelAccessor world, BlockPos pos, BlockState state, FluidState fluid) {
         if (this.canPlaceLiquid(world, pos, state, fluid.getType())) {
             if (!world.isClientSide()) {
                 world.setBlock(pos, MOProperty.Defaults.lavalogged().apply(state, true), 3);

@@ -1,12 +1,15 @@
 package com.epimorphismmc.monomorphism.machine.feature;
 
 import com.epimorphismmc.monomorphism.utility.MOUtils;
+
 import com.gregtechceu.gtceu.api.machine.feature.IDataInfoProvider;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.common.item.PortableScannerBehavior;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,9 +33,9 @@ public interface IOwnableMachine extends IMachineLife, IDataInfoProvider {
         setOwnerUUID(null);
     }
 
-    @NotNull
-    @Override
+    @NotNull @Override
     default List<Component> getDataInfo(PortableScannerBehavior.DisplayMode mode) {
-        return List.of(Component.translatable("monomorphism.machine.owner", MOUtils.getPlayerName(getOwnerUUID(), null)));
+        return List.of(Component.translatable(
+                "monomorphism.machine.owner", MOUtils.getPlayerName(getOwnerUUID(), null)));
     }
 }

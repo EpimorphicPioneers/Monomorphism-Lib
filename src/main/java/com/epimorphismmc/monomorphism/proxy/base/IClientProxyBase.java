@@ -17,9 +17,7 @@ public interface IClientProxyBase extends ICommonProxyBase {
         bus.addListener(this::registerGeometryLoaders);
     }
 
-    default void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
-
-    }
+    default void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {}
 
     @Override
     default Entity getRenderViewEntity() {
@@ -32,7 +30,7 @@ public interface IClientProxyBase extends ICommonProxyBase {
 
     @Override
     default RegistryAccess getRegistryAccess() {
-        if(this.getLogicalSide().isServer()) {
+        if (this.getLogicalSide().isServer()) {
             return this.getMinecraftServer().registryAccess();
         } else {
             Level client = this.getClientWorld();
@@ -53,7 +51,7 @@ public interface IClientProxyBase extends ICommonProxyBase {
     @Override
     default Level getWorldFromDimension(ResourceKey<Level> dimension) {
         LogicalSide effectiveSide = this.getLogicalSide();
-        if(effectiveSide == LogicalSide.SERVER) {
+        if (effectiveSide == LogicalSide.SERVER) {
             return getMinecraftServer().getLevel(dimension);
         } else {
             return getClientWorld();
@@ -62,7 +60,7 @@ public interface IClientProxyBase extends ICommonProxyBase {
 
     @Override
     default void queueTask(Runnable task) {
-        if(getLogicalSide() == LogicalSide.CLIENT) {
+        if (getLogicalSide() == LogicalSide.CLIENT) {
             Minecraft.getInstance().submit(task);
         } else {
             ICommonProxyBase.super.queueTask(task);

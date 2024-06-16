@@ -2,6 +2,7 @@ package com.epimorphismmc.monomorphism.utility;
 
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,11 +15,9 @@ import static com.lowdragmc.lowdraglib.side.fluid.forge.FluidHelperImpl.toFluidS
 public class MOFluidUtils {
 
     @OnlyIn(Dist.CLIENT)
-    @Nullable
-    public static TextureAtlasSprite getFlowingTexture(FluidStack fluidStack) {
-        var texture = IClientFluidTypeExtensions.of(fluidStack.getFluid()).getFlowingTexture(toFluidStack(fluidStack));
+    @Nullable public static TextureAtlasSprite getFlowingTexture(FluidStack fluidStack) {
+        var texture = IClientFluidTypeExtensions.of(fluidStack.getFluid())
+                .getFlowingTexture(toFluidStack(fluidStack));
         return texture == null ? null : ModelFactory.getBlockSprite(texture);
     }
-
-
 }

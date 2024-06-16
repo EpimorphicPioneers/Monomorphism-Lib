@@ -41,10 +41,11 @@ public class Combinatorics {
         @SuppressWarnings("unchecked")
         public <T> List<T>[][] map(IntFunction<T> mapper) {
             List<T>[][] out = new List[this.combinations.length][];
-            for(int i = 0; i < this.combinations.length; i++) {
+            for (int i = 0; i < this.combinations.length; i++) {
                 out[i] = new List[this.combinations[i].length];
-                for(int j = 0; j < this.combinations[i].length; j++) {
-                    out[i][j] = Arrays.stream(this.combinations[i][j]).mapToObj(mapper).collect(Collectors.toList());
+                for (int j = 0; j < this.combinations[i].length; j++) {
+                    out[i][j] =
+                            Arrays.stream(this.combinations[i][j]).mapToObj(mapper).collect(Collectors.toList());
                 }
             }
             return out;
@@ -53,14 +54,14 @@ public class Combinatorics {
         @SuppressWarnings("unchecked")
         public <T> List<T>[] map(Function<int[], T> mapper) {
             List<T>[] out = new List[this.combinations.length];
-            for(int i = 0; i < this.combinations.length; i++) {
+            for (int i = 0; i < this.combinations.length; i++) {
                 out[i] = Arrays.stream(this.combinations[i]).map(mapper).collect(Collectors.toList());
             }
             return out;
         }
 
         private void fillMap() {
-            for(int i = 0; i < this.combinations.length; i++) {
+            for (int i = 0; i < this.combinations.length; i++) {
                 this.combinations[i] = this.determineCombinationsForAmount(i);
             }
         }
@@ -68,30 +69,30 @@ public class Combinatorics {
         private int[][] determineCombinationsForAmount(int amount) {
             int[][] combinations = new int[this.getCombinationCount(amount)][];
             int[] reference = new int[amount];
-            for(int combinationIndex = 0; combinationIndex < combinations.length; combinationIndex++) {
+            for (int combinationIndex = 0; combinationIndex < combinations.length; combinationIndex++) {
                 int[] combination = new int[amount];
-                if(combinationIndex == 0) {
-                    for(int i = 0; i < amount; i++) {
+                if (combinationIndex == 0) {
+                    for (int i = 0; i < amount; i++) {
                         combination[i] = i;
                         reference[i] = i;
                     }
-                    if(amount > 0) {
+                    if (amount > 0) {
                         reference[amount - 1] = reference[amount - 1] + 1;
                     }
                 } else {
                     int index = amount - 1;
-                    for(int i = 0; i < amount; i++) {
+                    for (int i = 0; i < amount; i++) {
                         combination[i] = reference[i];
                     }
                     int counter = 1;
                     boolean flag = combination[index] >= (this.n - counter);
-                    while(flag && index > 0) {
+                    while (flag && index > 0) {
                         counter++;
-                        index = index - 1;
+                        index -= 1;
                         flag = reference[index] >= (this.n - counter);
                     }
                     reference[index] = reference[index] + 1;
-                    for(int i = index + 1; i < amount; i++) {
+                    for (int i = index + 1; i < amount; i++) {
                         reference[i] = reference[i - 1] + 1;
                     }
                 }
@@ -101,10 +102,10 @@ public class Combinatorics {
         }
 
         private int getCombinationCount(int i) {
-            if(i == 0) {
+            if (i == 0) {
                 return 1;
             }
-            return (getCombinationCount(i - 1) * (this.n - i + 1))/i;
+            return (getCombinationCount(i - 1) * (this.n - i + 1)) / i;
         }
     }
 }

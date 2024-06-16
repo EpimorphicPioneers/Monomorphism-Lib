@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.item.component;
 
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
+
 import net.minecraft.world.item.ItemStack;
 
 public interface IMODurabilityBar extends IDurabilityBar {

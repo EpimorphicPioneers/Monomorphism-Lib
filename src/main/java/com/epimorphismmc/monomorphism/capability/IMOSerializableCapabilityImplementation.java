@@ -4,7 +4,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IMOSerializableCapabilityImplementation<C extends ICapabilityProvider, V extends IMOSerializableCapabilityImplementation.Serializable<V>> extends IMOCapabilityImplementation<C, V> {
+public interface IMOSerializableCapabilityImplementation<
+                C extends ICapabilityProvider,
+                V extends IMOSerializableCapabilityImplementation.Serializable<V>>
+        extends IMOCapabilityImplementation<C, V> {
     @Override
     default IMOCapabilityImplementation.Serializer<V> getSerializer() {
         return new IMOCapabilityImplementation.Serializer<>() {

@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "com.epimorphismmc.monomorphism.mixins",
+  "plugin": "com.epimorphismmc.monomorphism.mixins.MOMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [

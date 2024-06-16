@@ -1,10 +1,12 @@
 package com.epimorphismmc.monomorphism;
 
 import com.epimorphismmc.monomorphism.proxy.base.ICommonProxyBase;
+
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLModContainer;
@@ -16,14 +18,22 @@ public abstract class MOGTAddon implements IGTAddon {
 
     public MOGTAddon(String modid) {
         this.modid = modid;
-        ModList.get().getModContainerById(modid)
+        var modList = ModList.get();
+        modList.getModObjectById(modid).ifPresentOrElse(this::setInstance, () -> modList
+                .getModContainerById(modid)
                 .map(FMLModContainer.class::cast)
                 .map(FMLModContainer::getEventBus)
-                .ifPresent(bus -> bus.addListener(this::onModConstructed));
+                .ifPresent(bus -> bus.addListener(this::onModConstructed)));
     }
 
     private void onModConstructed(FMLConstructModEvent event) {
-        Object object = ModList.get().getModObjectById(modid).orElseThrow(() -> new RuntimeException("Unable to get mod instance."));
+        Object object = ModList.get()
+                .getModObjectById(modid)
+                .orElseThrow(() -> new RuntimeException("Unable to get mod instance."));
+        setInstance(object);
+    }
+
+    private void setInstance(Object object) {
         if (object instanceof MOMod<? extends ICommonProxyBase>) {
             instance = (MOMod<? extends ICommonProxyBase>) object;
         } else {
@@ -70,5 +80,4 @@ public abstract class MOGTAddon implements IGTAddon {
     public void registerIndicatorGenerators() {
         instance.getProxy().registerIndicatorGenerators();
     }
-
 }

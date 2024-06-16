@@ -1,14 +1,12 @@
 package com.epimorphismmc.monomorphism.datagen.lang;
 
 import com.epimorphismmc.monomorphism.datagen.MOProviderTypes;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.providers.RegistrateLangProvider;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import com.tterrag.registrate.util.nullness.NonnullType;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
@@ -19,12 +17,18 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.providers.RegistrateLangProvider;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import com.tterrag.registrate.util.nullness.NonnullType;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.epimorphismmc.monomorphism.datagen.lang.MOLangHelper.getBlockKey;
 import static com.epimorphismmc.monomorphism.datagen.lang.MOLangHelper.getSubKey;
@@ -39,22 +43,26 @@ public class MOLangProvider extends RegistrateLangProvider {
             super(packOutput, modid, "zh_cn");
         }
 
-        public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String name, String tooltip) {
+        public void addBlockWithTooltip(
+                NonNullSupplier<? extends Block> block, String name, String tooltip) {
             addBlock(block, name);
             addTooltip(block, tooltip);
         }
 
-        public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String name, List<@NonnullType String> tooltip) {
+        public void addBlockWithTooltip(
+                NonNullSupplier<? extends Block> block, String name, List<@NonnullType String> tooltip) {
             addBlock(block, name);
             addTooltip(block, tooltip);
         }
 
-        public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String name, List<@NonnullType String> tooltip) {
+        public void addItemWithTooltip(
+                NonNullSupplier<? extends Item> item, String name, List<@NonnullType String> tooltip) {
             addItem(item, name);
             addTooltip(item, tooltip);
         }
 
-        public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String name, String tooltip) {
+        public void addItemWithTooltip(
+                NonNullSupplier<? extends Item> item, String name, String tooltip) {
             addItem(item, name);
             addTooltip(item, tooltip);
         }
@@ -63,7 +71,8 @@ public class MOLangProvider extends RegistrateLangProvider {
             add(item.get().asItem().getDescriptionId() + ".desc", tooltip);
         }
 
-        public void addTooltip(NonNullSupplier<? extends ItemLike> item, List<@NonnullType String> tooltip) {
+        public void addTooltip(
+                NonNullSupplier<? extends ItemLike> item, List<@NonnullType String> tooltip) {
             for (int i = 0; i < tooltip.size(); i++) {
                 add(item.get().asItem().getDescriptionId() + ".desc." + i, tooltip.get(i));
             }
@@ -74,7 +83,8 @@ public class MOLangProvider extends RegistrateLangProvider {
             if (contents instanceof TranslatableContents lang) {
                 add(lang.getKey(), name);
             } else {
-                throw new IllegalArgumentException("Creative tab does not have a translatable name: " + tab.getDisplayName());
+                throw new IllegalArgumentException(
+                        "Creative tab does not have a translatable name: " + tab.getDisplayName());
             }
         }
 
@@ -98,12 +108,14 @@ public class MOLangProvider extends RegistrateLangProvider {
         this.simplifiedChinese = new CNLanguageProvider(packOutput, owner.getModid());
     }
 
-    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String name, String tooltip) {
+    public void addItemWithTooltip(
+            NonNullSupplier<? extends Item> item, String name, String tooltip) {
         addItem(item, name);
         addTooltip(item, tooltip);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String name, List<@NonnullType String> tooltip) {
+    public void addBlockWithTooltip(
+            NonNullSupplier<? extends Block> block, String name, List<@NonnullType String> tooltip) {
         addBlock(block, name);
         addTooltip(block, tooltip);
     }
@@ -130,7 +142,11 @@ public class MOLangProvider extends RegistrateLangProvider {
         add(key, enText);
     }
 
-    public void addMultiLang(Function<Integer, String> keyGetter, Function<Integer, String> enTextGetter, Function<Integer, String> cnTextGetter, int... tiers) {
+    public void addMultiLang(
+            Function<Integer, String> keyGetter,
+            Function<Integer, String> enTextGetter,
+            Function<Integer, String> cnTextGetter,
+            int... tiers) {
         for (int tier : tiers) {
             var name = keyGetter.apply(tier);
             simplifiedChinese.add(name, cnTextGetter.apply(tier));
@@ -178,22 +194,37 @@ public class MOLangProvider extends RegistrateLangProvider {
         simplifiedChinese.addItem(item, cnName);
     }
 
-    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String enName, String cnName, String enTooltip, String cnTooltip) {
+    public void addItemWithTooltip(
+            NonNullSupplier<? extends Item> item,
+            String enName,
+            String cnName,
+            String enTooltip,
+            String cnTooltip) {
         simplifiedChinese.addItemWithTooltip(item, cnName, cnTooltip);
         addItemWithTooltip(item, enName, enTooltip);
     }
 
-    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String cnName, String enTooltip, String cnTooltip) {
+    public void addItemWithTooltip(
+            NonNullSupplier<? extends Item> item, String cnName, String enTooltip, String cnTooltip) {
         simplifiedChinese.addItemWithTooltip(item, cnName, cnTooltip);
         addTooltip(item, enTooltip);
     }
 
-    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String enName, String cnName, List<String> enTooltip, List<String> cnTooltip) {
+    public void addItemWithTooltip(
+            NonNullSupplier<? extends Item> item,
+            String enName,
+            String cnName,
+            List<String> enTooltip,
+            List<String> cnTooltip) {
         simplifiedChinese.addItemWithTooltip(item, cnName, cnTooltip);
         addItemWithTooltip(item, enName, enTooltip);
     }
 
-    public void addItemWithTooltip(NonNullSupplier<? extends Item> item, String cnName, List<String> enTooltip, List<String> cnTooltip) {
+    public void addItemWithTooltip(
+            NonNullSupplier<? extends Item> item,
+            String cnName,
+            List<String> enTooltip,
+            List<String> cnTooltip) {
         simplifiedChinese.addItemWithTooltip(item, cnName, cnTooltip);
         addTooltip(item, enTooltip);
     }
@@ -207,22 +238,37 @@ public class MOLangProvider extends RegistrateLangProvider {
         simplifiedChinese.addBlock(block, cnName);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String enName, String cnName, String enTooltip, String cnTooltip) {
+    public void addBlockWithTooltip(
+            NonNullSupplier<? extends Block> block,
+            String enName,
+            String cnName,
+            String enTooltip,
+            String cnTooltip) {
         simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
         addBlockWithTooltip(block, enName, enTooltip);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String cnName, String enTooltip, String cnTooltip) {
+    public void addBlockWithTooltip(
+            NonNullSupplier<? extends Block> block, String cnName, String enTooltip, String cnTooltip) {
         simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
         addTooltip(block, enTooltip);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String enName, String cnName, List<String> enTooltip, List<String> cnTooltip) {
+    public void addBlockWithTooltip(
+            NonNullSupplier<? extends Block> block,
+            String enName,
+            String cnName,
+            List<String> enTooltip,
+            List<String> cnTooltip) {
         simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
         addBlockWithTooltip(block, enName, enTooltip);
     }
 
-    public void addBlockWithTooltip(NonNullSupplier<? extends Block> block, String cnName, List<String> enTooltip, List<String> cnTooltip) {
+    public void addBlockWithTooltip(
+            NonNullSupplier<? extends Block> block,
+            String cnName,
+            List<String> enTooltip,
+            List<String> cnTooltip) {
         simplifiedChinese.addBlockWithTooltip(block, cnName, cnTooltip);
         addTooltip(block, enTooltip);
     }
@@ -232,14 +278,19 @@ public class MOLangProvider extends RegistrateLangProvider {
         add(getBlockKey(modid, blockName) + ".desc", enTooltip);
     }
 
-    public void addBlockWithTooltip(String blockName, List<String> enTooltip, List<String> cnTooltip) {
+    public void addBlockWithTooltip(
+            String blockName, List<String> enTooltip, List<String> cnTooltip) {
         for (int i = 0; i < cnTooltip.size(); i++) {
             simplifiedChinese.add(getBlockKey(modid, blockName) + ".desc." + i, cnTooltip.get(i));
             add(getBlockKey(modid, blockName) + ".desc." + i, enTooltip.get(i));
         }
     }
 
-    public void addTieredBlockName(Function<Integer, String> keyGetter, Function<Integer, String> enNameGetter, Function<Integer, String> cnNameGetter, int... tiers) {
+    public void addTieredBlockName(
+            Function<Integer, String> keyGetter,
+            Function<Integer, String> enNameGetter,
+            Function<Integer, String> cnNameGetter,
+            int... tiers) {
         for (int tier : tiers) {
             var name = getBlockKey(modid, keyGetter.apply(tier));
             simplifiedChinese.add(name, cnNameGetter.apply(tier));
@@ -247,7 +298,13 @@ public class MOLangProvider extends RegistrateLangProvider {
         }
     }
 
-    public void addTieredBlockWithTooltip(Function<Integer, String> keyGetter, Function<Integer, String> enNameGetter, Function<Integer, String> cnNameGetter, Function<Integer, String> enTooltipGetter, Function<Integer, String> cnTooltipGetter, int... tiers) {
+    public void addTieredBlockWithTooltip(
+            Function<Integer, String> keyGetter,
+            Function<Integer, String> enNameGetter,
+            Function<Integer, String> cnNameGetter,
+            Function<Integer, String> enTooltipGetter,
+            Function<Integer, String> cnTooltipGetter,
+            int... tiers) {
         for (int tier : tiers) {
             var name = getBlockKey(modid, keyGetter.apply(tier));
             simplifiedChinese.add(name, cnNameGetter.apply(tier));
@@ -257,11 +314,14 @@ public class MOLangProvider extends RegistrateLangProvider {
         }
     }
 
-    public void addTieredMachineName(String key, Function<Integer, String> cnNameGetter, int... tiers) {
-        addTieredMachineName(tier -> GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key, cnNameGetter, tiers);
+    public void addTieredMachineName(
+            String key, Function<Integer, String> cnNameGetter, int... tiers) {
+        addTieredMachineName(
+                tier -> GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key, cnNameGetter, tiers);
     }
 
-    public void addTieredMachineName(Function<Integer, String> keyGetter, Function<Integer, String> cnNameGetter, int... tiers) {
+    public void addTieredMachineName(
+            Function<Integer, String> keyGetter, Function<Integer, String> cnNameGetter, int... tiers) {
         for (int tier : tiers) {
             simplifiedChinese.add(getBlockKey(modid, keyGetter.apply(tier)), cnNameGetter.apply(tier));
         }
@@ -269,18 +329,23 @@ public class MOLangProvider extends RegistrateLangProvider {
 
     public void addTieredMachineName(String key, String cnName, int... tiers) {
         for (int tier : tiers) {
-            simplifiedChinese.add(getBlockKey(modid, GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key), "%s§r%s".formatted(GTValues.VNF[tier], cnName));
+            simplifiedChinese.add(
+                    getBlockKey(modid, GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + key),
+                    "%s§r%s".formatted(GTValues.VNF[tier], cnName));
         }
     }
 
-    public void addTooltip(NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
+    public void addTooltip(
+            NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
         simplifiedChinese.addTooltip(item, cnTooltip);
         addTooltip(item, enTooltip);
     }
 
-    public void addShiftTooltip(NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
+    public void addShiftTooltip(
+            NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
         for (int i = 0; i < cnTooltip.size(); i++) {
-            simplifiedChinese.add(item.get().asItem().getDescriptionId() + ".shift_desc." + i, cnTooltip.get(i));
+            simplifiedChinese.add(
+                    item.get().asItem().getDescriptionId() + ".shift_desc." + i, cnTooltip.get(i));
         }
 
         for (int i = 0; i < enTooltip.size(); i++) {
@@ -288,9 +353,11 @@ public class MOLangProvider extends RegistrateLangProvider {
         }
     }
 
-    public void addCtrlTooltip(NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
+    public void addCtrlTooltip(
+            NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
         for (int i = 0; i < cnTooltip.size(); i++) {
-            simplifiedChinese.add(item.get().asItem().getDescriptionId() + ".ctrl_desc." + i, cnTooltip.get(i));
+            simplifiedChinese.add(
+                    item.get().asItem().getDescriptionId() + ".ctrl_desc." + i, cnTooltip.get(i));
         }
 
         for (int i = 0; i < enTooltip.size(); i++) {
@@ -298,9 +365,11 @@ public class MOLangProvider extends RegistrateLangProvider {
         }
     }
 
-    public void addAltTooltip(NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
+    public void addAltTooltip(
+            NonNullSupplier<? extends ItemLike> item, List<String> enTooltip, List<String> cnTooltip) {
         for (int i = 0; i < cnTooltip.size(); i++) {
-            simplifiedChinese.add(item.get().asItem().getDescriptionId() + ".alt_desc." + i, cnTooltip.get(i));
+            simplifiedChinese.add(
+                    item.get().asItem().getDescriptionId() + ".alt_desc." + i, cnTooltip.get(i));
         }
 
         for (int i = 0; i < enTooltip.size(); i++) {
@@ -322,5 +391,4 @@ public class MOLangProvider extends RegistrateLangProvider {
         simplifiedChinese.add(tagPrefix.getUnlocalizedName(), cnName);
         add(tagPrefix.getUnlocalizedName(), enName);
     }
-
 }

@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.proxy;
 import com.epimorphismmc.monomorphism.block.MOBlockMaps;
 import com.epimorphismmc.monomorphism.capability.CapabilityHandler;
 import com.epimorphismmc.monomorphism.proxy.base.ICommonProxyBase;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -21,12 +22,8 @@ public class CommonProxy implements ICommonProxyBase {
     }
 
     @Override
-    public void registerEventHandlers() {
-
-    }
+    public void registerEventHandlers() {}
 
     @Override
-    public void registerCapabilities() {
-
-    }
+    public void registerCapabilities() {}
 }

@@ -5,5 +5,7 @@ public interface ITierBlock {
         return null;
     }
 
-    default void setTierType(ITierType type) {/**/}
+    default void setTierType(ITierType type) {
+        /**/
+    }
 }

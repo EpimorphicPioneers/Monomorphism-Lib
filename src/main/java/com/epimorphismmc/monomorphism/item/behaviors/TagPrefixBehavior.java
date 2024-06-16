@@ -6,7 +6,9 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.ICustomDescriptionId;
 import com.gregtechceu.gtceu.client.renderer.item.TagPrefixItemRenderer;
+
 import com.lowdragmc.lowdraglib.Platform;
+
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -15,6 +17,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,12 +36,17 @@ public class TagPrefixBehavior implements IAddInformation, ICustomDescriptionId 
     @Override
     public void onAttached(Item item) {
         if (Platform.isClient()) {
-            TagPrefixItemRenderer.create(item, tagPrefix.materialIconType(), material.getMaterialIconSet());
+            TagPrefixItemRenderer.create(
+                    item, tagPrefix.materialIconType(), material.getMaterialIconSet());
         }
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+    public void appendHoverText(
+            ItemStack stack,
+            @Nullable Level level,
+            List<Component> tooltipComponents,
+            TooltipFlag isAdvanced) {
         if (this.tagPrefix.tooltip() != null) {
             this.tagPrefix.tooltip().accept(material, tooltipComponents);
         }
@@ -60,8 +68,7 @@ public class TagPrefixBehavior implements IAddInformation, ICustomDescriptionId 
         };
     }
 
-    @Nullable
-    public static TagPrefixBehavior getBehaviour(@NotNull ItemStack itemStack) {
+    @Nullable public static TagPrefixBehavior getBehaviour(@NotNull ItemStack itemStack) {
         if (itemStack.getItem() instanceof ComponentItem componentItem) {
             for (var component : componentItem.getComponents()) {
                 if (component instanceof TagPrefixBehavior behaviour) {

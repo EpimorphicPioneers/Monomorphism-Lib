@@ -1,11 +1,14 @@
 package com.epimorphismmc.monomorphism.mixins.gtm;
 
 import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
+
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
+
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

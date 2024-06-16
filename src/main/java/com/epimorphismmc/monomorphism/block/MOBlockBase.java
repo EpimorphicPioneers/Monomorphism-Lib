@@ -2,7 +2,7 @@ package com.epimorphismmc.monomorphism.block;
 
 import com.epimorphismmc.monomorphism.block.property.MOProperty;
 import com.epimorphismmc.monomorphism.block.property.MOPropertyConfiguration;
-import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -19,7 +19,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
-import javax.annotation.Nonnull;
+import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
+
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -29,11 +30,13 @@ public abstract class MOBlockBase extends Block implements IMOBlock {
 
     public MOBlockBase(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.getPropertyConfiguration().defineDefault(this.getStateDefinition().any()));
+        this.registerDefaultState(
+                this.getPropertyConfiguration().defineDefault(this.getStateDefinition().any()));
     }
 
     @Override
-    protected final void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected final void createBlockStateDefinition(
+            StateDefinition.Builder<Block, BlockState> builder) {
         this.getPropertyConfiguration().fillStateContainer(builder);
     }
 
@@ -57,17 +60,17 @@ public abstract class MOBlockBase extends Block implements IMOBlock {
     @Deprecated
     @SuppressWarnings("deprecation")
     public FluidState getFluidState(BlockState state) {
-        if(this.getPropertyConfiguration().isWaterLoggable()) {
-            if(MOProperty.Defaults.waterlogged().fetch(state)) {
+        if (this.getPropertyConfiguration().isWaterLoggable()) {
+            if (MOProperty.Defaults.waterlogged().fetch(state)) {
                 return Fluids.WATER.getSource(false);
             }
         }
-        if(this.getPropertyConfiguration().isLavaLoggable()) {
-            if(MOProperty.Defaults.lavalogged().fetch(state)) {
+        if (this.getPropertyConfiguration().isLavaLoggable()) {
+            if (MOProperty.Defaults.lavalogged().fetch(state)) {
                 return Fluids.LAVA.getSource(false);
             }
         }
-        if(this.getPropertyConfiguration().isFluidLoggable()) {
+        if (this.getPropertyConfiguration().isFluidLoggable()) {
             return MOProperty.Defaults.fluidlogged().fetch(state).getFluid().defaultFluidState();
         }
         return super.getFluidState(state);
@@ -76,16 +79,24 @@ public abstract class MOBlockBase extends Block implements IMOBlock {
     @Override
     @Deprecated
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(BlockState ownState, Direction dir, BlockState otherState, LevelAccessor world, BlockPos pos, BlockPos otherPos) {
-        if (this.getPropertyConfiguration().isWaterLoggable() && MOProperty.Defaults.waterlogged().fetch(ownState)) {
+    public BlockState updateShape(
+            BlockState ownState,
+            Direction dir,
+            BlockState otherState,
+            LevelAccessor world,
+            BlockPos pos,
+            BlockPos otherPos) {
+        if (this.getPropertyConfiguration().isWaterLoggable()
+                && MOProperty.Defaults.waterlogged().fetch(ownState)) {
             world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
-        if (this.getPropertyConfiguration().isLavaLoggable() && MOProperty.Defaults.lavalogged().fetch(ownState)) {
+        if (this.getPropertyConfiguration().isLavaLoggable()
+                && MOProperty.Defaults.lavalogged().fetch(ownState)) {
             world.scheduleTick(pos, Fluids.LAVA, Fluids.LAVA.getTickDelay(world));
         }
         if (this.getPropertyConfiguration().isFluidLoggable()) {
             Fluid fluid = MOProperty.Defaults.fluidlogged().fetch(ownState).getFluid();
-            if(fluid != Fluids.EMPTY) {
+            if (fluid != Fluids.EMPTY) {
                 world.scheduleTick(pos, fluid, fluid.getTickDelay(world));
             }
         }
@@ -93,28 +104,30 @@ public abstract class MOBlockBase extends Block implements IMOBlock {
     }
 
     public final BlockState fluidlog(BlockState state, Level world, BlockPos pos) {
-        if(this.getPropertyConfiguration().isWaterLoggable()) {
+        if (this.getPropertyConfiguration().isWaterLoggable()) {
             FluidState fluid = world.getFluidState(pos);
             state = MOProperty.Defaults.waterlogged().apply(state, fluid.getType() == Fluids.WATER);
         }
-        if(this.getPropertyConfiguration().isLavaLoggable()) {
+        if (this.getPropertyConfiguration().isLavaLoggable()) {
             FluidState fluid = world.getFluidState(pos);
             state = MOProperty.Defaults.lavalogged().apply(state, fluid.getType() == Fluids.LAVA);
         }
-        if(this.getPropertyConfiguration().isFluidLoggable()) {
+        if (this.getPropertyConfiguration().isFluidLoggable()) {
             FluidState fluid = world.getFluidState(pos);
             state = MOProperty.Defaults.fluidlogged().apply(state, MOProperty.FluidLogged.get(fluid));
         }
         return state;
     }
 
-    public boolean addToInventoryOrDrop(ItemStack stack, Level world, BlockPos pos, @Nullable Player player) {
-        if(player != null) {
-            if(player.addItem(stack)) {
+    public boolean addToInventoryOrDrop(
+            ItemStack stack, Level world, BlockPos pos, @Nullable Player player) {
+        if (player != null) {
+            if (player.addItem(stack)) {
                 return true;
             }
         }
-        ItemEntity entity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, stack);
+        ItemEntity entity =
+                new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, stack);
         return world.addFreshEntity(entity);
     }
 }

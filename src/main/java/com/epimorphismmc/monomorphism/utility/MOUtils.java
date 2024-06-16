@@ -1,11 +1,13 @@
 package com.epimorphismmc.monomorphism.utility;
 
 import com.epimorphismmc.monomorphism.Monomorphism;
-import com.mojang.authlib.GameProfile;
+
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+
+import com.mojang.authlib.GameProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,30 +17,30 @@ import java.util.function.Supplier;
 
 public class MOUtils {
     //  Utils
-    public static int getOrDefault(CompoundTag tag, String key, int defaultValue){
-        if(tag.contains(key)){
+    public static int getOrDefault(CompoundTag tag, String key, int defaultValue) {
+        if (tag.contains(key)) {
             return tag.getInt(key);
         }
         return defaultValue;
     }
 
-    public static <T> T getOrDefault(BooleanSupplier canGet, Supplier<T> getter, T defaultValue){
+    public static <T> T getOrDefault(BooleanSupplier canGet, Supplier<T> getter, T defaultValue) {
         return canGet.getAsBoolean() ? getter.get() : defaultValue;
     }
 
-    public static <T> T getOrDefault(List<T> canGet, int index, T defaultValue){
+    public static <T> T getOrDefault(List<T> canGet, int index, T defaultValue) {
         return index < canGet.size() ? canGet.get(index) : defaultValue;
     }
 
-    public static <T> T getOrDefault(T[] canGet, int index, T defaultValue){
+    public static <T> T getOrDefault(T[] canGet, int index, T defaultValue) {
         return index < canGet.length ? canGet[index] : defaultValue;
     }
 
-    public static <T> T getOrLast(List<T> canGet, int index){
+    public static <T> T getOrLast(List<T> canGet, int index) {
         return getOrDefault(canGet, index, canGet.get(canGet.size() - 1));
     }
 
-    public static <T> T getOrLast(T[] canGet, int index){
+    public static <T> T getOrLast(T[] canGet, int index) {
         return getOrDefault(canGet, index, canGet[canGet.length - 1]);
     }
 
@@ -64,24 +66,23 @@ public class MOUtils {
     }
 
     //  Set Utils
-    public static int intValueOfBitSet(BitSet set){
+    public static int intValueOfBitSet(BitSet set) {
         int result = 0;
-        for(int i = 0; i<set.length();i++){
-            result = result | (set.get(i)?1:0) << i;
+        for (int i = 0; i < set.length(); i++) {
+            result = result | (set.get(i) ? 1 : 0) << i;
         }
         return result;
     }
 
-    public static BitSet forIntToBitSet(int i,int length){
-        return forIntToBitSet(i,length,new BitSet(length));
+    public static BitSet forIntToBitSet(int i, int length) {
+        return forIntToBitSet(i, length, new BitSet(length));
     }
 
-    public static BitSet forIntToBitSet(int i,int length,BitSet result){
-        for(int j = 0;j<length;j++){
-            if(((i & ( 0b1 << j)) / ( 0b1 << j)) == 1){
+    public static BitSet forIntToBitSet(int i, int length, BitSet result) {
+        for (int j = 0; j < length; j++) {
+            if (((i & (0b1 << j)) / (0b1 << j)) == 1) {
                 result.set(j);
-            }
-            else {
+            } else {
                 result.clear(j);
             }
         }
@@ -90,7 +91,7 @@ public class MOUtils {
 
     //  Array Utils
     public static <T> void add(T[] a, T val) {
-        for(int i = 0; i < a.length; ++i) {
+        for (int i = 0; i < a.length; ++i) {
             if (a[i] == null) {
                 a[i] = val;
                 return;
@@ -121,14 +122,14 @@ public class MOUtils {
             throw new IllegalArgumentException();
         }
         if (status == 1) {
-            //1向左移(index-1) 和10010 或
+            // 1向左移(index-1) 和10010 或
             return (1 << (index - 1)) | num;
         } else {
-            //先判断原来是不是0,原来是0则直接返回
-            if (!getStatusType(num,index)){
+            // 先判断原来是不是0,原来是0则直接返回
+            if (!getStatusType(num, index)) {
                 return num;
             }
-            //10010 - 1向左移(index-1)
+            // 10010 - 1向左移(index-1)
             return num - (1 << (index - 1));
         }
     }
@@ -142,11 +143,12 @@ public class MOUtils {
     }
 
     public static String getPlayerName(@NotNull UUID playerId, @Nullable ServerPlayer player) {
-        return player != null ? player.getDisplayName().getString() :
-                Optional.ofNullable(Monomorphism.instance.getMinecraftServer())
-                .map(MinecraftServer::getProfileCache)
-                .flatMap(cache -> cache.get(playerId))
-                .map(GameProfile::getName)
-                .orElse("[Anonymous]");
+        return player != null
+                ? player.getDisplayName().getString()
+                : Optional.ofNullable(Monomorphism.instance.getMinecraftServer())
+                        .map(MinecraftServer::getProfileCache)
+                        .flatMap(cache -> cache.get(playerId))
+                        .map(GameProfile::getName)
+                        .orElse("[Anonymous]");
     }
 }

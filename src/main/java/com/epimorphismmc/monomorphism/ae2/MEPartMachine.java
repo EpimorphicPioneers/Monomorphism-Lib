@@ -1,49 +1,64 @@
 package com.epimorphismmc.monomorphism.ae2;
 
-import appeng.api.networking.*;
-import appeng.api.networking.security.IActionSource;
-import appeng.me.helpers.BlockEntityNodeListener;
-import appeng.me.helpers.IGridConnectedBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.ae2.util.SerializableManagedGridNode;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.ReadOnlyManaged;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import lombok.Getter;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import appeng.api.networking.*;
+import appeng.api.networking.security.IActionSource;
+import appeng.me.helpers.BlockEntityNodeListener;
+import appeng.me.helpers.IGridConnectedBlockEntity;
+import lombok.Getter;
+
 import java.util.EnumSet;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine.ME_UPDATE_INTERVAL;
 
 @SuppressWarnings("unused")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEPartMachine extends TieredIOPartMachine implements IInWorldGridNodeHost, IGridConnectedBlockEntity {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
+public class MEPartMachine extends TieredIOPartMachine
+        implements IInWorldGridNodeHost, IGridConnectedBlockEntity {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER =
+            new ManagedFieldHolder(MEPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Persisted
-    @ReadOnlyManaged(onDirtyMethod = "onGridNodeDirty", serializeMethod = "serializeGridNode", deserializeMethod = "deserializeGridNode")
-    private final SerializableManagedGridNode mainNode = (SerializableManagedGridNode) createMainNode()
-            .setFlags(GridFlags.REQUIRE_CHANNEL)
-            .setVisualRepresentation(getDefinition().getItem())
-            .setIdlePowerUsage(ConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage)
-            .setInWorldNode(true)
-            .setExposedOnSides(this.hasFrontFacing() ? EnumSet.of(this.getFrontFacing()) : EnumSet.allOf(Direction.class))
-            .setTagName("proxy");
+    @ReadOnlyManaged(
+            onDirtyMethod = "onGridNodeDirty",
+            serializeMethod = "serializeGridNode",
+            deserializeMethod = "deserializeGridNode")
+    private final SerializableManagedGridNode mainNode =
+            (SerializableManagedGridNode) createMainNode()
+                    .setFlags(GridFlags.REQUIRE_CHANNEL)
+                    .setVisualRepresentation(getDefinition().getItem())
+                    .setIdlePowerUsage(ConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage)
+                    .setInWorldNode(true)
+                    .setExposedOnSides(
+                            this.hasFrontFacing()
+                                    ? EnumSet.of(this.getFrontFacing())
+                                    : EnumSet.allOf(Direction.class))
+                    .setTagName("proxy");
+
     protected final IActionSource actionSource = IActionSource.ofMachine(mainNode::getNode);
 
     private IGrid aeProxy;
+
     @DescSynced
     protected boolean isOnline;
 
@@ -52,7 +67,7 @@ public class MEPartMachine extends TieredIOPartMachine implements IInWorldGridNo
     }
 
     //////////////////////////////////////
-    //*****     Initialization    ******//
+    // *****     Initialization    ******//
     //////////////////////////////////////
 
     @Override
@@ -78,7 +93,7 @@ public class MEPartMachine extends TieredIOPartMachine implements IInWorldGridNo
     }
 
     //////////////////////////////////////
-    //************    ME    ************//
+    // ************    ME    ************//
     //////////////////////////////////////
 
     protected boolean shouldSyncME() {
@@ -125,11 +140,9 @@ public class MEPartMachine extends TieredIOPartMachine implements IInWorldGridNo
     }
 
     @Override
-    public void setFrontFacing(Direction facing) {
-        super.setFrontFacing(facing);
-        if (facing == getFrontFacing()) {
-            this.mainNode.setExposedOnSides(EnumSet.of(facing));
-        }
+    public void onRotated(Direction oldFacing, Direction newFacing) {
+        super.onRotated(oldFacing, newFacing);
+        getMainNode().setExposedOnSides(EnumSet.of(newFacing));
     }
 
     @Override

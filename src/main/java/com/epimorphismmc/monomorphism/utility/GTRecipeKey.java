@@ -2,19 +2,23 @@ package com.epimorphismmc.monomorphism.utility;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
 public record GTRecipeKey(ResourceLocation id, int duration, long eut) {
 
     GTRecipeKey(GTRecipe recipe) {
-        this(recipe.id, recipe.duration, RecipeHelper.getInputEUt(recipe) + RecipeHelper.getOutputEUt(recipe));
+        this(
+                recipe.id,
+                recipe.duration,
+                RecipeHelper.getInputEUt(recipe) + RecipeHelper.getOutputEUt(recipe));
     }
 
     public boolean matches(GTRecipe recipe) {
         return duration == recipe.duration
-            && id.equals(recipe.id)
-            && eut == RecipeHelper.getInputEUt(recipe) + RecipeHelper.getOutputEUt(recipe);
+                && id.equals(recipe.id)
+                && eut == RecipeHelper.getInputEUt(recipe) + RecipeHelper.getOutputEUt(recipe);
     }
 
     public static GTRecipeKey create(GTRecipe recipe) {
@@ -23,10 +27,7 @@ public record GTRecipeKey(ResourceLocation id, int duration, long eut) {
 
     public static GTRecipeKey fromTag(CompoundTag tag) {
         return new GTRecipeKey(
-            ResourceLocation.tryParse(tag.getString("id")),
-            tag.getInt("dur"),
-            tag.getLong("eut")
-        );
+                ResourceLocation.tryParse(tag.getString("id")), tag.getInt("dur"), tag.getLong("eut"));
     }
 
     public CompoundTag toTag() {

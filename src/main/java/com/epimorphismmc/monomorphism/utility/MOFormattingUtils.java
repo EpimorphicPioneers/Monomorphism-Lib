@@ -14,7 +14,9 @@ public class MOFormattingUtils {
     public static final DecimalFormat DECIMAL_FORMAT_SIC = new DecimalFormat("0E00");
 
     private static final TreeMap<BigDecimal, String> UNITS = new TreeMap<>();
-    private static final String[] UNIT_SUFFIXES = {"", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q", ""};
+    private static final String[] UNIT_SUFFIXES = {
+        "", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q", ""
+    };
 
     static {
         for (int i = 1; i < UNIT_SUFFIXES.length; i++) {

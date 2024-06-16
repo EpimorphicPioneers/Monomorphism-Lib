@@ -4,15 +4,18 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.gui.widget.EnumSelectorWidget;
 import com.gregtechceu.gtceu.data.lang.LangHandler;
+
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
-import lombok.Setter;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -23,24 +26,26 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class EnumSelector<T extends Enum<T> & EnumSelectorWidget.SelectableEnum> implements IFancyConfiguratorButton {
+public class EnumSelector<T extends Enum<T> & EnumSelectorWidget.SelectableEnum>
+        implements IFancyConfiguratorButton {
 
     @Setter
     protected Int2ObjectFunction<IGuiTexture> texture;
 
     @Setter
     protected int range;
+
     private final List<T> values;
     private final Supplier<T> supplier;
     private final Consumer<T> onChanged;
 
     private int index = 0;
 
-    private BiFunction<T, IGuiTexture, IGuiTexture> textureSupplier = (value, texture) ->
-            new GuiTextureGroup(GuiTextures.VANILLA_BUTTON, texture);
+    private BiFunction<T, IGuiTexture, IGuiTexture> textureSupplier =
+            (value, texture) -> new GuiTextureGroup(GuiTextures.VANILLA_BUTTON, texture);
 
-    private BiFunction<T, String, List<Component>> tooltipSupplier = (value, key) ->
-            List.copyOf(LangHandler.getSingleOrMultiLang(key));
+    private BiFunction<T, String, List<Component>> tooltipSupplier =
+            (value, key) -> List.copyOf(LangHandler.getSingleOrMultiLang(key));
 
     public EnumSelector(T[] values, Supplier<T> supplier, Consumer<T> onChanged) {
         this(Arrays.asList(values), supplier, onChanged);
@@ -109,12 +114,14 @@ public class EnumSelector<T extends Enum<T> & EnumSelectorWidget.SelectableEnum>
         return textureSupplier.apply(selectedValue, selectedValue.getIcon());
     }
 
-    public EnumSelector<T> setTextureSupplier(BiFunction<T, IGuiTexture, IGuiTexture> textureSupplier) {
+    public EnumSelector<T> setTextureSupplier(
+            BiFunction<T, IGuiTexture, IGuiTexture> textureSupplier) {
         this.textureSupplier = textureSupplier;
         return this;
     }
 
-    public EnumSelector<T> setTooltipSupplier(BiFunction<T, String, List<Component>> tooltipSupplier) {
+    public EnumSelector<T> setTooltipSupplier(
+            BiFunction<T, String, List<Component>> tooltipSupplier) {
         this.tooltipSupplier = tooltipSupplier;
         return this;
     }

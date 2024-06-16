@@ -1,9 +1,10 @@
 package com.epimorphismmc.monomorphism.pattern;
 
-import com.google.common.base.Joiner;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+
+import com.google.common.base.Joiner;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,7 +23,8 @@ public class FactoryMOPattern {
     private int aisleHeight;
     private int rowWidth;
 
-    private FactoryMOPattern(RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
+    private FactoryMOPattern(
+            RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
         depth = new ArrayList<>();
         aisleRepetitions = new ArrayList<>();
         symbolMap = new HashMap<>();
@@ -53,11 +55,14 @@ public class FactoryMOPattern {
             }
 
             if (aisle.length != this.aisleHeight) {
-                throw new IllegalArgumentException("Expected aisle with height of " + this.aisleHeight + ", but was given one with a height of " + aisle.length + ")");
+                throw new IllegalArgumentException("Expected aisle with height of " + this.aisleHeight
+                        + ", but was given one with a height of " + aisle.length + ")");
             } else {
                 for (String s : aisle) {
                     if (s.length() != this.rowWidth) {
-                        throw new IllegalArgumentException("Not all rows in the given aisle are the correct width (expected " + this.rowWidth + ", found one with " + s.length() + ")");
+                        throw new IllegalArgumentException(
+                                "Not all rows in the given aisle are the correct width (expected " + this.rowWidth
+                                        + ", found one with " + s.length() + ")");
                     }
 
                     for (char c0 : s.toCharArray()) {
@@ -69,8 +74,9 @@ public class FactoryMOPattern {
 
                 this.depth.add(aisle);
                 if (minRepeat > maxRepeat)
-                    throw new IllegalArgumentException("Lower bound of repeat counting must smaller than upper bound!");
-                aisleRepetitions.add(new int[]{minRepeat, maxRepeat});
+                    throw new IllegalArgumentException(
+                            "Lower bound of repeat counting must smaller than upper bound!");
+                aisleRepetitions.add(new int[] {minRepeat, maxRepeat});
                 return this;
             }
         } else {
@@ -90,8 +96,9 @@ public class FactoryMOPattern {
      */
     public FactoryMOPattern setRepeatable(int minRepeat, int maxRepeat) {
         if (minRepeat > maxRepeat)
-            throw new IllegalArgumentException("Lower bound of repeat counting must smaller than upper bound!");
-        aisleRepetitions.set(aisleRepetitions.size() - 1, new int[]{minRepeat, maxRepeat});
+            throw new IllegalArgumentException(
+                    "Lower bound of repeat counting must smaller than upper bound!");
+        aisleRepetitions.set(aisleRepetitions.size() - 1, new int[] {minRepeat, maxRepeat});
         return this;
     }
 
@@ -103,10 +110,12 @@ public class FactoryMOPattern {
     }
 
     public static FactoryMOPattern start() {
-        return new FactoryMOPattern(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT);
+        return new FactoryMOPattern(
+                RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT);
     }
 
-    public static FactoryMOPattern start(RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
+    public static FactoryMOPattern start(
+            RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
         return new FactoryMOPattern(charDir, stringDir, aisleDir);
     }
 
@@ -115,7 +124,7 @@ public class FactoryMOPattern {
     }
 
     public FactoryMOPattern where(char symbol, TraceabilityPredicate blockMatcher) {
-        if (blockMatcher.isAny()|| blockMatcher.isAir()) {
+        if (blockMatcher.isAny() || blockMatcher.isAir()) {
             this.symbolMap.put(symbol, blockMatcher);
         } else {
             this.symbolMap.put(symbol, new TraceabilityPredicate(blockMatcher).sort());
@@ -130,15 +139,19 @@ public class FactoryMOPattern {
     public MOBlockPattern build(int tier) {
         this.checkMissingPredicates();
         int[] centerOffset = new int[5];
-        int[][] aisleRepetitions = this.aisleRepetitions.toArray(new int[this.aisleRepetitions.size()][]);
-        TraceabilityPredicate[][][] predicate = (TraceabilityPredicate[][][]) Array.newInstance(TraceabilityPredicate.class, this.depth.size(), this.aisleHeight, this.rowWidth);
+        int[][] aisleRepetitions =
+                this.aisleRepetitions.toArray(new int[this.aisleRepetitions.size()][]);
+        TraceabilityPredicate[][][] predicate = (TraceabilityPredicate[][][]) Array.newInstance(
+                TraceabilityPredicate.class, this.depth.size(), this.aisleHeight, this.rowWidth);
 
-        for (int i = 0, minZ = 0, maxZ = 0; i < this.depth.size(); minZ += aisleRepetitions[i][0], maxZ += aisleRepetitions[i][1], i++) {
+        for (int i = 0, minZ = 0, maxZ = 0;
+                i < this.depth.size();
+                minZ += aisleRepetitions[i][0], maxZ += aisleRepetitions[i][1], i++) {
             for (int j = 0; j < this.aisleHeight; j++) {
                 for (int k = 0; k < this.rowWidth; k++) {
                     predicate[i][j][k] = this.symbolMap.get(this.depth.get(i)[j].charAt(k));
                     if (predicate[i][j][k].isController) {
-                        centerOffset = new int[]{k, j, i, minZ, maxZ};
+                        centerOffset = new int[] {k, j, i, minZ, maxZ};
                     }
                 }
             }
@@ -149,7 +162,8 @@ public class FactoryMOPattern {
 
     private TraceabilityPredicate[][][] makePredicateArray() {
         this.checkMissingPredicates();
-        TraceabilityPredicate[][][] predicate = (TraceabilityPredicate[][][]) Array.newInstance(TraceabilityPredicate.class, this.depth.size(), this.aisleHeight, this.rowWidth);
+        TraceabilityPredicate[][][] predicate = (TraceabilityPredicate[][][]) Array.newInstance(
+                TraceabilityPredicate.class, this.depth.size(), this.aisleHeight, this.rowWidth);
 
         for (int i = 0; i < this.depth.size(); ++i) {
             for (int j = 0; j < this.aisleHeight; ++j) {
@@ -172,7 +186,8 @@ public class FactoryMOPattern {
         }
 
         if (!list.isEmpty()) {
-            throw new IllegalStateException("Predicates for character(s) " + COMMA_JOIN.join(list) + " are missing");
+            throw new IllegalStateException(
+                    "Predicates for character(s) " + COMMA_JOIN.join(list) + " are missing");
         }
     }
 }

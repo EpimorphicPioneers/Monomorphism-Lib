@@ -1,25 +1,31 @@
 package com.epimorphismmc.monomorphism.blockentity;
 
-import com.google.common.collect.Sets;
-import lombok.Getter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+
+import com.google.common.collect.Sets;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
-public class MOBlockEntityType<T extends BlockEntity> extends BlockEntityType<T> implements IMOBlockEntityType {
+public class MOBlockEntityType<T extends BlockEntity> extends BlockEntityType<T>
+        implements IMOBlockEntityType {
     @Getter
     private final boolean ticking;
 
-    private MOBlockEntityType(BlockEntityType.BlockEntitySupplier<? extends T> factory, Set<Block> validBlocks, boolean ticking) {
+    private MOBlockEntityType(
+            BlockEntityType.BlockEntitySupplier<? extends T> factory,
+            Set<Block> validBlocks,
+            boolean ticking) {
         super(factory, validBlocks, null);
         this.ticking = ticking;
     }
 
-    public static <T extends BlockEntity> Builder<T> builder(BlockEntityType.BlockEntitySupplier<? extends T> factory) {
+    public static <T extends BlockEntity> Builder<T> builder(
+            BlockEntityType.BlockEntitySupplier<? extends T> factory) {
         return new Builder<>(factory);
     }
 
