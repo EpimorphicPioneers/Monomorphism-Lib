@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.mixins;
 
 import com.lowdragmc.lowdraglib.core.mixins.MixinPluginShared;
+
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;

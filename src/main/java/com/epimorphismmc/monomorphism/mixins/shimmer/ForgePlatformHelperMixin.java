@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.mixins.shimmer;
 
 import com.lowdragmc.shimmer.forge.platform.ForgePlatformHelper;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
