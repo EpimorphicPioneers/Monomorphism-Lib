@@ -5,11 +5,13 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -24,10 +26,10 @@ import static com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper.getTags;
 
 public class MOChemicalHelper {
 
-    public static final Map<TagPrefix, ArrayList<Supplier<? extends ItemLike>>> TAG_PREFIX_ITEM = new ConcurrentHashMap<>();
+    public static final Map<TagPrefix, ArrayList<Supplier<? extends ItemLike>>> TAG_PREFIX_ITEM =
+            new ConcurrentHashMap<>();
 
-    @Nullable
-    public static Material getMaterial(String name) {
+    @Nullable public static Material getMaterial(String name) {
         for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {
             var material = registry.get(name);
             if (material != null) {
@@ -38,25 +40,29 @@ public class MOChemicalHelper {
     }
 
     public static List<ItemLike> getItems(TagPrefix tagPrefix) {
-        return TAG_PREFIX_ITEM.computeIfAbsent(tagPrefix, prefix -> {
-            var items = new ArrayList<Supplier<? extends ItemLike>>();
-            for (TagKey<Item> tag : prefix.getItemParentTags()) {
-                for (Holder<Item> itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(tag)) {
-                    items.add(itemHolder::value);
-                }
-            }
-            if (items.isEmpty()) {
-                var condition = prefix.generationCondition();
-                for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {
-                    for (Material material : registry.getAllMaterials()) {
-                        if (condition == null || condition.test(material)) {
-                            items.addAll(getSuppliers(new UnificationEntry(prefix, material)));
+        return TAG_PREFIX_ITEM
+                .computeIfAbsent(tagPrefix, prefix -> {
+                    var items = new ArrayList<Supplier<? extends ItemLike>>();
+                    for (TagKey<Item> tag : prefix.getItemParentTags()) {
+                        for (Holder<Item> itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(tag)) {
+                            items.add(itemHolder::value);
                         }
                     }
-                }
-            }
-            return items;
-        }).stream().map(Supplier::get).collect(Collectors.toList());
+                    if (items.isEmpty()) {
+                        var condition = prefix.generationCondition();
+                        for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {
+                            for (Material material : registry.getAllMaterials()) {
+                                if (condition == null || condition.test(material)) {
+                                    items.addAll(getSuppliers(new UnificationEntry(prefix, material)));
+                                }
+                            }
+                        }
+                    }
+                    return items;
+                })
+                .stream()
+                .map(Supplier::get)
+                .collect(Collectors.toList());
     }
 
     public static List<Supplier<? extends ItemLike>> getSuppliers(UnificationEntry unificationEntry) {
@@ -74,5 +80,4 @@ public class MOChemicalHelper {
             return items;
         });
     }
-
 }

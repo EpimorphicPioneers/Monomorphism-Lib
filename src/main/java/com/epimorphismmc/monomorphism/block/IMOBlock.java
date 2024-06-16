@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.Optional;
+
 import javax.annotation.Nonnull;
 
 public interface IMOBlock {
@@ -23,10 +24,10 @@ public interface IMOBlock {
     }
 
     default void spawnItem(Level world, BlockPos pos, ItemStack stack) {
-        if(world == null || world.isClientSide()) {
+        if (world == null || world.isClientSide()) {
             return;
         }
-        world.addFreshEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack));
+        world.addFreshEntity(
+                new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack));
     }
-
 }

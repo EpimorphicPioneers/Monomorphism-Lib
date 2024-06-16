@@ -2,6 +2,7 @@ package com.epimorphismmc.monomorphism.machine;
 
 import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.thread.BlockableEventLoop;
@@ -15,7 +16,8 @@ public class ScheduledSubscriptionHandler {
     private final Supplier<Boolean> condition;
     private TickableSubscription subscription;
 
-    public ScheduledSubscriptionHandler(ITickSubscription handler, Runnable runnable, Supplier<Boolean> condition) {
+    public ScheduledSubscriptionHandler(
+            ITickSubscription handler, Runnable runnable, Supplier<Boolean> condition) {
         this.handler = handler;
         this.runnable = runnable;
         this.condition = condition;
@@ -25,7 +27,6 @@ public class ScheduledSubscriptionHandler {
         if (level instanceof ServerLevel serverLevel) {
             this.initialize(serverLevel.getServer());
         }
-
     }
 
     protected void initialize(BlockableEventLoop<TickTask> server) {
@@ -38,13 +39,11 @@ public class ScheduledSubscriptionHandler {
         } else if (this.subscription != null) {
             this.subscription.unsubscribe();
         }
-
     }
 
     public void unsubscribe() {
         if (this.subscription != null) {
             this.subscription.unsubscribe();
         }
-
     }
 }

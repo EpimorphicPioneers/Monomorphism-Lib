@@ -1,7 +1,9 @@
 package com.epimorphismmc.monomorphism.pattern.utils.containers;
 
 import com.epimorphismmc.monomorphism.utility.MOUtils;
+
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
+
 import net.minecraft.world.level.block.Block;
 
 public class TierOptionalContainer implements IValueContainer<Integer> {
@@ -25,7 +27,8 @@ public class TierOptionalContainer implements IValueContainer<Integer> {
     }
 
     public static int getTier(MultiblockState multiblockState, String name) {
-        IValueContainer<?> container = multiblockState.getMatchContext().getOrCreate(name + "Value", IValueContainer::noop);
+        IValueContainer<?> container =
+                multiblockState.getMatchContext().getOrCreate(name + "Value", IValueContainer::noop);
 
         if (container instanceof TierOptionalContainer optionalContainer) {
             int tier = optionalContainer.tier;

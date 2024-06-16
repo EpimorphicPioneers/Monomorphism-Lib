@@ -1,10 +1,12 @@
 package com.epimorphismmc.monomorphism.ae2;
 
+import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+
+import net.minecraft.world.item.ItemStack;
+
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
-import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -12,8 +14,7 @@ import java.util.Objects;
 import static com.epimorphismmc.monomorphism.utility.MOMathUtils.*;
 
 public class AEUtils {
-    @Nullable
-    public static GenericStack fromFluidStack(FluidStack stack) {
+    @Nullable public static GenericStack fromFluidStack(FluidStack stack) {
         if (stack == null || stack.isEmpty()) return null;
         var key = AEFluidKey.of(stack.getFluid(), stack.getTag());
         return new GenericStack(key, stack.getAmount());
@@ -33,6 +34,8 @@ public class AEUtils {
     }
 
     public static boolean matches(AEFluidKey key, FluidStack stack) {
-        return !stack.isEmpty() && key.getFluid().isSame(stack.getFluid()) && Objects.equals(key.getTag(), stack.getTag());
+        return !stack.isEmpty()
+                && key.getFluid().isSame(stack.getFluid())
+                && Objects.equals(key.getTag(), stack.getTag());
     }
 }

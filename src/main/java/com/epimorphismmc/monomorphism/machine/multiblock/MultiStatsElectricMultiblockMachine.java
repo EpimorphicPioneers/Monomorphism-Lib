@@ -2,22 +2,30 @@ package com.epimorphismmc.monomorphism.machine.multiblock;
 
 import com.epimorphismmc.monomorphism.machine.feature.IEnhanceFancyUIMachine;
 import com.epimorphismmc.monomorphism.machine.trait.MultiblockStats;
+
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import lombok.Getter;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
+
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultiblockMachine implements IEnhanceFancyUIMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MultiStatsElectricMultiblockMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultiblockMachine
+        implements IEnhanceFancyUIMachine {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            MultiStatsElectricMultiblockMachine.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     protected List<MultiblockStats> multiblockStats;
@@ -28,7 +36,7 @@ public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultibl
     }
 
     //////////////////////////////////////
-    //***    Multiblock LifeCycle    ***//
+    // ***    Multiblock LifeCycle    ***//
     //////////////////////////////////////
 
     @Override
@@ -44,7 +52,7 @@ public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultibl
     }
 
     //////////////////////////////////////
-    //***        Multiblock UI       ***//
+    // ***        Multiblock UI       ***//
     //////////////////////////////////////
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
@@ -53,7 +61,7 @@ public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultibl
     }
 
     //////////////////////////////////////
-    //***       Multiblock Data      ***//
+    // ***       Multiblock Data      ***//
     //////////////////////////////////////
     public void addStats(MultiblockStats state) {
         multiblockStats.add(state);

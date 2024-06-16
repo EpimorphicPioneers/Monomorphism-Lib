@@ -2,9 +2,12 @@ package com.epimorphismmc.monomorphism;
 
 import com.epimorphismmc.monomorphism.proxy.base.ICommonProxyBase;
 import com.epimorphismmc.monomorphism.registry.registrate.MORegistrate;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
+
 import com.lowdragmc.lowdraglib.networking.INetworking;
 import com.lowdragmc.lowdraglib.networking.LDLNetworking;
+
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +29,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +41,9 @@ public abstract class MOMod<P extends ICommonProxyBase> {
 
     @SuppressWarnings("Unchecked")
     public MOMod() {
-        //Populate static mod instance
+        // Populate static mod instance
         this.onModConstructed();
-        //Create logger
+        // Create logger
         this.logger = createLogger();
         // Create network
         this.network = createNetworking();
@@ -69,8 +73,10 @@ public abstract class MOMod<P extends ICommonProxyBase> {
             proxy = DistExecutor.unsafeCallWhenOn(Dist.DEDICATED_SERVER, () -> this::createServerProxy);
         }
         if (proxy == null) {
-            // Can only happen if the mod fails to correctly implement the createClientProxy and/or the createServerProxy methods
-            throw new RuntimeException("Failed to create SidedProxy for mod " + this.getModId() + " on side: " + FMLEnvironment.dist.name());
+            // Can only happen if the mod fails to correctly implement the createClientProxy and/or the
+            // createServerProxy methods
+            throw new RuntimeException("Failed to create SidedProxy for mod " + this.getModId()
+                    + " on side: " + FMLEnvironment.dist.name());
         }
         return proxy;
     }
@@ -82,9 +88,7 @@ public abstract class MOMod<P extends ICommonProxyBase> {
         registerPackets(network);
     }
 
-    private void initClient() {
-
-    }
+    private void initClient() {}
 
     public final Logger getLogger() {
         return this.logger;
@@ -154,71 +158,70 @@ public abstract class MOMod<P extends ICommonProxyBase> {
      * FML Mod Loading Listeners
      * --------------------------
      */
-
     public final void onCommonSetupEvent(final FMLCommonSetupEvent event) {
-        //self init
+        // self init
         this.init();
-        //forward to proxy
+        // forward to proxy
         this.proxy.onCommonSetupEvent(event);
     }
 
     public final void onClientSetupEvent(final FMLClientSetupEvent event) {
-        //self init
+        // self init
         this.initClient();
-        //forward to proxy
-        this.proxy.onClientSetupEvent(event);}
+        // forward to proxy
+        this.proxy.onClientSetupEvent(event);
+    }
 
     public final void onDedicatedServerSetupEvent(final FMLDedicatedServerSetupEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onDedicatedServerSetupEvent(event);
     }
 
     public final void onInterModEnqueueEvent(final InterModEnqueueEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onInterModEnqueueEvent(event);
     }
 
     public final void onInterModProcessEvent(final InterModProcessEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onInterModProcessEvent(event);
     }
 
     public final void onModLoadCompleteEvent(final FMLLoadCompleteEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onModLoadCompleteEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerStartingEvent(final ServerStartingEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onServerStartingEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerAboutToStartEvent(final ServerAboutToStartEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onServerAboutToStartEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerStoppingEvent(final ServerStoppingEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onServerStoppingEvent(event);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public final void onServerStoppedEvent(final ServerStoppedEvent event) {
-        //forward to proxy
+        // forward to proxy
         this.proxy.onServerStoppedEvent(event);
     }
 
     @SubscribeEvent
-    public void registerMaterialRegistry(MaterialRegistryEvent event) {
-    }
+    public void registerMaterialRegistry(MaterialRegistryEvent event) {}
 
     /**
      * --------------------------

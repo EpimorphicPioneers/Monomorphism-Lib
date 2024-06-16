@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
+
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -12,9 +13,12 @@ import java.util.List;
 public class PagedWidget extends WidgetGroup {
     @Getter
     private int pageIndex;
+
     protected List<Widget> pageList = new ArrayList<>();
 
-    public PagedWidget() {/**/}
+    public PagedWidget() {
+        /**/
+    }
 
     public PagedWidget(int x, int y, int width, int height) {
         super(x, y, width, height);

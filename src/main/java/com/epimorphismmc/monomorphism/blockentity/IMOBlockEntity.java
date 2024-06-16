@@ -1,19 +1,23 @@
 package com.epimorphismmc.monomorphism.blockentity;
 
 import com.gregtechceu.gtceu.api.GTValues;
+
 import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
 import com.lowdragmc.lowdraglib.syncdata.blockentity.IAsyncAutoSyncBlockEntity;
 import com.lowdragmc.lowdraglib.syncdata.blockentity.IAutoPersistBlockEntity;
 import com.lowdragmc.lowdraglib.syncdata.blockentity.IRPCBlockEntity;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.ChunkAccess;
+
 import org.jetbrains.annotations.Nullable;
 
-public interface IMOBlockEntity extends IAsyncAutoSyncBlockEntity, IRPCBlockEntity, IAutoPersistBlockEntity, IEnhancedManaged {
+public interface IMOBlockEntity
+        extends IAsyncAutoSyncBlockEntity, IRPCBlockEntity, IAutoPersistBlockEntity, IEnhancedManaged {
     default BlockEntity self() {
         return (BlockEntity) this;
     }
@@ -38,9 +42,8 @@ public interface IMOBlockEntity extends IAsyncAutoSyncBlockEntity, IRPCBlockEnti
         return this.pos().getZ();
     }
 
-    @Nullable
-    default ChunkAccess getChunk() {
-        if(this.level() == null) {
+    @Nullable default ChunkAccess getChunk() {
+        if (this.level() == null) {
             return null;
         }
         return this.level().getChunk(this.pos());

@@ -3,7 +3,8 @@ package com.epimorphismmc.monomorphism.capability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public interface IMOCapabilityImplementation<C extends ICapabilityProvider, V> extends ICapabilityImplementation<C, V> {
+public interface IMOCapabilityImplementation<C extends ICapabilityProvider, V>
+        extends ICapabilityImplementation<C, V> {
     Class<V> getCapabilityClass();
 
     Serializer<V> getSerializer();
@@ -12,12 +13,13 @@ public interface IMOCapabilityImplementation<C extends ICapabilityProvider, V> e
 
     @Override
     default CapabilityProvider<V> createProvider(C carrier) {
-        return new CapabilityProvider<>(this::getCapability, this.getSerializer(), this.createNewValue(carrier));
+        return new CapabilityProvider<>(
+                this::getCapability, this.getSerializer(), this.createNewValue(carrier));
     }
 
     interface Serializer<V> {
-       CompoundTag writeToNBT(V object);
+        CompoundTag writeToNBT(V object);
 
-       void readFromNBT(V object, CompoundTag nbt);
-   }
+        void readFromNBT(V object, CompoundTag nbt);
+    }
 }

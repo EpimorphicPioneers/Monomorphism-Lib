@@ -1,17 +1,19 @@
 package com.epimorphismmc.monomorphism.client.utils;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.core.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+
+import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class QuadCache {
@@ -20,7 +22,8 @@ public class QuadCache {
 
     public QuadCache(Function<Direction, List<BakedQuad>> quadBaker) {
         this.dirQuads = Maps.newConcurrentMap();
-        Arrays.stream(Direction.values()).forEach(face -> dirQuads.put(face, new SafeQuadStore(face, quadBaker)));
+        Arrays.stream(Direction.values())
+                .forEach(face -> dirQuads.put(face, new SafeQuadStore(face, quadBaker)));
         this.nullQuads = new SafeQuadStore(null, quadBaker);
     }
 
@@ -35,13 +38,13 @@ public class QuadCache {
         private List<BakedQuad> quads;
         private boolean baking;
 
-        private SafeQuadStore(@Nullable Direction face, Function<Direction, List<BakedQuad>> quadBaker) {
+        private SafeQuadStore(
+                @Nullable Direction face, Function<Direction, List<BakedQuad>> quadBaker) {
             this.face = face;
             this.quadBaker = quadBaker;
         }
 
-        @Nullable
-        public Direction getFace() {
+        @Nullable public Direction getFace() {
             return this.face;
         }
 

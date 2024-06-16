@@ -1,18 +1,29 @@
 package com.epimorphismmc.monomorphism.mixins.gtm;
 
 import com.epimorphismmc.monomorphism.item.component.IMODurabilityBar;
+
 import com.gregtechceu.gtceu.api.item.component.*;
+
 import net.minecraft.world.item.ItemStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = IMaterialPartItem.class, remap = false)
-public interface IMaterialPartItemMixin extends IItemComponent, IDurabilityBar, IAddInformation, ICustomDescriptionId, IMODurabilityBar {
-    @Shadow int getPartDamage(ItemStack itemStack);
+public interface IMaterialPartItemMixin
+        extends IItemComponent,
+                IDurabilityBar,
+                IAddInformation,
+                ICustomDescriptionId,
+                IMODurabilityBar {
+    @Shadow
+    int getPartDamage(ItemStack itemStack);
 
-    @Shadow void setPartDamage(ItemStack itemStack, int damage);
+    @Shadow
+    void setPartDamage(ItemStack itemStack, int damage);
 
-    @Shadow int getPartMaxDurability(ItemStack itemStack);
+    @Shadow
+    int getPartMaxDurability(ItemStack itemStack);
 
     @Override
     default int getDamage(ItemStack itemStack) {

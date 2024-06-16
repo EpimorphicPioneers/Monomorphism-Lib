@@ -6,7 +6,9 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
@@ -23,15 +25,27 @@ public class MORecipeHelper {
     }
 
     public static Content itemContent(Item item, int amount, float chance, float tierChanceBoost) {
-        return new Content(ItemRecipeCapability.CAP.of(new ItemStack(item, amount)), chance, tierChanceBoost, null, null);
+        return new Content(
+                ItemRecipeCapability.CAP.of(new ItemStack(item, amount)),
+                chance,
+                tierChanceBoost,
+                null,
+                null);
     }
 
     public static Content fluidContent(FluidStack fluidStack, float chance, float tierChanceBoost) {
-        return new Content(FluidRecipeCapability.CAP.of(fluidStack), chance, tierChanceBoost, null, null);
+        return new Content(
+                FluidRecipeCapability.CAP.of(fluidStack), chance, tierChanceBoost, null, null);
     }
 
-    public static Content fluidContent(Fluid fluid, long amount, float chance, float tierChanceBoost) {
-        return new Content(FluidRecipeCapability.CAP.of(FluidStack.create(fluid, amount)), chance, tierChanceBoost, null, null);
+    public static Content fluidContent(
+            Fluid fluid, long amount, float chance, float tierChanceBoost) {
+        return new Content(
+                FluidRecipeCapability.CAP.of(FluidStack.create(fluid, amount)),
+                chance,
+                tierChanceBoost,
+                null,
+                null);
     }
 
     /**
@@ -40,7 +54,6 @@ public class MORecipeHelper {
      * <p>
      * Recipe Builder methods for getting input items or fluids are not provided, as these data are not yet loaded when they are needed.
      */
-
     public static <T> List<T> getInputs(GTRecipeBuilder builder, RecipeCapability<T> capability) {
         return builder.input.getOrDefault(capability, Collections.emptyList()).stream()
                 .map(content -> capability.of(content.getContent()))

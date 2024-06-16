@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.gui.widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -11,8 +12,7 @@ public class DraggableWidget extends WidgetGroup {
     protected int dragOffsetX, dragOffsetY;
     protected boolean isDragging;
 
-    public DraggableWidget() {
-    }
+    public DraggableWidget() {}
 
     public DraggableWidget(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -32,7 +32,8 @@ public class DraggableWidget extends WidgetGroup {
         this.lastDeltaX = 0;
         this.lastDeltaY = 0;
         this.isDragging = false;
-        if (isMouseOver(getPosition().x, getPosition().y, getSizeWidth(), getSizeHeight(), mouseX, mouseY)) {
+        if (isMouseOver(
+                getPosition().x, getPosition().y, getSizeWidth(), getSizeHeight(), mouseX, mouseY)) {
             isDragging = true;
             return super.mouseClicked(mouseX, mouseY, button);
         }
@@ -41,7 +42,8 @@ public class DraggableWidget extends WidgetGroup {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(
+            double mouseX, double mouseY, int button, double dragX, double dragY) {
         double dx = dragX + lastDeltaX;
         double dy = dragY + lastDeltaY;
         dragX = (int) dx;
@@ -53,7 +55,8 @@ public class DraggableWidget extends WidgetGroup {
             this.dragOffsetY += (int) dragY;
             this.addSelfPosition((int) dragX, (int) dragY);
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY) || isMouseOverElement(mouseX, mouseY);
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY)
+                || isMouseOverElement(mouseX, mouseY);
     }
 
     @Override

@@ -1,11 +1,15 @@
 package com.epimorphismmc.monomorphism.client.utils;
 
 import com.epimorphismmc.monomorphism.utility.MOFluidUtils;
+
 import com.gregtechceu.gtceu.utils.GTUtil;
+
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,8 +49,7 @@ public class Model3D {
         return copy.bounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    @Nullable
-    public Model3D.SpriteInfo getSpriteToRender(Direction side) {
+    @Nullable public Model3D.SpriteInfo getSpriteToRender(Direction side) {
         int ordinal = side.ordinal();
         return renderSides[ordinal] ? textures[ordinal] : null;
     }
@@ -56,7 +59,8 @@ public class Model3D {
     }
 
     public Model3D grow(float amount) {
-        return bounds(minX - amount, minY - amount, minZ - amount, maxX + amount, maxY + amount, maxZ + amount);
+        return bounds(
+                minX - amount, minY - amount, minZ - amount, maxX + amount, maxY + amount, maxZ + amount);
     }
 
     public Model3D xBounds(float min, float max) {
@@ -82,9 +86,7 @@ public class Model3D {
     }
 
     public Model3D bounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
-        return xBounds(minX, maxX)
-                .yBounds(minY, maxY)
-                .zBounds(minZ, maxZ);
+        return xBounds(minX, maxX).yBounds(minY, maxY).zBounds(minZ, maxZ);
     }
 
     public Model3D prepSingleFaceModelSize(Direction face) {
@@ -124,7 +126,13 @@ public class Model3D {
         return this;
     }
 
-    public Model3D setTextures(SpriteInfo down, SpriteInfo up, SpriteInfo north, SpriteInfo south, SpriteInfo west, SpriteInfo east) {
+    public Model3D setTextures(
+            SpriteInfo down,
+            SpriteInfo up,
+            SpriteInfo north,
+            SpriteInfo south,
+            SpriteInfo west,
+            SpriteInfo east) {
         textures[0] = down;
         textures[1] = up;
         textures[2] = north;
@@ -153,8 +161,8 @@ public class Model3D {
     public static class LazyModel implements Supplier<Model3D> {
 
         private final Supplier<Model3D> supplier;
-        @Nullable
-        private Model3D model;
+
+        @Nullable private Model3D model;
 
         public LazyModel(Supplier<Model3D> supplier) {
             this.supplier = supplier;

@@ -1,7 +1,9 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
 import com.gregtechceu.gtceu.api.GTValues;
+
 import net.minecraft.util.StringRepresentable;
+
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -12,8 +14,7 @@ public interface ITierType extends StringRepresentable {
     int tier();
 
     @Override
-    @NotNull
-    default String getSerializedName() {
+    @NotNull default String getSerializedName() {
         return typeName();
     }
 

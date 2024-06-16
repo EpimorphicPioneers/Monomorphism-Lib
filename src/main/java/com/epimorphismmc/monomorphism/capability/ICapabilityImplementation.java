@@ -34,7 +34,8 @@ public interface ICapabilityImplementation<C extends ICapabilityProvider, V> {
         return new ICapabilityProvider() {
             @Nonnull
             @Override
-            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+            public <T> LazyOptional<T> getCapability(
+                    @Nonnull Capability<T> cap, @Nullable Direction side) {
                 if (cap == capability) {
                     return value.cast();
                 } else {

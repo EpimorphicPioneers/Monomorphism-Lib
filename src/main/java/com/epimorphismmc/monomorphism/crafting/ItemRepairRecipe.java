@@ -2,10 +2,7 @@ package com.epimorphismmc.monomorphism.crafting;
 
 import com.epimorphismmc.monomorphism.mixins.accessors.ShapedRecipeAccessor;
 import com.epimorphismmc.monomorphism.mixins.accessors.ShapelessRecipeAccessor;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import lombok.Getter;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -15,6 +12,11 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -27,7 +29,12 @@ public class ItemRepairRecipe extends ShapelessRecipe {
     @Getter
     private final int repairDamage;
 
-    public ItemRepairRecipe(ResourceLocation id, String group, NonNullList<Ingredient> recipeItems, ItemStack result, int repairDamage) {
+    public ItemRepairRecipe(
+            ResourceLocation id,
+            String group,
+            NonNullList<Ingredient> recipeItems,
+            ItemStack result,
+            int repairDamage) {
         super(id, group, CraftingBookCategory.MISC, result, recipeItems);
         this.repairDamage = repairDamage;
     }
@@ -62,13 +69,17 @@ public class ItemRepairRecipe extends ShapelessRecipe {
         @Override
         public ItemRepairRecipe fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
             String s = GsonHelper.getAsString(serializedRecipe, "group", "");
-            NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(serializedRecipe, "ingredients"));
+            NonNullList<Ingredient> nonnulllist =
+                    itemsFromJson(GsonHelper.getAsJsonArray(serializedRecipe, "ingredients"));
             if (nonnulllist.isEmpty()) {
                 throw new JsonParseException("No ingredients for shapeless recipe");
-            } else if (nonnulllist.size() > ShapedRecipeAccessor.getMaxWidth() * ShapedRecipeAccessor.getMaxHeight()) {
-                throw new JsonParseException("Too many ingredients for shapeless recipe. The maximum is " + ShapedRecipeAccessor.getMaxWidth() * ShapedRecipeAccessor.getMaxHeight());
+            } else if (nonnulllist.size()
+                    > ShapedRecipeAccessor.getMaxWidth() * ShapedRecipeAccessor.getMaxHeight()) {
+                throw new JsonParseException("Too many ingredients for shapeless recipe. The maximum is "
+                        + ShapedRecipeAccessor.getMaxWidth() * ShapedRecipeAccessor.getMaxHeight());
             } else {
-                ItemStack itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(serializedRecipe, "result"));
+                ItemStack itemstack =
+                        ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(serializedRecipe, "result"));
                 int repair = GsonHelper.getAsInt(serializedRecipe, "repairDamage");
                 return new ItemRepairRecipe(recipeId, s, nonnulllist, itemstack, repair);
             }
@@ -77,7 +88,7 @@ public class ItemRepairRecipe extends ShapelessRecipe {
         private static NonNullList<Ingredient> itemsFromJson(JsonArray ingredientArray) {
             NonNullList<Ingredient> nonnulllist = NonNullList.create();
 
-            for(int i = 0; i < ingredientArray.size(); ++i) {
+            for (int i = 0; i < ingredientArray.size(); ++i) {
                 Ingredient ingredient = Ingredient.fromJson(ingredientArray.get(i), false);
                 nonnulllist.add(ingredient);
             }
@@ -86,7 +97,8 @@ public class ItemRepairRecipe extends ShapelessRecipe {
         }
 
         @Override
-        public @Nullable ItemRepairRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public @Nullable ItemRepairRecipe fromNetwork(
+                ResourceLocation recipeId, FriendlyByteBuf buffer) {
             String s = buffer.readUtf();
             int i = buffer.readVarInt();
             NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i, Ingredient.EMPTY);
@@ -107,7 +119,7 @@ public class ItemRepairRecipe extends ShapelessRecipe {
                 ingredient.toNetwork(buffer);
             }
 
-            buffer.writeItem(((ShapelessRecipeAccessor)recipe).getResult());
+            buffer.writeItem(((ShapelessRecipeAccessor) recipe).getResult());
             buffer.writeVarInt(recipe.repairDamage);
         }
     }

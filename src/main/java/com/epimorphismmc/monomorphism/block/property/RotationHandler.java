@@ -23,10 +23,10 @@ public interface RotationHandler<T> {
         private static final RotationHandler<?> NO_OP = (rotation, value) -> value;
         private static final RotationHandler<Direction> DIRECTION = Rotation::rotate;
         private static final RotationHandler<Direction.Axis> AXIS = (rotation, value) -> {
-            if(value.isVertical()) {
+            if (value.isVertical()) {
                 return value;
             }
-            if(value == Direction.Axis.X) {
+            if (value == Direction.Axis.X) {
                 return rotation.rotate(Direction.EAST).getAxis();
             } else {
                 return rotation.rotate(Direction.NORTH).getAxis();

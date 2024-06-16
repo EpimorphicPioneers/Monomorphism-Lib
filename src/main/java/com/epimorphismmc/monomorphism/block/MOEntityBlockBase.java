@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.block;
 
 import com.epimorphismmc.monomorphism.blockentity.MOBlockEntityBase;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -9,7 +10,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public abstract class MOEntityBlockBase<T extends MOBlockEntityBase> extends MOBlockBase implements IMOEntityBlock<T> {
+public abstract class MOEntityBlockBase<T extends MOBlockEntityBase> extends MOBlockBase
+        implements IMOEntityBlock<T> {
 
     public MOEntityBlockBase(Properties properties) {
         super(properties);

@@ -1,25 +1,30 @@
 package com.epimorphismmc.monomorphism.misc;
 
 import com.epimorphismmc.monomorphism.utility.MONBTUtils;
+
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
-import lombok.Getter;
-import lombok.Setter;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 public class BigItemStackTransfer extends ItemStackTransfer {
 
-    @Setter @Getter
+    @Setter
+    @Getter
     private boolean acceptTag;
-    @Setter @Getter
+
+    @Setter
+    @Getter
     private int slotLimit = 64;
 
-    public BigItemStackTransfer() {
-    }
+    public BigItemStackTransfer() {}
 
     public BigItemStackTransfer(int size) {
         super(size);

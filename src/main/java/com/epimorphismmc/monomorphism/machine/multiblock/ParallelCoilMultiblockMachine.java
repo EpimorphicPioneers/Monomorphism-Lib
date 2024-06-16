@@ -2,25 +2,36 @@ package com.epimorphismmc.monomorphism.machine.multiblock;
 
 import com.epimorphismmc.monomorphism.machine.feature.multiblock.stats.IParallelMachine;
 import com.epimorphismmc.monomorphism.machine.feature.multiblock.stats.tier.ICoilMachine;
+
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Function;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ParallelCoilMultiblockMachine extends MultiStatsElectricMultiblockMachine implements IParallelMachine, ICoilMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ParallelCoilMultiblockMachine.class, MultiStatsElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+public class ParallelCoilMultiblockMachine extends MultiStatsElectricMultiblockMachine
+        implements IParallelMachine, ICoilMachine {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            ParallelCoilMultiblockMachine.class,
+            MultiStatsElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     protected final ParallelStats parallelStats;
+
     protected final CoilTierStats coilTierStats;
 
-    public ParallelCoilMultiblockMachine(IMachineBlockEntity holder, Function<ParallelCoilMultiblockMachine, Integer> parallelCalculator, Object... args) {
+    public ParallelCoilMultiblockMachine(
+            IMachineBlockEntity holder,
+            Function<ParallelCoilMultiblockMachine, Integer> parallelCalculator,
+            Object... args) {
         super(holder, parallelCalculator, args);
         this.parallelStats = new ParallelStats(this, machine -> {
             if (machine instanceof ParallelCoilMultiblockMachine parallelCoilMultiblockMachine) {
@@ -32,7 +43,7 @@ public class ParallelCoilMultiblockMachine extends MultiStatsElectricMultiblockM
     }
 
     //////////////////////////////////////
-    //***       Multiblock Data      ***//
+    // ***       Multiblock Data      ***//
     //////////////////////////////////////
 
     public int getCoilTier() {

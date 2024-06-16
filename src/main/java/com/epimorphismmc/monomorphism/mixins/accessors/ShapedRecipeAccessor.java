@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.mixins.accessors;
 
 import net.minecraft.world.item.crafting.ShapedRecipe;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

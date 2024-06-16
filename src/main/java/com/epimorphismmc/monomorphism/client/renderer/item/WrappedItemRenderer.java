@@ -2,7 +2,7 @@ package com.epimorphismmc.monomorphism.client.renderer.item;
 
 import com.lowdragmc.lowdraglib.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
-import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,6 +12,8 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.Nullable;
 
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.getItemRenderer;
@@ -19,7 +21,8 @@ import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.getItemRen
 public abstract class WrappedItemRenderer implements IRenderer {
 
     @OnlyIn(Dist.CLIENT)
-    protected BakedModel getVanillaModel(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity) {
+    protected BakedModel getVanillaModel(
+            ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity) {
         var shaper = getItemRenderer().getItemModelShaper();
         var model = shaper.getItemModel(stack.getItem());
         if (model != null) {
@@ -30,10 +33,27 @@ public abstract class WrappedItemRenderer implements IRenderer {
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void vanillaRender(ItemStack stack, ItemDisplayContext transformType, boolean leftHand, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, BakedModel model) {
+    protected void vanillaRender(
+            ItemStack stack,
+            ItemDisplayContext transformType,
+            boolean leftHand,
+            PoseStack poseStack,
+            MultiBufferSource buffer,
+            int combinedLight,
+            int combinedOverlay,
+            BakedModel model) {
         IItemRendererProvider.disabled.set(true);
-        Minecraft.getInstance().getItemRenderer().render(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
+        Minecraft.getInstance()
+                .getItemRenderer()
+                .render(
+                        stack,
+                        transformType,
+                        leftHand,
+                        poseStack,
+                        buffer,
+                        combinedLight,
+                        combinedOverlay,
+                        model);
         IItemRendererProvider.disabled.set(false);
     }
-
 }

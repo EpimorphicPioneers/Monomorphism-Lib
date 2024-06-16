@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.pattern;
 import com.epimorphismmc.monomorphism.block.MOBlockProperties;
 import com.epimorphismmc.monomorphism.pattern.predicates.MOPredicate;
 import com.epimorphismmc.monomorphism.utility.MOUtils;
+
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -11,13 +12,16 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Array;
@@ -28,28 +32,47 @@ import java.util.function.Consumer;
 
 public class MOBlockPattern extends BlockPattern {
 
-    static Direction[] FACINGS = {Direction.SOUTH, Direction.NORTH, Direction.WEST, Direction.EAST, Direction.UP, Direction.DOWN};
+    static Direction[] FACINGS = {
+        Direction.SOUTH, Direction.NORTH, Direction.WEST, Direction.EAST, Direction.UP, Direction.DOWN
+    };
     static Direction[] FACINGS_H = {Direction.SOUTH, Direction.NORTH, Direction.WEST, Direction.EAST};
 
-    protected final Map<String, TraceabilityPredicate[][][]> blockMatchesMap; //[z][y][x]
+    protected final Map<String, TraceabilityPredicate[][][]> blockMatchesMap; // [z][y][x]
 
     protected int structureTier;
 
-    public MOBlockPattern(int structureTier, TraceabilityPredicate[][][] predicatesIn, RelativeDirection[] structureDir, int[][] aisleRepetitions, int[] centerOffset) {
+    public MOBlockPattern(
+            int structureTier,
+            TraceabilityPredicate[][][] predicatesIn,
+            RelativeDirection[] structureDir,
+            int[][] aisleRepetitions,
+            int[] centerOffset) {
         super(predicatesIn, structureDir, aisleRepetitions, centerOffset);
         this.blockMatchesMap = new HashMap<>();
         this.structureTier = structureTier;
     }
 
-    public MOBlockPattern(int structureTier, Map<String, TraceabilityPredicate[][][]> predicatesIn, RelativeDirection[] structureDir, int[][] aisleRepetitions, int[] centerOffset) {
+    public MOBlockPattern(
+            int structureTier,
+            Map<String, TraceabilityPredicate[][][]> predicatesIn,
+            RelativeDirection[] structureDir,
+            int[][] aisleRepetitions,
+            int[] centerOffset) {
         super(new TraceabilityPredicate[0][0][0], structureDir, aisleRepetitions, centerOffset);
         this.blockMatchesMap = predicatesIn;
         this.structureTier = structureTier;
     }
 
     @Override
-    public boolean checkPatternAt(MultiblockState worldState, BlockPos centerPos, Direction facing, boolean savePredicate) {
-        return super.checkPatternAt(worldState, centerPos, facing, savePredicate);
+    public boolean checkPatternAt(
+            MultiblockState worldState,
+            BlockPos centerPos,
+            Direction facing,
+            Direction upwardsFacing,
+            boolean isFlipped,
+            boolean savePredicate) {
+        return super.checkPatternAt(
+                worldState, centerPos, facing, upwardsFacing, isFlipped, savePredicate);
     }
 
     @Override
@@ -68,7 +91,7 @@ public class MOBlockPattern extends BlockPattern {
         int maxZ = Integer.MIN_VALUE;
         for (int l = 0, x = 0; l < this.fingerLength; l++) {
             for (int r = 0; r < repetition[l]; r++) {
-                //Checking single slice
+                // Checking single slice
                 Map<SimplePredicate, Integer> cacheLayer = new HashMap<>();
                 for (int y = 0; y < this.thumbLength; y++) {
                     for (int z = 0; z < this.palmLength; z++) {
@@ -189,7 +212,9 @@ public class MOBlockPattern extends BlockPattern {
 
                         BlockInfo info;
                         if (preview && index > -1) {
-                            info = infos == null || infos.length == 0 ? BlockInfo.EMPTY : MOUtils.getOrLast(infos, index);
+                            info = infos == null || infos.length == 0
+                                    ? BlockInfo.EMPTY
+                                    : MOUtils.getOrLast(infos, index);
                         } else {
                             info = infos == null || infos.length == 0 ? BlockInfo.EMPTY : infos[0];
                         }
@@ -207,28 +232,39 @@ public class MOBlockPattern extends BlockPattern {
                 x++;
             }
         }
-        BlockInfo[][][] result = (BlockInfo[][][]) Array.newInstance(BlockInfo.class, maxX - minX + 1, maxY - minY + 1, maxZ - minZ + 1);
+        BlockInfo[][][] result = (BlockInfo[][][])
+                Array.newInstance(BlockInfo.class, maxX - minX + 1, maxY - minY + 1, maxZ - minZ + 1);
         int finalMinX = minX;
         int finalMinY = minY;
         int finalMinZ = minZ;
         blocks.forEach((pos, info) -> {
-            resetFacing(pos, info.getBlockState(), null, (p, f) -> {
-                BlockInfo blockInfo = blocks.get(p.relative(f));
-                if (blockInfo == null || blockInfo.getBlockState().getBlock() == Blocks.AIR) {
-                    if (blocks.get(pos).getBlockState().getBlock() instanceof MetaMachineBlock machineBlock) {
-                        if (machineBlock.newBlockEntity(BlockPos.ZERO, machineBlock.defaultBlockState()) instanceof IMachineBlockEntity machineBlockEntity) {
-                            var machine = machineBlockEntity.getMetaMachine();
-                            if (machine instanceof IMultiController) {
-                                return false;
-                            } else {
-                                return machine.isFacingValid(f);
+            resetFacing(
+                    pos,
+                    info.getBlockState(),
+                    null,
+                    (p, f) -> {
+                        BlockInfo blockInfo = blocks.get(p.relative(f));
+                        if (blockInfo == null || blockInfo.getBlockState().getBlock() == Blocks.AIR) {
+                            if (blocks.get(pos).getBlockState().getBlock()
+                                    instanceof MetaMachineBlock machineBlock) {
+                                if (machineBlock.newBlockEntity(BlockPos.ZERO, machineBlock.defaultBlockState())
+                                        instanceof IMachineBlockEntity machineBlockEntity) {
+                                    var machine = machineBlockEntity.getMetaMachine();
+                                    if (machine instanceof IMultiController) {
+                                        return false;
+                                    } else {
+                                        return machine.isFacingValid(f);
+                                    }
+                                }
                             }
+                            return true;
                         }
-                    }
-                    return true;
-                }
-                return false;
-            }, state -> info.setBlockState(state.hasProperty(MOBlockProperties.STRUCTURE_TIER) ? state.setValue(MOBlockProperties.STRUCTURE_TIER, structureTier) : state));
+                        return false;
+                    },
+                    state -> info.setBlockState(
+                            state.hasProperty(MOBlockProperties.STRUCTURE_TIER)
+                                    ? state.setValue(MOBlockProperties.STRUCTURE_TIER, structureTier)
+                                    : state));
             result[pos.getX() - finalMinX][pos.getY() - finalMinY][pos.getZ() - finalMinZ] = info;
         });
         return result;
@@ -241,15 +277,40 @@ public class MOBlockPattern extends BlockPattern {
         return false;
     }
 
-    private void resetFacing(BlockPos pos, BlockState blockState, Direction facing, BiFunction<BlockPos, Direction, Boolean> checker, Consumer<BlockState> consumer) {
+    private void resetFacing(
+            BlockPos pos,
+            BlockState blockState,
+            Direction facing,
+            BiFunction<BlockPos, Direction, Boolean> checker,
+            Consumer<BlockState> consumer) {
         if (blockState.hasProperty(BlockStateProperties.FACING)) {
-            tryFacings(blockState, pos, checker, consumer, BlockStateProperties.FACING, facing == null ? FACINGS : ArrayUtils.addAll(new Direction[]{facing}, FACINGS));
+            tryFacings(
+                    blockState,
+                    pos,
+                    checker,
+                    consumer,
+                    BlockStateProperties.FACING,
+                    facing == null ? FACINGS : ArrayUtils.addAll(new Direction[] {facing}, FACINGS));
         } else if (blockState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-            tryFacings(blockState, pos, checker, consumer, BlockStateProperties.HORIZONTAL_FACING, facing == null || facing.getAxis() == Direction.Axis.Y ? FACINGS_H : ArrayUtils.addAll(new Direction[]{facing}, FACINGS_H));
+            tryFacings(
+                    blockState,
+                    pos,
+                    checker,
+                    consumer,
+                    BlockStateProperties.HORIZONTAL_FACING,
+                    facing == null || facing.getAxis() == Direction.Axis.Y
+                            ? FACINGS_H
+                            : ArrayUtils.addAll(new Direction[] {facing}, FACINGS_H));
         }
     }
 
-    private void tryFacings(BlockState blockState, BlockPos pos, BiFunction<BlockPos, Direction, Boolean> checker, Consumer<BlockState> consumer, Property<Direction> property, Direction[] facings) {
+    private void tryFacings(
+            BlockState blockState,
+            BlockPos pos,
+            BiFunction<BlockPos, Direction, Boolean> checker,
+            Consumer<BlockState> consumer,
+            Property<Direction> property,
+            Direction[] facings) {
         Direction found = null;
         for (Direction facing : facings) {
             if (checker.apply(pos, facing)) {
@@ -264,7 +325,7 @@ public class MOBlockPattern extends BlockPattern {
     }
 
     private BlockPos setActualRelativeOffset(int x, int y, int z, Direction facing) {
-        int[] c0 = new int[]{x, y, z}, c1 = new int[3];
+        int[] c0 = new int[] {x, y, z}, c1 = new int[3];
         for (int i = 0; i < 3; i++) {
             switch (structureDir[i].getActualFacing(facing)) {
                 case UP -> c1[1] = c0[i];
@@ -277,5 +338,4 @@ public class MOBlockPattern extends BlockPattern {
         }
         return new BlockPos(c1[0], c1[1], c1[2]);
     }
-
 }

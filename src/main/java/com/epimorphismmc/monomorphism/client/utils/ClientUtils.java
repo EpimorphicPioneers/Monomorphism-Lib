@@ -6,15 +6,11 @@ package com.epimorphismmc.monomorphism.client.utils;
  * https://github.com/BluSunrize/ImmersiveEngineering
  * */
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
@@ -32,6 +28,8 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
@@ -262,5 +260,4 @@ public class ClientUtils {
     public static int getScaledWindowHeight() {
         return Minecraft.getInstance().getWindow().getGuiScaledHeight();
     }
-
 }

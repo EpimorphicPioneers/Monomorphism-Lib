@@ -3,13 +3,13 @@ package com.epimorphismmc.monomorphism.client.utils;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.joml.Vector4f;
 
 @OnlyIn(Dist.CLIENT)
 public class ColorHelper {
     public static class ARGB32 {
-        public ARGB32() {
-        }
+        public ARGB32() {}
 
         public static float alpha(int packedColor) {
             return (packedColor >>> 24) / 255.0F;
@@ -28,7 +28,10 @@ public class ColorHelper {
         }
 
         public static int color(float alpha, float red, float green, float blue) {
-            return (int) (alpha * 255) << 24 | (int) (red * 255) << 16 | (int) (green * 255) << 8 | (int) (blue * 255);
+            return (int) (alpha * 255) << 24
+                    | (int) (red * 255) << 16
+                    | (int) (green * 255) << 8
+                    | (int) (blue * 255);
         }
     }
 

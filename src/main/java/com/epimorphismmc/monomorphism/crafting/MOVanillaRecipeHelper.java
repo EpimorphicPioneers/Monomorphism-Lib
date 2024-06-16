@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.crafting;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -10,13 +11,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
 public class MOVanillaRecipeHelper {
 
-    public static void addRepairRecipe(Consumer<FinishedRecipe> provider, @NotNull ResourceLocation regName, @NotNull ItemStack requireRepair, int repairDamage, @NotNull Object... recipe) {
+    public static void addRepairRecipe(
+            Consumer<FinishedRecipe> provider,
+            @NotNull ResourceLocation regName,
+            @NotNull ItemStack requireRepair,
+            int repairDamage,
+            @NotNull Object... recipe) {
         var builder = new ItemRepairRecipeBuilder(regName);
         builder.repairDamage(repairDamage);
         builder.requireRepair(requireRepair);
@@ -42,5 +49,4 @@ public class MOVanillaRecipeHelper {
         }
         builder.save(provider);
     }
-
 }

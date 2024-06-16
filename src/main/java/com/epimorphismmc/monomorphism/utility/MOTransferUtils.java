@@ -1,17 +1,20 @@
 package com.epimorphismmc.monomorphism.utility;
 
-import com.google.common.collect.Table;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
+
 import com.lowdragmc.lowdraglib.misc.ItemTransferList;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
+
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+
+import com.google.common.collect.Table;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,11 +23,16 @@ import static java.util.Objects.requireNonNullElseGet;
 
 public class MOTransferUtils {
 
-    public static FluidStack drainFluid(Table<IO, RecipeCapability<?>, List<IRecipeHandler<?>>> capabilitiesProxy, FluidStack stack, boolean simulate) {
-        List<IRecipeHandler<?>> handlers = requireNonNullElseGet(capabilitiesProxy.get(IO.IN, GTRecipeCapabilities.FLUID), Collections::emptyList);
+    public static FluidStack drainFluid(
+            Table<IO, RecipeCapability<?>, List<IRecipeHandler<?>>> capabilitiesProxy,
+            FluidStack stack,
+            boolean simulate) {
+        List<IRecipeHandler<?>> handlers = requireNonNullElseGet(
+                capabilitiesProxy.get(IO.IN, GTRecipeCapabilities.FLUID), Collections::emptyList);
         List<?> list = List.of(FluidIngredient.of(stack));
         for (var handler : handlers) {
-            list = requireNonNullElseGet(handler.handleRecipe(IO.IN, null, list, null, simulate), Collections::emptyList);
+            list = requireNonNullElseGet(
+                    handler.handleRecipe(IO.IN, null, list, null, simulate), Collections::emptyList);
         }
 
         if (!list.isEmpty()) {
@@ -34,7 +42,8 @@ public class MOTransferUtils {
         return stack;
     }
 
-    public static ItemStack extractItemAccountNotifiableList(IItemTransfer handler, int slot, int amount, boolean simulate) {
+    public static ItemStack extractItemAccountNotifiableList(
+            IItemTransfer handler, int slot, int amount, boolean simulate) {
         if (handler instanceof ItemTransferList transferList) {
             int index = 0;
             for (var transfer : transferList.transfers) {
@@ -59,5 +68,4 @@ public class MOTransferUtils {
             }
         }
     }
-
 }

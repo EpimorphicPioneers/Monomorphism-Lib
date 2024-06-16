@@ -3,12 +3,13 @@ package com.epimorphismmc.monomorphism.gui.widget;
 import com.epimorphismmc.monomorphism.gui.utils.MODrawerHelper;
 import com.epimorphismmc.monomorphism.misc.BigItemStackTransfer;
 import com.epimorphismmc.monomorphism.utility.MOFormattingUtils;
+
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
 import com.lowdragmc.lowdraglib.utils.Position;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -16,24 +17,38 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
 public class BigSlotWidget extends SlotWidget {
 
-    public BigSlotWidget() {
-    }
+    public BigSlotWidget() {}
 
-    public BigSlotWidget(Container inventory, int slotIndex, int xPosition, int yPosition, boolean canTakeItems, boolean canPutItems) {
+    public BigSlotWidget(
+            Container inventory,
+            int slotIndex,
+            int xPosition,
+            int yPosition,
+            boolean canTakeItems,
+            boolean canPutItems) {
         super(inventory, slotIndex, xPosition, yPosition, canTakeItems, canPutItems);
     }
 
-    public BigSlotWidget(BigItemStackTransfer itemHandler, int slotIndex, int xPosition, int yPosition, boolean canTakeItems, boolean canPutItems) {
+    public BigSlotWidget(
+            BigItemStackTransfer itemHandler,
+            int slotIndex,
+            int xPosition,
+            int yPosition,
+            boolean canTakeItems,
+            boolean canPutItems) {
         super(itemHandler, slotIndex, xPosition, yPosition, canTakeItems, canPutItems);
     }
 
-    public BigSlotWidget(BigItemStackTransfer itemHandler, int slotIndex, int xPosition, int yPosition) {
+    public BigSlotWidget(
+            BigItemStackTransfer itemHandler, int slotIndex, int xPosition, int yPosition) {
         super(itemHandler, slotIndex, xPosition, yPosition);
     }
 
@@ -63,18 +78,25 @@ public class BigSlotWidget extends SlotWidget {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+    public void drawInBackground(
+            @NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         drawBackgroundTexture(graphics, mouseX, mouseY);
         Position pos = getPosition();
         if (slotReference != null) {
             ItemStack itemStack = getRealStack(slotReference.getItem());
             ModularUIGuiContainer modularUIGui = gui == null ? null : gui.getModularUIGui();
-            if (itemStack.isEmpty() && modularUIGui != null && modularUIGui.getQuickCrafting() && modularUIGui.getQuickCraftSlots().contains(slotReference)) { // draw split
+            if (itemStack.isEmpty()
+                    && modularUIGui != null
+                    && modularUIGui.getQuickCrafting()
+                    && modularUIGui.getQuickCraftSlots().contains(slotReference)) { // draw split
                 int splitSize = modularUIGui.getQuickCraftSlots().size();
                 itemStack = gui.getModularUIContainer().getCarried();
-                if (!itemStack.isEmpty() && splitSize > 1 && AbstractContainerMenu.canItemQuickReplace(slotReference, itemStack, true)) {
+                if (!itemStack.isEmpty()
+                        && splitSize > 1
+                        && AbstractContainerMenu.canItemQuickReplace(slotReference, itemStack, true)) {
                     itemStack = itemStack.copy();
-                    itemStack.grow(AbstractContainerMenu.getQuickCraftPlaceCount(modularUIGui.getQuickCraftSlots(), modularUIGui.dragSplittingLimit, itemStack));
+                    itemStack.grow(AbstractContainerMenu.getQuickCraftPlaceCount(
+                            modularUIGui.getQuickCraftSlots(), modularUIGui.dragSplittingLimit, itemStack));
                     int k = Math.min(itemStack.getMaxStackSize(), slotReference.getMaxStackSize(itemStack));
                     if (itemStack.getCount() > k) {
                         itemStack.setCount(k);
@@ -84,16 +106,20 @@ public class BigSlotWidget extends SlotWidget {
             if (!itemStack.isEmpty()) {
                 DrawerHelper.drawItemStack(graphics, itemStack, pos.x + 1, pos.y + 1, -1, " ");
                 if (itemStack.getCount() > 1) {
-                    MODrawerHelper.renderStackCount(graphics, MOFormattingUtils.abbreviate2F(itemStack.getCount()), pos.x + 1, pos.y + 1);
+                    MODrawerHelper.renderStackCount(
+                            graphics, MOFormattingUtils.abbreviate2F(itemStack.getCount()), pos.x + 1, pos.y + 1);
                 }
             }
         }
         if (overlay != null) {
             overlay.draw(graphics, mouseX, mouseY, pos.x, pos.y, 18, 18);
         }
-        if (drawHoverOverlay && isMouseOverElement(mouseX, mouseY) && getHoverElement(mouseX, mouseY) == this) {
+        if (drawHoverOverlay
+                && isMouseOverElement(mouseX, mouseY)
+                && getHoverElement(mouseX, mouseY) == this) {
             RenderSystem.colorMask(true, true, true, false);
-            DrawerHelper.drawSolidRect(graphics, getPosition().x + 1, getPosition().y + 1, 16, 16, 0x80FFFFFF);
+            DrawerHelper.drawSolidRect(
+                    graphics, getPosition().x + 1, getPosition().y + 1, 16, 16, 0x80FFFFFF);
             RenderSystem.colorMask(true, true, true, true);
         }
     }

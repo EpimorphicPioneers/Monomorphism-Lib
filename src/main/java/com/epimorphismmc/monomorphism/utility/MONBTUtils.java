@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.utility;
 
 import com.epimorphismmc.monomorphism.Monomorphism;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -11,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 public class MONBTUtils {
     public static CompoundTag writeBoolArray(String key, CompoundTag tag, boolean[] array) {
         byte[] bytes = new byte[array.length];
-        for(byte i = 0; i < array.length; i++) {
+        for (byte i = 0; i < array.length; i++) {
             bytes[i] = (byte) (array[i] ? 1 : 0);
         }
         tag.putByteArray(key, bytes);
@@ -21,7 +22,7 @@ public class MONBTUtils {
     public static boolean[] readBoolArray(String key, CompoundTag tag) {
         byte[] bytes = tag.getByteArray(key);
         boolean[] array = new boolean[bytes.length];
-        for(int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; i++) {
             array[i] = bytes[i] > 0;
         }
         return array;

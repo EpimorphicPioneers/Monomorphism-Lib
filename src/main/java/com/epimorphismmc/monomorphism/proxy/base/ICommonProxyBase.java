@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.proxy.base;
 import com.epimorphismmc.monomorphism.Monomorphism;
 import com.epimorphismmc.monomorphism.capability.CapabilityHandler;
 import com.epimorphismmc.monomorphism.capability.ICapabilityImplementation;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
@@ -18,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
+
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -62,7 +64,9 @@ public interface ICommonProxyBase {
 
         bus.addGenericListener(Element.class, this::registerElements);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
-        bus.addGenericListener((Class<Class<? extends RecipeCondition>>) RecipeCondition.class.getClass(), this::registerRecipeConditions);
+        bus.addGenericListener(
+                (Class<Class<? extends RecipeCondition>>) RecipeCondition.class.getClass(),
+                this::registerRecipeConditions);
         bus.addGenericListener(RecipeCapability.class, this::registerRecipeCapabilities);
         bus.addGenericListener(MachineDefinition.class, this::registerMachineDefinitions);
         bus.addGenericListener(CoverDefinition.class, this::registerCoverDefinitions);
@@ -73,86 +77,60 @@ public interface ICommonProxyBase {
 
     /** Registers an event handler */
     default void registerEventHandler(Object handler) {
-        Monomorphism.instance.getLogger().debug("Registering event handler: " + handler.getClass().getName());
+        Monomorphism.instance
+                .getLogger()
+                .debug("Registering event handler: " + handler.getClass().getName());
         MinecraftForge.EVENT_BUS.register(handler);
     }
 
     /** Registers a capability */
     @SuppressWarnings("unchecked")
-    default void registerCapability(ICapabilityImplementation<? extends ICapabilityProvider, ?> capability) {
+    default void registerCapability(
+            ICapabilityImplementation<? extends ICapabilityProvider, ?> capability) {
         CapabilityHandler.getInstance().registerCapability(capability);
     }
 
-    default void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+    default void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {}
 
-    }
+    default void registerRecipeCapabilities(
+            GTCEuAPI.RegisterEvent<String, RecipeCapability<?>> event) {}
 
-    default void registerRecipeCapabilities(GTCEuAPI.RegisterEvent<String, RecipeCapability<?>> event) {
+    default void registerRecipeConditions(
+            GTCEuAPI.RegisterEvent<String, Class<? extends RecipeCondition>> event) {}
 
-    }
+    default void registerRecipeKeys(KJSRecipeKeyEvent event) {}
 
-    default void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, Class<? extends RecipeCondition>> event) {
+    default void registerTagPrefixes() {}
 
-    }
+    default void registerElements(GTCEuAPI.RegisterEvent<String, Element> event) {}
 
-    default void registerRecipeKeys(KJSRecipeKeyEvent event) {
+    default void registerMaterialRegistry(MaterialRegistryEvent event) {}
 
-    }
+    default void registerMaterials(MaterialEvent event) {}
 
-    default void registerTagPrefixes() {
+    default void postRegisterMaterials(PostMaterialEvent event) {}
 
-    }
+    default void collectMaterialCasings(MaterialCasingCollectionEvent event) {}
 
-    default void registerElements(GTCEuAPI.RegisterEvent<String, Element> event) {
+    default void registerMachineDefinitions(
+            GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {}
 
-    }
+    default void registerCoverDefinitions(
+            GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {}
 
-    default void registerMaterialRegistry(MaterialRegistryEvent event) {
-    }
+    default void registerSoundEntries(GTCEuAPI.RegisterEvent<ResourceLocation, SoundEntry> event) {}
 
-    default void registerMaterials(MaterialEvent event) {
+    default void registerWorldgenLayers() {}
 
-    }
+    default void registerVeinGenerators() {}
 
-    default void postRegisterMaterials(PostMaterialEvent event) {
+    default void registerIndicatorGenerators() {}
 
-    }
+    default void registerOreDefinitions(
+            GTCEuAPI.RegisterEvent<ResourceLocation, GTOreDefinition> event) {}
 
-    default void collectMaterialCasings(MaterialCasingCollectionEvent event) {
-
-    }
-
-    default void registerMachineDefinitions(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
-
-    }
-
-    default void registerCoverDefinitions(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
-
-    }
-
-    default void registerSoundEntries(GTCEuAPI.RegisterEvent<ResourceLocation, SoundEntry> event) {
-
-    }
-
-    default void registerWorldgenLayers() {
-
-    }
-
-    default void registerVeinGenerators() {
-
-    }
-
-    default void registerIndicatorGenerators() {
-
-    }
-
-    default void registerOreDefinitions(GTCEuAPI.RegisterEvent<ResourceLocation, GTOreDefinition> event) {
-
-    }
-
-    default void registerBedrockFluidDefinitions(GTCEuAPI.RegisterEvent<ResourceLocation, BedrockFluidDefinition> event) {
-
-    }
+    default void registerBedrockFluidDefinitions(
+            GTCEuAPI.RegisterEvent<ResourceLocation, BedrockFluidDefinition> event) {}
 
     /**
      * -----------------------------
@@ -171,13 +149,17 @@ public interface ICommonProxyBase {
 
     default void onModLoadCompleteEvent(final FMLLoadCompleteEvent event) {}
 
-    default void onServerStartingEvent(final ServerStartingEvent event) {};
+    default void onServerStartingEvent(final ServerStartingEvent event) {}
+    ;
 
-    default void onServerAboutToStartEvent(final ServerAboutToStartEvent event) {};
+    default void onServerAboutToStartEvent(final ServerAboutToStartEvent event) {}
+    ;
 
-    default void onServerStoppingEvent(final ServerStoppingEvent event) {};
+    default void onServerStoppingEvent(final ServerStoppingEvent event) {}
+    ;
 
-    default void onServerStoppedEvent(final ServerStoppedEvent event) {};
+    default void onServerStoppedEvent(final ServerStoppedEvent event) {}
+    ;
 
     /**
      * ---------------
@@ -244,8 +226,7 @@ public interface ICommonProxyBase {
     /**
      *  @return the render view entity on the client, null on the server
      */
-    @Nullable
-    default Entity getRenderViewEntity() {
+    @Nullable default Entity getRenderViewEntity() {
         return null;
     }
 
@@ -270,6 +251,7 @@ public interface ICommonProxyBase {
 
     /** Queues a task to be executed on this side */
     default void queueTask(Runnable task) {
-        this.getMinecraftServer().submit(new TickTask(this.getMinecraftServer().getTickCount() + 1, task));
+        this.getMinecraftServer()
+                .submit(new TickTask(this.getMinecraftServer().getTickCount() + 1, task));
     }
 }

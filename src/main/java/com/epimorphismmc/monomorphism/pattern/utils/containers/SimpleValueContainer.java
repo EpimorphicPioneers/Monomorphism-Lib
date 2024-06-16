@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.pattern.utils.containers;
 
 import net.minecraft.world.level.block.Block;
+
 import org.apache.commons.lang3.function.TriFunction;
 
 public class SimpleValueContainer<T> implements IValueContainer<T> {

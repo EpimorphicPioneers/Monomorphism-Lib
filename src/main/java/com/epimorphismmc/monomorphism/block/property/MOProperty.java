@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.block.property;
 
 import com.epimorphismmc.monomorphism.utility.DirectionalConnectivity;
+
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +27,11 @@ public class MOProperty<T extends Comparable<T>> {
     private final MirrorHandler<T> mirrorHandler;
     private final RotationHandler<T> rotationHandler;
 
-    private MOProperty(Property<T> property, T defaultValue, MirrorHandler<T> mirrorHandler, RotationHandler<T> rotationHandler) {
+    private MOProperty(
+            Property<T> property,
+            T defaultValue,
+            MirrorHandler<T> mirrorHandler,
+            RotationHandler<T> rotationHandler) {
         this.property = property;
         this.defaultValue = defaultValue;
         this.mirrorHandler = mirrorHandler;
@@ -49,7 +54,8 @@ public class MOProperty<T extends Comparable<T>> {
         return this.getProperty().getPossibleValues();
     }
 
-    protected StateDefinition.Builder<Block, BlockState> apply(StateDefinition.Builder<Block, BlockState> builder) {
+    protected StateDefinition.Builder<Block, BlockState> apply(
+            StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(this.getProperty());
         return builder;
     }
@@ -81,10 +87,14 @@ public class MOProperty<T extends Comparable<T>> {
     public static class Defaults {
         private Defaults() {}
 
-        private static final MOProperty<Boolean> WATERLOGGED = Creators.create(BlockStateProperties.WATERLOGGED, false);
-        private static final MOProperty<Boolean> LAVALOGGED = Creators.create(BooleanProperty.create("lavalogged"), false);
-        private static final MOProperty<FluidLogged> FLUIDLOGGED  = Creators.create(EnumProperty.create("fluidlogged", FluidLogged.class), FluidLogged.NONE);
-        private static final MOProperty<DirectionalConnectivity> CONNECTIVITY = Creators.create("connectivity", DirectionalConnectivity.NONE);
+        private static final MOProperty<Boolean> WATERLOGGED =
+                Creators.create(BlockStateProperties.WATERLOGGED, false);
+        private static final MOProperty<Boolean> LAVALOGGED =
+                Creators.create(BooleanProperty.create("lavalogged"), false);
+        private static final MOProperty<FluidLogged> FLUIDLOGGED =
+                Creators.create(EnumProperty.create("fluidlogged", FluidLogged.class), FluidLogged.NONE);
+        private static final MOProperty<DirectionalConnectivity> CONNECTIVITY =
+                Creators.create("connectivity", DirectionalConnectivity.NONE);
 
         public static MOProperty<Boolean> waterlogged() {
             return WATERLOGGED;
@@ -126,51 +136,77 @@ public class MOProperty<T extends Comparable<T>> {
             return create(EnumProperty.create(name, Direction.Axis.class), defaultValue);
         }
 
-        public static MOProperty<Direction.Axis> createHorizontals(String name, Direction.Axis defaultValue) {
-            return create(EnumProperty.create(name, Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z), defaultValue);
+        public static MOProperty<Direction.Axis> createHorizontals(
+                String name, Direction.Axis defaultValue) {
+            return create(
+                    EnumProperty.create(name, Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z),
+                    defaultValue);
         }
 
-        public static MOProperty<DirectionalConnectivity> create(String name, DirectionalConnectivity defaultValue) {
+        public static MOProperty<DirectionalConnectivity> create(
+                String name, DirectionalConnectivity defaultValue) {
             return create(Properties.Connectivity.create(name), defaultValue);
         }
 
-        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(String name, Class<T> valueClass, T defaultValue) {
+        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(
+                String name, Class<T> valueClass, T defaultValue) {
             return create(EnumProperty.create(name, valueClass), defaultValue);
         }
 
-        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(String name, Class<T> valueClass, T defaultValue, Collection<T> allowedValues) {
+        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(
+                String name, Class<T> valueClass, T defaultValue, Collection<T> allowedValues) {
             return create(EnumProperty.create(name, valueClass, allowedValues), defaultValue);
         }
 
-        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(String name, Class<T> valueClass, T defaultValue, T... allowedValues) {
+        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(
+                String name, Class<T> valueClass, T defaultValue, T... allowedValues) {
             return create(EnumProperty.create(name, valueClass, allowedValues), defaultValue);
         }
 
-        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(String name, Class<T> valueClass, T defaultValue, Predicate<T> allowedValues) {
+        public static <T extends Enum<T> & StringRepresentable> MOProperty<T> create(
+                String name, Class<T> valueClass, T defaultValue, Predicate<T> allowedValues) {
             return create(EnumProperty.create(name, valueClass, allowedValues), defaultValue);
         }
 
-        public static <T extends Comparable<T>> MOProperty<T> create(Property<T> property, T defaultValue) {
-            return create(property, defaultValue, MirrorHandler.Handlers.defaultHandler(), RotationHandler.Handlers.defaultHandler());
+        public static <T extends Comparable<T>> MOProperty<T> create(
+                Property<T> property, T defaultValue) {
+            return create(
+                    property,
+                    defaultValue,
+                    MirrorHandler.Handlers.defaultHandler(),
+                    RotationHandler.Handlers.defaultHandler());
         }
 
-        public static <T extends Comparable<T>> MOProperty<T> create(Property<T> property, T defaultValue, MirrorHandler<T> mirrorHandler) {
-            return create(property, defaultValue, mirrorHandler, RotationHandler.Handlers.defaultHandler());
+        public static <T extends Comparable<T>> MOProperty<T> create(
+                Property<T> property, T defaultValue, MirrorHandler<T> mirrorHandler) {
+            return create(
+                    property, defaultValue, mirrorHandler, RotationHandler.Handlers.defaultHandler());
         }
 
         public static MOProperty<Direction> create(DirectionProperty property, Direction defaultValue) {
-            return create(property, defaultValue, MirrorHandler.Handlers.direction(), RotationHandler.Handlers.direction());
+            return create(
+                    property,
+                    defaultValue,
+                    MirrorHandler.Handlers.direction(),
+                    RotationHandler.Handlers.direction());
         }
 
-        public static MOProperty<Direction.Axis> create(EnumProperty<Direction.Axis> property, Direction.Axis defaultValue) {
+        public static MOProperty<Direction.Axis> create(
+                EnumProperty<Direction.Axis> property, Direction.Axis defaultValue) {
             return create(property, defaultValue, RotationHandler.Handlers.axis());
         }
 
-        public static <T extends Comparable<T>> MOProperty<T> create(Property<T> property, T defaultValue, RotationHandler<T> rotationHandler) {
-            return create(property, defaultValue, MirrorHandler.Handlers.defaultHandler(), rotationHandler);
+        public static <T extends Comparable<T>> MOProperty<T> create(
+                Property<T> property, T defaultValue, RotationHandler<T> rotationHandler) {
+            return create(
+                    property, defaultValue, MirrorHandler.Handlers.defaultHandler(), rotationHandler);
         }
 
-        public static <T extends Comparable<T>> MOProperty<T> create(Property<T> property, T defaultValue, MirrorHandler<T> mirrorHandler, RotationHandler<T> rotationHandler) {
+        public static <T extends Comparable<T>> MOProperty<T> create(
+                Property<T> property,
+                T defaultValue,
+                MirrorHandler<T> mirrorHandler,
+                RotationHandler<T> rotationHandler) {
             return new MOProperty<>(property, defaultValue, mirrorHandler, rotationHandler);
         }
     }
@@ -239,7 +275,10 @@ public class MOProperty<T extends Comparable<T>> {
         }
 
         public static FluidLogged get(Fluid fluid) {
-            return Arrays.stream(values()).filter(val -> val.getFluid() == fluid).findAny().orElse(NONE);
+            return Arrays.stream(values())
+                    .filter(val -> val.getFluid() == fluid)
+                    .findAny()
+                    .orElse(NONE);
         }
 
         // this could be problematic, enum should be extended before state containers are filled.
@@ -248,5 +287,4 @@ public class MOProperty<T extends Comparable<T>> {
             throw new IllegalStateException("Enum not extended");
         }
     }
-
 }
