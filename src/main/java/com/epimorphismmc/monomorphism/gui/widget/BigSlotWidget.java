@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.gui.widget;
 
 import com.epimorphismmc.monomorphism.gui.utils.MODrawerHelper;
-import com.epimorphismmc.monomorphism.misc.BigItemStackTransfer;
+import com.epimorphismmc.monomorphism.transfer.item.BigItemStackTransfer;
 import com.epimorphismmc.monomorphism.utility.MOFormattingUtils;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
