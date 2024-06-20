@@ -20,7 +20,6 @@ public class BigItemStackTransfer extends ItemStackTransfer {
     @Getter
     private final boolean acceptTag;
 
-    @Getter
     private final int slotLimit;
 
     public BigItemStackTransfer(boolean acceptTag, int slotLimit) {
