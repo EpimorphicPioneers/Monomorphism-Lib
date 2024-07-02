@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
+import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.Element;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
@@ -55,6 +56,7 @@ public interface ICommonProxyBase {
 
     /**
      * Called to register event handlers for FML IModBusEvent events
+     *
      * @param bus the bus for the mod
      */
     default void registerModBusEventHandlers(IEventBus bus) {
@@ -73,9 +75,12 @@ public interface ICommonProxyBase {
         bus.addGenericListener(SoundEntry.class, this::registerSoundEntries);
         bus.addGenericListener(BedrockFluidDefinition.class, this::registerBedrockFluidDefinitions);
         bus.addGenericListener(GTOreDefinition.class, this::registerOreDefinitions);
+        bus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
     }
 
-    /** Registers an event handler */
+    /**
+     * Registers an event handler
+     */
     default void registerEventHandler(Object handler) {
         Monomorphism.instance
                 .getLogger()
@@ -83,7 +88,9 @@ public interface ICommonProxyBase {
         MinecraftForge.EVENT_BUS.register(handler);
     }
 
-    /** Registers a capability */
+    /**
+     * Registers a capability
+     */
     @SuppressWarnings("unchecked")
     default void registerCapability(
             ICapabilityImplementation<? extends ICapabilityProvider, ?> capability) {
@@ -132,6 +139,9 @@ public interface ICommonProxyBase {
     default void registerBedrockFluidDefinitions(
             GTCEuAPI.RegisterEvent<ResourceLocation, BedrockFluidDefinition> event) {}
 
+    default void registerDimensionMarkers(
+            GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {}
+
     /**
      * -----------------------------
      * FML MOD LOADING CYCLE METHODS
@@ -150,16 +160,12 @@ public interface ICommonProxyBase {
     default void onModLoadCompleteEvent(final FMLLoadCompleteEvent event) {}
 
     default void onServerStartingEvent(final ServerStartingEvent event) {}
-    ;
 
     default void onServerAboutToStartEvent(final ServerAboutToStartEvent event) {}
-    ;
 
     default void onServerStoppingEvent(final ServerStoppingEvent event) {}
-    ;
 
     default void onServerStoppedEvent(final ServerStoppedEvent event) {}
-    ;
 
     /**
      * ---------------
@@ -210,33 +216,33 @@ public interface ICommonProxyBase {
     }
 
     /**
-     *  @return  the entity in that World object with that id
+     * @return the entity in that World object with that id
      */
     default Entity getEntityById(Level world, int id) {
         return world == null ? null : world.getEntity(id);
     }
 
     /**
-     *  @return  the entity in that World object with that id
+     * @return the entity in that World object with that id
      */
     default Entity getEntityById(ResourceKey<Level> dimension, int id) {
         return this.getEntityById(this.getWorldFromDimension(dimension), id);
     }
 
     /**
-     *  @return the render view entity on the client, null on the server
+     * @return the render view entity on the client, null on the server
      */
     @Nullable default Entity getRenderViewEntity() {
         return null;
     }
 
     /**
-     *  Sets the render view entity on the client
+     * Sets the render view entity on the client
      */
     default void setRenderViewEntity(Entity entity) {}
 
     /**
-     *  @return the World object ofr a given dimension key
+     * @return the World object ofr a given dimension key
      */
     default Level getWorldFromDimension(ResourceKey<Level> dimension) {
         return this.getMinecraftServer().getLevel(dimension);
@@ -249,7 +255,9 @@ public interface ICommonProxyBase {
         return 70;
     }
 
-    /** Queues a task to be executed on this side */
+    /**
+     * Queues a task to be executed on this side
+     */
     default void queueTask(Runnable task) {
         this.getMinecraftServer()
                 .submit(new TickTask(this.getMinecraftServer().getTickCount() + 1, task));
