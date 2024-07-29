@@ -27,10 +27,7 @@ public class MOMathUtils {
 
     public static final double PI2 = Math.PI * 2;
 
-    public static long clamp(long value, long min, long max) {
-        return value < min ? min : Math.min(value, max);
-    }
-
+    @Deprecated(since = "gtm@1.3.2", forRemoval = true) //TODO
     public static int[] split(long value) {
         IntArrayList result = new IntArrayList();
         while (value > 0) {

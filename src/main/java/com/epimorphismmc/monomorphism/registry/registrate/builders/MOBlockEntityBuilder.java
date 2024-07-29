@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.registry.registrate;
+package com.epimorphismmc.monomorphism.registry.registrate.builders;
 
 import com.epimorphismmc.monomorphism.blockentity.MOBlockEntityType;
 import com.epimorphismmc.monomorphism.mixins.accessors.BlockEntityBuilderAccessor;

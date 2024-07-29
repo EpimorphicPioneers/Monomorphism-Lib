@@ -9,11 +9,11 @@ import java.math.BigInteger;
  * @date : 2024/5/24
  */
 public class BigIntMath {
-    public static final BigInteger LONG_MAX_VALUE = BigInteger.valueOf(Long.MAX_VALUE);
+    public static final BigInteger LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
 
     public static long getLongValue(BigInteger value) {
         if (value != null) {
-            return value.compareTo(LONG_MAX_VALUE) < 0 ? value.longValue() : Long.MAX_VALUE;
+            return value.compareTo(LONG_MAX) < 0 ? value.longValue() : Long.MAX_VALUE;
         }
         return 0L;
     }

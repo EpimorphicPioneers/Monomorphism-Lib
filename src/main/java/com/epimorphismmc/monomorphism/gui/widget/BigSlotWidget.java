@@ -64,7 +64,7 @@ public class BigSlotWidget extends SlotWidget {
                 if (getItemHandler() instanceof BigItemStackTransfer bigTransfer) {
                     if (!bigTransfer.isAcceptTag() && stack.hasTag()) return 0;
                     ItemStack maxAdd = stack.copy();
-                    int maxInput = stack.isStackable() ? bigTransfer.getSlotLimit() : 1;
+                    int maxInput = stack.isStackable() ? bigTransfer.getSlotLimit(index) : 1;
                     maxAdd.setCount(maxInput);
                     ItemStack currentStack = itemHandler.getStackInSlot(index);
                     itemHandler.setStackInSlot(index, ItemStack.EMPTY);

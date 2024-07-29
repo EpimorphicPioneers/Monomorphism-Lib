@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import org.slf4j.Logger;
 
-import static com.epimorphismmc.monomorphism.datagen.MOProviderTypes.*;
+import static com.epimorphismmc.monomorphism.registry.registrate.providers.MOProviderTypes.*;
 
 @Mod(Monomorphism.MODID)
 public class Monomorphism extends MOMod<CommonProxy> {

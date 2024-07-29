@@ -24,20 +24,11 @@ import java.util.stream.Collectors;
 import static com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper.UNIFICATION_ENTRY_ITEM;
 import static com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper.getTags;
 
+@Deprecated(since = "gtm@1.3.2", forRemoval = true) //TODO
 public class MOChemicalHelper {
 
     public static final Map<TagPrefix, ArrayList<Supplier<? extends ItemLike>>> TAG_PREFIX_ITEM =
             new ConcurrentHashMap<>();
-
-    @Nullable public static Material getMaterial(String name) {
-        for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {
-            var material = registry.get(name);
-            if (material != null) {
-                return material;
-            }
-        }
-        return null;
-    }
 
     public static List<ItemLike> getItems(TagPrefix tagPrefix) {
         return TAG_PREFIX_ITEM

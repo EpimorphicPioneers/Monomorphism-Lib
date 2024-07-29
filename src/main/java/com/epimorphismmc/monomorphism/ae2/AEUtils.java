@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import static com.epimorphismmc.monomorphism.utility.MOMathUtils.*;
 
+@Deprecated(since = "gtm@1.3.2", forRemoval = true) //TODO
 public class AEUtils {
     @Nullable public static GenericStack fromFluidStack(FluidStack stack) {
         if (stack == null || stack.isEmpty()) return null;

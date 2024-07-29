@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.datagen;
+package com.epimorphismmc.monomorphism.registry.registrate.data;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;

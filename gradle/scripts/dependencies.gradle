@@ -12,6 +12,21 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
+    // manifold
+    forgeRuntimeLibrary(implementation(include('systems.manifold:manifold-ext-rt:2024.1.27'))) {transitive = false}
+    forgeRuntimeLibrary(implementation(include('systems.manifold:manifold-rt:2024.1.27'))) {transitive = false}
+    forgeRuntimeLibrary(implementation(include('systems.manifold:manifold-util:2024.1.27'))) {transitive = false}
+    forgeRuntimeLibrary(implementation(include('systems.manifold:manifold-collections:2024.1.27'))) {transitive = false}
+    forgeRuntimeLibrary(implementation(include('systems.manifold:manifold-text:2024.1.27'))) {transitive = false}
+    annotationProcessor 'systems.manifold:manifold-ext:2024.1.27'
+    testAnnotationProcessor 'systems.manifold:manifold-ext:2024.1.27'
+
+    annotationProcessor 'systems.manifold:manifold-collections:2024.1.27'
+    testAnnotationProcessor 'systems.manifold:manifold-collections:2024.1.27'
+
+    annotationProcessor 'systems.manifold:manifold-text:2024.1.27'
+    testAnnotationProcessor 'systems.manifold:manifold-text:2024.1.27'
+
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     // tests
@@ -21,7 +36,7 @@ dependencies {
 
     // Mixin Extras
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${this.forge.versions.mixinextras.get()}"))
-    api(include("io.github.llamalad7:mixinextras-forge:${this.forge.versions.mixinextras.get()}"))
+    api("io.github.llamalad7:mixinextras-forge:${this.forge.versions.mixinextras.get()}")
 
     /* -------------------------------------------------- Libraries -------------------------------------------------- */
 

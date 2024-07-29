@@ -1,6 +1,4 @@
-package com.epimorphismmc.monomorphism.datagen.lang;
-
-import com.epimorphismmc.monomorphism.datagen.MOProviderTypes;
+package com.epimorphismmc.monomorphism.registry.registrate.providers;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

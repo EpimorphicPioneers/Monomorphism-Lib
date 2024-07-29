@@ -1,5 +1,7 @@
 package com.epimorphismmc.monomorphism.datagen.lang;
 
+import com.epimorphismmc.monomorphism.registry.registrate.providers.MOLangProvider;
+
 public class MOLangHandler {
 
     private MOLangHandler() {

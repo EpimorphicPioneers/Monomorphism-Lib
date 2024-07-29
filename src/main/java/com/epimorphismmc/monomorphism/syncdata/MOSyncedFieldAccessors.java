@@ -1,8 +1,9 @@
-package com.epimorphismmc.monomorphism.syncdata.accessor;
+package com.epimorphismmc.monomorphism.syncdata;
 
+import com.epimorphismmc.monomorphism.syncdata.accessor.BigIntegerAccessor;
+import com.epimorphismmc.monomorphism.syncdata.payload.ByteArrayPayload;
 import com.lowdragmc.lowdraglib.syncdata.IAccessor;
 import com.lowdragmc.lowdraglib.syncdata.TypedPayloadRegistries;
-import com.lowdragmc.lowdraglib.syncdata.payload.StringPayload;
 
 public class MOSyncedFieldAccessors {
 
@@ -10,6 +11,6 @@ public class MOSyncedFieldAccessors {
 
     public static void init() {
         TypedPayloadRegistries.register(
-                StringPayload.class, StringPayload::new, BIG_INTEGER_ACCESSOR, -1);
+                ByteArrayPayload.class, ByteArrayPayload::new, BIG_INTEGER_ACCESSOR, -1);
     }
 }

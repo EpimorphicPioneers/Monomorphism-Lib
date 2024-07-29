@@ -39,7 +39,7 @@ public class MOValues {
             T = (int) Math.pow(10, 12),
             P = (int) Math.pow(10, 15);
 
-    public static final String[] CVLVH = new String[] {
+    public static final String[] CVLVH = {
         "蒸汽", // not doing the gray color for these first two because it looks weird
         "基础",
         AQUA + "进阶",

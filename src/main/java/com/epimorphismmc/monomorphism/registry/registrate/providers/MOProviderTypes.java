@@ -1,6 +1,4 @@
-package com.epimorphismmc.monomorphism.datagen;
-
-import com.epimorphismmc.monomorphism.datagen.lang.MOLangProvider;
+package com.epimorphismmc.monomorphism.registry.registrate.providers;
 
 import com.tterrag.registrate.providers.ProviderType;
 

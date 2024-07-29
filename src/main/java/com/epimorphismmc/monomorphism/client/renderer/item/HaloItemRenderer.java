@@ -1,7 +1,6 @@
 package com.epimorphismmc.monomorphism.client.renderer.item;
 
 import com.epimorphismmc.monomorphism.client.utils.AlphaVertexConsumer;
-import com.epimorphismmc.monomorphism.client.utils.ColorHelper;
 import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
 import com.epimorphismmc.monomorphism.item.component.IHaloEffect;
 
@@ -10,6 +9,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
 
+import com.lowdragmc.lowdraglib.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -80,10 +80,10 @@ public class HaloItemRenderer extends WrappedItemRenderer {
 
                 if (hri.shouldDrawHalo()) {
                     int colour = hri.haloColour();
-                    float r = ColorHelper.ARGB32.red(colour);
-                    float g = ColorHelper.ARGB32.green(colour);
-                    float b = ColorHelper.ARGB32.blue(colour);
-                    float a = ColorHelper.ARGB32.alpha(colour);
+                    float r = ColorUtils.red(colour);
+                    float g = ColorUtils.green(colour);
+                    float b = ColorUtils.blue(colour);
+                    float a = ColorUtils.alpha(colour);
 
                     RenderSystem.setShaderColor(r, g, b, a);
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);

@@ -150,16 +150,12 @@ public interface ICommonProxyBase {
     default void onModLoadCompleteEvent(final FMLLoadCompleteEvent event) {}
 
     default void onServerStartingEvent(final ServerStartingEvent event) {}
-    ;
 
     default void onServerAboutToStartEvent(final ServerAboutToStartEvent event) {}
-    ;
 
     default void onServerStoppingEvent(final ServerStoppingEvent event) {}
-    ;
 
     default void onServerStoppedEvent(final ServerStoppedEvent event) {}
-    ;
 
     /**
      * ---------------
