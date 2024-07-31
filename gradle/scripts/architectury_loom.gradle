@@ -1,4 +1,7 @@
 architectury {
+    minecraft = libs.versions.minecraft
+
+    compileOnly()
     platformSetupLoomIde()
     forge()
 }
