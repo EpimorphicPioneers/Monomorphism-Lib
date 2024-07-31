@@ -1,8 +1,9 @@
 package com.epimorphismmc.monomorphism.extensions.net.minecraft.nbt.CompoundTag;
 
+import net.minecraft.nbt.CompoundTag;
+
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
-import net.minecraft.nbt.CompoundTag;
 
 @Extension
 public class CompoundTagExt {
@@ -23,5 +24,4 @@ public class CompoundTagExt {
         }
         return array;
     }
-
 }

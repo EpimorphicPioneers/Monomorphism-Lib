@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.syncdata.accessor;
 
 import com.epimorphismmc.monomorphism.syncdata.payload.ByteArrayPayload;
+
 import com.lowdragmc.lowdraglib.syncdata.AccessorOp;
 import com.lowdragmc.lowdraglib.syncdata.accessor.CustomObjectAccessor;
 import com.lowdragmc.lowdraglib.syncdata.payload.ITypedPayload;

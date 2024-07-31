@@ -1,10 +1,12 @@
 package com.epimorphismmc.monomorphism.syncdata.payload;
 
 import com.lowdragmc.lowdraglib.syncdata.payload.ObjectTypedPayload;
-import lombok.NoArgsConstructor;
+
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
 @NoArgsConstructor
@@ -24,8 +26,7 @@ public class ByteArrayPayload extends ObjectTypedPayload<byte[]> {
         this.payload = buf.readByteArray();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Tag serializeNBT() {
         return new ByteArrayTag(payload);
     }

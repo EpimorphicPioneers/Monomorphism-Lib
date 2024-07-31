@@ -41,7 +41,7 @@ public class MOTransferUtils {
         return stack;
     }
 
-    @Deprecated(since = "gtm@1.3.2", forRemoval = true) //TODO
+    @Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
     public static ItemStack extractItemAccountNotifiableList(
             IItemTransfer handler, int slot, int amount, boolean simulate) {
         if (handler instanceof ItemTransferList transferList) {

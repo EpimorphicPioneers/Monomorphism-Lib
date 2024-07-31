@@ -27,7 +27,7 @@ public class MOMathUtils {
 
     public static final double PI2 = Math.PI * 2;
 
-    @Deprecated(since = "gtm@1.3.2", forRemoval = true) //TODO
+    @Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
     public static int[] split(long value) {
         IntArrayList result = new IntArrayList();
         while (value > 0) {

@@ -15,11 +15,6 @@ apply plugin: "java"
 apply plugin: "architectury-plugin"
 apply plugin: "maven-publish"
 
-architectury {
-    compileOnly()
-    minecraft = libs.versions.minecraft
-}
-
 tasks.register('remapSlimJar', RemapJarTask) {
     dependsOn(jar)
     inputFile.set jar.archiveFile

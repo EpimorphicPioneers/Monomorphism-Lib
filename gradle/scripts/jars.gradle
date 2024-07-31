@@ -7,7 +7,6 @@ java {
 shadowJar {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
-//    relocate "manifold", "${maven_group}.libs.manifold"
 
     configurations = [project.configurations.shadow]
     archiveClassifier = "dev-shadow"

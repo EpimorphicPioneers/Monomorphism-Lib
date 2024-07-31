@@ -12,8 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
 import static com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper.UNIFICATION_ENTRY_ITEM;
 import static com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper.getTags;
 
-@Deprecated(since = "gtm@1.3.2", forRemoval = true) //TODO
+@Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
 public class MOChemicalHelper {
 
     public static final Map<TagPrefix, ArrayList<Supplier<? extends ItemLike>>> TAG_PREFIX_ITEM =

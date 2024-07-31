@@ -8,8 +8,8 @@ import com.gregtechceu.gtceu.api.GTValues;
 
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-
 import com.lowdragmc.lowdraglib.utils.ColorUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
