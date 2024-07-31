@@ -35,19 +35,6 @@ apply from: "$rootDir/gradle/scripts/jars.gradle"
 apply from: "$rootDir/gradle/scripts/publishing.gradle"
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
-if (JavaVersion.current() != JavaVersion.VERSION_1_8 &&
-        sourceSets.main.allJava.files.any {it.name == "module-info.java"}) {
-    tasks.withType(JavaCompile).configureEach {
-        // if you DO define a module-info.java file:
-        options.compilerArgs += ['-Xplugin:Manifold', '--module-path', it.classpath.asPath]
-    }
-} else {
-    tasks.withType(JavaCompile).configureEach {
-        // If you DO NOT define a module-info.java file:
-        options.compilerArgs += ['-Xplugin:Manifold']
-    }
-}
-
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
 }

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class CommonProxy implements ICommonProxyBase {
     public CommonProxy() {
-        MOSyncedFieldAccessors.init();
+//        MOSyncedFieldAccessors.init();
     }
 
     @Override
