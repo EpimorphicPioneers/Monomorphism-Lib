@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.client.renderer.item;
 
-import com.epimorphismmc.monomorphism.client.utils.AlphaVertexConsumer;
+import com.epimorphismmc.monomorphism.client.model.pipeline.AlphaVertexConsumer;
+import com.epimorphismmc.monomorphism.client.utils.MORenderUtils;
 import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
 import com.epimorphismmc.monomorphism.item.component.IHaloEffect;
 
@@ -33,8 +34,6 @@ import org.joml.Matrix4f;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.bindTexture;
 
 public class HaloItemRenderer extends WrappedItemRenderer {
     private final Set<ResourceLocation> textures = new HashSet<>();
@@ -88,7 +87,7 @@ public class HaloItemRenderer extends WrappedItemRenderer {
                     RenderSystem.setShaderColor(r, g, b, a);
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
                     TextureAtlasSprite sprite = ModelFactory.getBlockSprite(hri.haloTexture());
-                    bindTexture(InventoryMenu.BLOCK_ATLAS);
+                    MORenderUtils.bindBlockAtlas();
                     float spread = hri.haloSize() / 16F;
                     float min = 0F - spread;
                     float max = 1F + spread;

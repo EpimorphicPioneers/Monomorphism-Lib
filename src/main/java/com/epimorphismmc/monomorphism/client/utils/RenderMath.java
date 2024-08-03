@@ -10,10 +10,10 @@ import com.mojang.math.Transformation;
 import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderMathUtils {
+public class RenderMath {
 
     // Rotation
-    public static Quaternionf degreeToQuaterion(double x, double y, double z) {
+    public static Quaternionf degreeToQuaternion(double x, double y, double z) {
         x = Math.toRadians(x);
         y = Math.toRadians(y);
         z = Math.toRadians(z);

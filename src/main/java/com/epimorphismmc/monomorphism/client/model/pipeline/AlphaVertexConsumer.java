@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.utils;
+package com.epimorphismmc.monomorphism.client.model.pipeline;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.renderer.block.model.BakedQuad;

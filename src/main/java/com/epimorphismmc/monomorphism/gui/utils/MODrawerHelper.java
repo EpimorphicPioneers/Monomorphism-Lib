@@ -8,12 +8,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.getFontRenderer;
+import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.fontRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class MODrawerHelper {
     public static void renderStackCount(GuiGraphics guiGraphics, String count, int x, int y) {
-        var font = getFontRenderer();
+        var font = fontRenderer();
         PoseStack poseStack = guiGraphics.pose();
         poseStack.pushPose();
         poseStack.translate(0.0F, 0.0F, 200.0F);

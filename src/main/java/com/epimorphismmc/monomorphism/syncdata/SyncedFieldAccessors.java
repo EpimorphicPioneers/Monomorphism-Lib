@@ -6,7 +6,7 @@ import com.epimorphismmc.monomorphism.syncdata.payload.ByteArrayPayload;
 import com.lowdragmc.lowdraglib.syncdata.IAccessor;
 import com.lowdragmc.lowdraglib.syncdata.TypedPayloadRegistries;
 
-public class MOSyncedFieldAccessors {
+public class SyncedFieldAccessors {
 
     public static final IAccessor BIG_INTEGER_ACCESSOR = new BigIntegerAccessor();
 

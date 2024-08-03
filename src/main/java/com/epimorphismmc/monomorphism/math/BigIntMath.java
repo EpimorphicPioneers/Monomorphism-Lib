@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.utility;
+package com.epimorphismmc.monomorphism.math;
 
 import java.math.BigInteger;
 

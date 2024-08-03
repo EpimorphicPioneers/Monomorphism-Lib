@@ -1,8 +1,5 @@
 package com.epimorphismmc.monomorphism.client.utils;
 
-import com.epimorphismmc.monomorphism.Monomorphism;
-import com.epimorphismmc.monomorphism.client.renderer.CubeRenderer;
-
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 
@@ -13,7 +10,9 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -23,10 +22,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix4f;
 
+import static com.epimorphismmc.monomorphism.client.model.ModelAssistant.getModelForState;
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.*;
 import static com.epimorphismmc.monomorphism.client.utils.MORenderBufferUtils.*;
 
@@ -57,8 +58,7 @@ public class MORenderUtils {
             int overlay,
             PoseStack transforms,
             MultiBufferSource buffer) {
-        getItemRenderer()
-                .renderStatic(stack, transformType, light, overlay, transforms, buffer, null, 0);
+        itemRenderer().renderStatic(stack, transformType, light, overlay, transforms, buffer, null, 0);
     }
 
     /**
@@ -79,7 +79,7 @@ public class MORenderUtils {
             VertexConsumer buffer,
             int overlay,
             RenderType renderType) {
-        Level level = Monomorphism.instance.getClientWorld();
+        Level level = mc().level;
         renderBlockModel(
                 level,
                 getModelForState(state),
@@ -111,7 +111,7 @@ public class MORenderUtils {
             int overlay,
             ModelData modelData,
             RenderType renderType) {
-        getBlockRenderer()
+        blockRenderer()
                 .tesselateBlock(
                         world,
                         model,
@@ -129,18 +129,17 @@ public class MORenderUtils {
 
     public static void renderStillFluidInWorld(
             FluidStack fluid,
-            Model3D model3D,
+            Cuboid cuboid,
             PoseStack poseStack,
             MultiBufferSource bufferSource,
             Camera camera,
             int combinedLight,
             int combinedOverlay,
-            CubeRenderer.FaceDisplay faceDisplay) {
-        CubeRenderer.renderCube(
-                model3D.prepStill(fluid),
+            CuboidRenderer.FaceDisplay faceDisplay) {
+        CuboidRenderer.renderCuboid(
+                cuboid.prepStill(fluid).setColor(FluidHelper.getColor(fluid) | 0xff000000),
                 poseStack,
                 bufferSource.getBuffer(Sheets.translucentCullBlockSheet()),
-                FluidHelper.getColor(fluid) | 0xff000000,
                 combinedLight,
                 combinedOverlay,
                 faceDisplay,
@@ -150,18 +149,17 @@ public class MORenderUtils {
 
     public static void renderFlowingFluidInWorld(
             FluidStack fluid,
-            Model3D model3D,
+            Cuboid cuboid,
             PoseStack poseStack,
             MultiBufferSource bufferSource,
             Camera camera,
             int combinedLight,
             int combinedOverlay,
-            CubeRenderer.FaceDisplay faceDisplay) {
-        CubeRenderer.renderCube(
-                model3D.prepFlowing(fluid),
+            CuboidRenderer.FaceDisplay faceDisplay) {
+        CuboidRenderer.renderCuboid(
+                cuboid.prepFlowing(fluid).setColor(FluidHelper.getColor(fluid) | 0xff000000),
                 poseStack,
                 bufferSource.getBuffer(Sheets.translucentCullBlockSheet()),
-                FluidHelper.getColor(fluid) | 0xff000000,
                 combinedLight,
                 combinedOverlay,
                 faceDisplay,
@@ -186,5 +184,21 @@ public class MORenderUtils {
         // Z-axis
         builder.vertex(matrix, 0, 0, 0).color(0, 0, 255, 255).endVertex();
         builder.vertex(matrix, 0, 0, 1).color(0, 0, 255, 255).endVertex();
+    }
+
+    /**
+     * Binds a texture for rendering
+     *
+     * @param location the ResourceLocation for the texture
+     */
+    public static void bindTexture(ResourceLocation location) {
+        RenderSystem.setShaderTexture(0, location);
+    }
+
+    /**
+     * Binds the texture atlas for rendering
+     */
+    public static void bindBlockAtlas() {
+        bindTexture(InventoryMenu.BLOCK_ATLAS);
     }
 }

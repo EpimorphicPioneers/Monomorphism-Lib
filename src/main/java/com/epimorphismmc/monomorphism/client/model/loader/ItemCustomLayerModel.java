@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.renderer.model;
+package com.epimorphismmc.monomorphism.client.model.loader;
 
 import com.epimorphismmc.monomorphism.mixins.accessors.client.ItemModelGeneratorAccessor;
 

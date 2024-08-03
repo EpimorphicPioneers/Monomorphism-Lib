@@ -18,10 +18,12 @@ public class ByteArrayPayload extends ObjectTypedPayload<byte[]> {
         return payload;
     }
 
+    @Override
     public void writePayload(FriendlyByteBuf buf) {
         buf.writeByteArray(payload);
     }
 
+    @Override
     public void readPayload(FriendlyByteBuf buf) {
         this.payload = buf.readByteArray();
     }

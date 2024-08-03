@@ -81,9 +81,7 @@ public class Combinatorics {
                     }
                 } else {
                     int index = amount - 1;
-                    for (int i = 0; i < amount; i++) {
-                        combination[i] = reference[i];
-                    }
+                    System.arraycopy(reference, 0, combination, 0, amount);
                     int counter = 1;
                     boolean flag = combination[index] >= (this.n - counter);
                     while (flag && index > 0) {

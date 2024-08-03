@@ -28,7 +28,7 @@ public class MOValues {
     public static final float QUARTER = UNIT * WHOLE / 4;
 
     /**
-     * The value of three quarter a block. Pre-calculated as to cut
+     * The value of three-quarter a block. Pre-calculated as to cut
      * back on calculations.
      */
     public static final float THREE_QUARTER = 3 * QUARTER;

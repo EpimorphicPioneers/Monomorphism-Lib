@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.utility;
+package com.epimorphismmc.monomorphism.math;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
@@ -23,7 +23,7 @@ import static com.gregtechceu.gtceu.api.GTValues.RNG;
  * @author GateGuardian
  * @date : 2024/5/24
  */
-public class MOMathUtils {
+public class MOMath {
 
     public static final double PI2 = Math.PI * 2;
 
@@ -69,7 +69,7 @@ public class MOMathUtils {
         return new Vec2((float) x, (float) y);
     }
 
-    public static Vec2 getRandomPointInRectangle(Vec2 p1, Vec2 p2) {
+    public static Vec2 randomRectanglePoint(Vec2 p1, Vec2 p2) {
         float minX = Math.min(p1.x, p2.x);
         float minY = Math.min(p1.y, p2.y);
         float maxX = Math.max(p1.x, p2.x);
