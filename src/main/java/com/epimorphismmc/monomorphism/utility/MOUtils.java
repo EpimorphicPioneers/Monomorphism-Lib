@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.utility;
 
-import com.epimorphismmc.monomorphism.Monomorphism;
+import com.epimorphismmc.monomorphism.MonoLib;
 
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
@@ -65,30 +65,6 @@ public class MOUtils {
         return Arrays.stream(lists).mapToInt(List::size).max().orElse(0);
     }
 
-    //  Set Utils
-    public static int intValueOfBitSet(BitSet set) {
-        int result = 0;
-        for (int i = 0; i < set.length(); i++) {
-            result = result | (set.get(i) ? 1 : 0) << i;
-        }
-        return result;
-    }
-
-    public static BitSet forIntToBitSet(int i, int length) {
-        return forIntToBitSet(i, length, new BitSet(length));
-    }
-
-    public static BitSet forIntToBitSet(int i, int length, BitSet result) {
-        for (int j = 0; j < length; j++) {
-            if (((i & (0b1 << j)) / (0b1 << j)) == 1) {
-                result.set(j);
-            } else {
-                result.clear(j);
-            }
-        }
-        return result;
-    }
-
     //  Array Utils
     public static <T> void add(T[] a, T val) {
         for (int i = 0; i < a.length; ++i) {
@@ -135,7 +111,7 @@ public class MOUtils {
     }
 
     public static @Nullable ServerPlayer getPlayerByUUID(@Nullable UUID id) {
-        var server = Monomorphism.instance.getMinecraftServer();
+        var server = MonoLib.instance().getCurrentServer();
         if (server != null) {
             return (id != null && id != Util.NIL_UUID) ? server.getPlayerList().getPlayer(id) : null;
         }
@@ -145,7 +121,7 @@ public class MOUtils {
     public static String getPlayerName(@NotNull UUID playerId, @Nullable ServerPlayer player) {
         return player != null
                 ? player.getDisplayName().getString()
-                : Optional.ofNullable(Monomorphism.instance.getMinecraftServer())
+                : Optional.ofNullable(MonoLib.instance().getCurrentServer())
                         .map(MinecraftServer::getProfileCache)
                         .flatMap(cache -> cache.get(playerId))
                         .map(GameProfile::getName)

@@ -1,26 +1,27 @@
 package com.epimorphismmc.monomorphism.syncdata.accessor;
 
+import com.epimorphismmc.monomorphism.syncdata.payload.ByteArrayPayload;
+
 import com.lowdragmc.lowdraglib.syncdata.AccessorOp;
 import com.lowdragmc.lowdraglib.syncdata.accessor.CustomObjectAccessor;
 import com.lowdragmc.lowdraglib.syncdata.payload.ITypedPayload;
-import com.lowdragmc.lowdraglib.syncdata.payload.StringPayload;
 
 import java.math.BigInteger;
 
 public class BigIntegerAccessor extends CustomObjectAccessor<BigInteger> {
-    protected BigIntegerAccessor() {
+    public BigIntegerAccessor() {
         super(BigInteger.class, true);
     }
 
     @Override
     public ITypedPayload<?> serialize(AccessorOp op, BigInteger value) {
-        return StringPayload.of(value.toString());
+        return ByteArrayPayload.of(value.toByteArray());
     }
 
     @Override
     public BigInteger deserialize(AccessorOp op, ITypedPayload<?> payload) {
-        if (payload instanceof StringPayload stringPayload) {
-            return new BigInteger(stringPayload.getPayload());
+        if (payload instanceof ByteArrayPayload byteArrayPayload) {
+            return new BigInteger(byteArrayPayload.getPayload());
         }
         return null;
     }

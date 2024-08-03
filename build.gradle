@@ -3,23 +3,15 @@ import net.fabricmc.loom.task.RemapJarTask
 plugins {
     alias libs.plugins.architectury
     alias libs.plugins.architectury.loom
-    alias libs.plugins.vineFlower // VineFlower, a better decompiler
     alias libs.plugins.machete // automatic jar compressing on build
     alias libs.plugins.shadow
     alias libs.plugins.spotless
 }
 
 apply plugin: "dev.architectury.loom"
-apply plugin: "io.github.juuxel.loom-vineflower"
 apply plugin: "java"
 apply plugin: "architectury-plugin"
 apply plugin: "maven-publish"
-
-
-architectury {
-    compileOnly()
-    minecraft = libs.versions.minecraft
-}
 
 tasks.register('remapSlimJar', RemapJarTask) {
     dependsOn(jar)
@@ -35,13 +27,13 @@ version = "${mod_version}" + (buildNumber != null ? "-build.${System.getenv("GIT
 apply from: "$rootDir/gradle/scripts/architectury_loom.gradle"
 apply from: "$rootDir/gradle/scripts/capabilities.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"
-apply from: "$rootDir/gradle/scripts/dependencies.gradle"
+apply from: "$rootDir/dependencies.gradle"
 apply from: "$rootDir/gradle/scripts/resources.gradle"
 apply from: "$rootDir/gradle/scripts/jars.gradle"
 apply from: "$rootDir/gradle/scripts/publishing.gradle"
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
 }
 

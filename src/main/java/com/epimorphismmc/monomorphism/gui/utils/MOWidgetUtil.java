@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.getFontRenderer;
+import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.fontRenderer;
 
 public class MOWidgetUtil {
     public static IGuiTexture createTextOverlay(String translationKey) {
@@ -21,7 +21,7 @@ public class MOWidgetUtil {
                 graphics.pose().translate(0, 0, 400);
                 graphics.pose().scale(0.5f, 0.5f, 1);
                 String s = LocalizationUtils.format(translationKey);
-                Font fontRenderer = getFontRenderer();
+                Font fontRenderer = fontRenderer();
                 graphics.drawString(
                         fontRenderer,
                         s,

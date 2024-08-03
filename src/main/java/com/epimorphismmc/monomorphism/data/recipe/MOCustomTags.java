@@ -5,6 +5,7 @@ import net.minecraft.world.item.Item;
 
 import static com.gregtechceu.gtceu.data.recipe.CustomTags.*;
 
+@Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
 @SuppressWarnings("unchecked")
 public class MOCustomTags {
 

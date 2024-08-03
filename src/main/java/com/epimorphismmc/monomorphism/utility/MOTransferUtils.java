@@ -11,7 +11,6 @@ import com.lowdragmc.lowdraglib.misc.ItemTransferList;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.Table;
@@ -42,6 +41,7 @@ public class MOTransferUtils {
         return stack;
     }
 
+    @Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
     public static ItemStack extractItemAccountNotifiableList(
             IItemTransfer handler, int slot, int amount, boolean simulate) {
         if (handler instanceof ItemTransferList transferList) {
@@ -59,13 +59,5 @@ public class MOTransferUtils {
             return ItemStack.EMPTY;
         }
         return handler.extractItem(slot, amount, simulate);
-    }
-
-    public static void fillPlayerInventory(Player player, List<ItemStack> list) {
-        for (var stack : list) {
-            if (!player.getInventory().add(stack)) {
-                player.drop(stack, true);
-            }
-        }
     }
 }

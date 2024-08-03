@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.client.renderer.item;
 
-import com.epimorphismmc.monomorphism.Monomorphism;
+import com.epimorphismmc.monomorphism.MonoLib;
+import com.epimorphismmc.monomorphism.client.utils.MORenderUtils;
 import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
 import com.epimorphismmc.monomorphism.item.component.INumberSuperscriptEffect;
 import com.epimorphismmc.monomorphism.item.component.IVoltageSuperscriptEffect;
@@ -28,7 +29,6 @@ import org.joml.Matrix4f;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.bindTexture;
 import static com.gregtechceu.gtceu.api.GTValues.VN;
 
 public class SuperscriptItemRenderer extends WrappedItemRenderer {
@@ -82,7 +82,7 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             TextureAtlasSprite sprite = ModelFactory.getBlockSprite(texture);
-            bindTexture(InventoryMenu.BLOCK_ATLAS);
+            MORenderUtils.bindBlockAtlas();
 
             float minU = sprite.getU0();
             float maxU = sprite.getU1();
@@ -126,15 +126,15 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
         if (atlasName.equals(InventoryMenu.BLOCK_ATLAS)) {
             for (int i = 0; i < 15; i++) {
                 var voltage =
-                        Monomorphism.id("superscript/voltage/%s".formatted(VN[i].toLowerCase(Locale.ROOT)));
+                        MonoLib.id("superscript/voltage/%s".formatted(VN[i].toLowerCase(Locale.ROOT)));
                 register.accept(voltage);
                 voltageTextures.put(i, voltage);
 
-                var number = Monomorphism.id("superscript/number/%s".formatted(i + 1));
+                var number = MonoLib.id("superscript/number/%s".formatted(i + 1));
                 register.accept(number);
                 numberTextures.put(i + 1, number);
 
-                var romaNumber = Monomorphism.id("superscript/number/roman/%s".formatted(i + 1));
+                var romaNumber = MonoLib.id("superscript/number/roman/%s".formatted(i + 1));
                 register.accept(romaNumber);
                 romaNumberTextures.put(i + 1, romaNumber);
             }

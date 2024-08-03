@@ -54,7 +54,7 @@ public class DirectionalConnectivity implements Comparable<DirectionalConnectivi
         StringBuilder builder = new StringBuilder();
         for (Direction dir : this.connections) {
             order += dir.get3DDataValue();
-            builder.append(dir.name() + "_");
+            builder.append(dir.name()).append("_");
         }
         builder.deleteCharAt(builder.length() - 1);
         this.order = order;
@@ -112,8 +112,8 @@ public class DirectionalConnectivity implements Comparable<DirectionalConnectivi
             connections[i] = nodes[i].stream().map(Builder::build).collect(Collectors.toList());
         }
         // Clean the network
-        for (int i = 0; i < nodes.length; i++) {
-            nodes[i].stream().forEach(Builder::clean);
+        for (List<Builder> node : nodes) {
+            node.forEach(Builder::clean);
         }
         return connections;
     }

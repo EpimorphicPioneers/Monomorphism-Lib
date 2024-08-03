@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.utility;
 
-import com.epimorphismmc.monomorphism.Monomorphism;
+import com.epimorphismmc.monomorphism.MonoLib;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -182,7 +182,7 @@ public class LevelUtils {
             // End Message
             sb.append("==================================================\n");
             // Send Information to Log
-            Monomorphism.instance.getLogger().error(sb.toString());
+            MonoLib.LOGGER.error(sb.toString());
         }
     }
 }

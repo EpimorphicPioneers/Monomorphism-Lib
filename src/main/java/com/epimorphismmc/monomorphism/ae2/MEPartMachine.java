@@ -29,6 +29,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine.ME_UPDATE_INTERVAL;
 
+@Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
 @SuppressWarnings("unused")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault

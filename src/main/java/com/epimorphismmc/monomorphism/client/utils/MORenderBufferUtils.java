@@ -18,7 +18,7 @@ public class MORenderBufferUtils {
      * @return The render type buffer implementation
      */
     public static MultiBufferSource.BufferSource getRenderTypeBuffer() {
-        return getMC().renderBuffers().bufferSource();
+        return mc().renderBuffers().bufferSource();
     }
 
     /**

@@ -16,14 +16,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.Nullable;
 
-import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.getItemRenderer;
+import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.itemRenderer;
 
 public abstract class WrappedItemRenderer implements IRenderer {
 
     @OnlyIn(Dist.CLIENT)
     protected BakedModel getVanillaModel(
             ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity) {
-        var shaper = getItemRenderer().getItemModelShaper();
+        var shaper = itemRenderer().getItemModelShaper();
         var model = shaper.getItemModel(stack.getItem());
         if (model != null) {
             var bakedmodel = model.getOverrides().resolve(model, stack, level, entity, 0);

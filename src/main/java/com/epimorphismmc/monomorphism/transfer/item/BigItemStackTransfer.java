@@ -1,7 +1,8 @@
 package com.epimorphismmc.monomorphism.transfer.item;
 
 import com.epimorphismmc.monomorphism.mixins.accessors.ItemStackTransferAccessor;
-import com.epimorphismmc.monomorphism.utility.MONBTUtils;
+
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
@@ -20,7 +21,6 @@ public class BigItemStackTransfer extends ItemStackTransfer {
     @Getter
     private final boolean acceptTag;
 
-    @Getter
     private final int slotLimit;
 
     public BigItemStackTransfer(boolean acceptTag, int slotLimit) {
@@ -99,7 +99,7 @@ public class BigItemStackTransfer extends ItemStackTransfer {
             if (!stacks.get(i).isEmpty()) {
                 CompoundTag itemTag = new CompoundTag();
                 itemTag.putInt("Slot", i);
-                MONBTUtils.writeItemStack(stacks.get(i), itemTag);
+                GTUtil.saveItemStack(stacks.get(i), itemTag);
                 nbtTagList.add(itemTag);
             }
         }
@@ -118,7 +118,7 @@ public class BigItemStackTransfer extends ItemStackTransfer {
             int slot = itemTags.getInt("Slot");
 
             if (slot >= 0 && slot < stacks.size()) {
-                stacks.set(slot, MONBTUtils.readItemStack(itemTags));
+                stacks.set(slot, GTUtil.loadItemStack(itemTags));
             }
         }
         onLoad();
