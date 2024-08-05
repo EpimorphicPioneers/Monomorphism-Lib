@@ -27,7 +27,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix4f;
 
-import static com.epimorphismmc.monomorphism.client.model.ModelAssistant.getModelForState;
+import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getModelForState;
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.*;
 import static com.epimorphismmc.monomorphism.client.utils.MORenderBufferUtils.*;
 

@@ -50,7 +50,9 @@ dependencies {
 
     /* -------------------------------------------------- RuntimeOnly -------------------------------------------------- */
 
-    minecraftClientRuntimeLibraries 'maven.modrinth:embeddium:0.2.10+mc1.20.1' // Embeddium
-    minecraftClientRuntimeLibraries 'maven.modrinth:oculus:1.20.1-1.6.9' // Oculus
+    if (System.getenv("RUN_SERVER") == null) {
+        modRuntimeOnly 'maven.modrinth:embeddium:0.3.19+mc1.20.1' // Embeddium
+        modRuntimeOnly 'maven.modrinth:oculus:1.20.1-1.7.0' // Oculus
+    }
     //modRuntimeOnly(forge.worldStripper)
 }

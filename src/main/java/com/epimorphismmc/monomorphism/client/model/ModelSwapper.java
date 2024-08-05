@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.epimorphismmc.monomorphism.client.model.ModelAssistant.getAllBlockStateModelLocations;
-import static com.epimorphismmc.monomorphism.client.model.ModelAssistant.getItemModelLocation;
+import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getAllBlockStateModelLocations;
+import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getItemModelLocation;
 
 public class ModelSwapper implements IModelSwapper {
 

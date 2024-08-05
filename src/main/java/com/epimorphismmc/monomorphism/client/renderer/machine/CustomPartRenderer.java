@@ -1,13 +1,14 @@
 package com.epimorphismmc.monomorphism.client.renderer.machine;
 
+import com.epimorphismmc.monomorphism.client.model.FaceQuadBakery;
+import com.epimorphismmc.monomorphism.client.model.ModelFactory;
+
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.client.renderer.machine.IControllerRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
 import com.lowdragmc.lowdraglib.LDLib;
-import com.lowdragmc.lowdraglib.client.bakedpipeline.FaceQuad;
-import com.lowdragmc.lowdraglib.client.model.ModelFactory;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.ModelState;
@@ -41,17 +42,17 @@ public class CustomPartRenderer extends WorkableCasingMachineRenderer
     @Override
     @OnlyIn(Dist.CLIENT)
     public void renderPartModel(
-            List<BakedQuad> list,
-            IMultiController iMultiController,
-            IMultiPart iMultiPart,
-            Direction direction,
-            @Nullable Direction direction1,
-            RandomSource randomSource,
-            Direction direction2,
+            List<BakedQuad> quads,
+            IMultiController machine,
+            IMultiPart part,
+            Direction frontFacing,
+            @Nullable Direction side,
+            RandomSource rand,
+            Direction modelFacing,
             ModelState modelState) {
-        if (direction1 != null && direction2 != null) {
-            list.add(FaceQuad.bakeFace(
-                    direction2, ModelFactory.getBlockSprite(locationGetter.apply(iMultiPart)), modelState));
+        if (frontFacing != null && side != null) {
+            quads.add(FaceQuadBakery.bakeFace(
+                    side, ModelFactory.getBlockSprite(locationGetter.apply(part)), modelState));
         }
     }
 }
