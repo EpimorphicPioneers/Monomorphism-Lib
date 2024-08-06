@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class MultiblockStats extends MachineTrait {
+public abstract class MultiblockTrait extends MachineTrait {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER =
-            new ManagedFieldHolder(MultiblockStats.class);
+            new ManagedFieldHolder(MultiblockTrait.class);
 
-    public MultiblockStats(MetaMachine machine) {
+    public MultiblockTrait(MetaMachine machine) {
         super(machine);
     }
 

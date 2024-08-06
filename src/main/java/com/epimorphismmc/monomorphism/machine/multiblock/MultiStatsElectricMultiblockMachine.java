@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.machine.multiblock;
 
 import com.epimorphismmc.monomorphism.machine.feature.IEnhanceFancyUIMachine;
-import com.epimorphismmc.monomorphism.machine.trait.MultiblockStats;
+import com.epimorphismmc.monomorphism.machine.trait.MultiblockTrait;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
@@ -28,7 +28,7 @@ public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultibl
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
-    protected List<MultiblockStats> multiblockStats;
+    protected List<MultiblockTrait> multiblockStats;
 
     public MultiStatsElectricMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -48,7 +48,7 @@ public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultibl
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        multiblockStats.forEach(MultiblockStats::onStructureInvalid);
+        multiblockStats.forEach(MultiblockTrait::onStructureInvalid);
     }
 
     //////////////////////////////////////
@@ -63,7 +63,7 @@ public class MultiStatsElectricMultiblockMachine extends WorkableElectricMultibl
     //////////////////////////////////////
     // ***       Multiblock Data      ***//
     //////////////////////////////////////
-    public void addStats(MultiblockStats state) {
+    public void addStats(MultiblockTrait state) {
         multiblockStats.add(state);
     }
 
