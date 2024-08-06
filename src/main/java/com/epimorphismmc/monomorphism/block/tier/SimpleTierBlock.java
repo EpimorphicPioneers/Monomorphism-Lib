@@ -46,13 +46,13 @@ public class SimpleTierBlock extends CasingBlock {
 
         if (GTUtil.isShiftDown()) {
             if (useNumberTier) {
-                tooltip.add(Component.translatable("monomorphism.universal.desc.tier", data.tier()));
+                tooltip.add(Component.translatable("monomorphism.universal.tier", data.tier()));
             } else {
                 tooltip.add(
-                        Component.translatable("monomorphism.universal.desc.tier", GTValues.VNF[data.tier()]));
+                        Component.translatable("monomorphism.universal.tier", GTValues.VNF[data.tier()]));
             }
         } else {
-            tooltip.add(Component.translatable("monomorphism.shift_desc_extended_info"));
+            tooltip.add(Component.translatable("monomorphism.shift_info"));
         }
     }
 }
