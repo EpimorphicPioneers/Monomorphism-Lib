@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.machine.feature.multiblock.stats;
 
-import com.epimorphismmc.monomorphism.machine.trait.MultiblockStats;
+import com.epimorphismmc.monomorphism.machine.trait.MultiblockTrait;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
@@ -21,9 +21,9 @@ public interface IParallelMachine extends IMachineFeature {
 
     void setParallelNumber(int number);
 
-    class ParallelStats extends MultiblockStats implements IParallelMachine {
+    class ParallelStats extends MultiblockTrait implements IParallelMachine {
         protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER =
-                new ManagedFieldHolder(ParallelStats.class, MultiblockStats.MANAGED_FIELD_HOLDER);
+                new ManagedFieldHolder(ParallelStats.class, MultiblockTrait.MANAGED_FIELD_HOLDER);
 
         @Persisted
         private int parallelNumber;

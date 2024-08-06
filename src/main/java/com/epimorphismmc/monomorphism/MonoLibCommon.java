@@ -1,7 +1,6 @@
 package com.epimorphismmc.monomorphism;
 
 import com.epimorphismmc.monomorphism.datagen.Datagen;
-import com.epimorphismmc.monomorphism.syncdata.SyncedFieldAccessors;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
@@ -35,7 +34,6 @@ public abstract class MonoLibCommon implements MonoLib {
 
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(Datagen::init);
-        SyncedFieldAccessors.init();
     }
 
     @Override

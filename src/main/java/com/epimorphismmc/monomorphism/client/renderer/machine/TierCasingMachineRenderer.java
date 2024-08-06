@@ -71,6 +71,7 @@ public class TierCasingMachineRenderer extends WorkableCasingMachineRenderer {
                 .computeIfAbsent(frontFacing, direction -> renderModel(direction, location));
     }
 
+    // TODO use MonoLib model factory
     @OnlyIn(Dist.CLIENT)
     protected BakedModel renderModel(Direction frontFacing, ResourceLocation location) {
         return this.getModel()

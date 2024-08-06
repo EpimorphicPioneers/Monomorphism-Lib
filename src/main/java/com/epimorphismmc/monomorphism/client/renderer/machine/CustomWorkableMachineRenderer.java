@@ -8,11 +8,11 @@ import com.gregtechceu.gtceu.client.model.WorkableOverlayModel;
 import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
 public class CustomWorkableMachineRenderer extends TieredHullMachineRenderer {
 
     protected final WorkableOverlayModel overlayModel;
@@ -78,7 +79,7 @@ public class CustomWorkableMachineRenderer extends TieredHullMachineRenderer {
     public void onPrepareTextureAtlas(
             ResourceLocation atlasName, Consumer<ResourceLocation> register) {
         super.onPrepareTextureAtlas(atlasName, register);
-        if (atlasName.equals(TextureAtlas.LOCATION_BLOCKS)) {
+        if (atlasName.equals(InventoryMenu.BLOCK_ATLAS)) {
             overlayModel.registerTextureAtlas(register);
         }
     }
