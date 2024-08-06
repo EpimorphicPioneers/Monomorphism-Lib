@@ -1,11 +1,14 @@
 package com.epimorphismmc.monomorphism;
 
+import com.epimorphismmc.monomorphism.block.MOBlockMaps;
 import com.epimorphismmc.monomorphism.datagen.Datagen;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
@@ -34,6 +37,12 @@ public abstract class MonoLibCommon implements MonoLib {
 
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(Datagen::init);
+        bus.register(this);
+    }
+
+    @SubscribeEvent
+    private void onCommonSetupEvent(FMLCommonSetupEvent event) {
+        MOBlockMaps.init();
     }
 
     @Override
