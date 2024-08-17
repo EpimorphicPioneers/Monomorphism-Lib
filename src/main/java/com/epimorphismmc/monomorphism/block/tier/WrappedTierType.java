@@ -4,7 +4,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
 
-public class WrappedTierType<T extends Block> implements ITierType {
+public class WrappedTierType<T extends Block> implements IBlockTier {
 
     private final Supplier<T> supplier;
     private final int tier;

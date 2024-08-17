@@ -41,7 +41,7 @@ public abstract class MonoLibCommon implements MonoLib {
     }
 
     @SubscribeEvent
-    private void onCommonSetupEvent(FMLCommonSetupEvent event) {
+    protected void onCommonSetupEvent(FMLCommonSetupEvent event) {
         MOBlockMaps.init();
     }
 

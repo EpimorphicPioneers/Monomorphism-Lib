@@ -24,13 +24,13 @@ import java.util.List;
 public class SimpleTierBlock extends CasingBlock {
 
     @Getter
-    private final ITierType data;
+    private final IBlockTier data;
 
     @Setter
     @Accessors(chain = true)
     private boolean useNumberTier;
 
-    public SimpleTierBlock(BlockBehaviour.Properties properties, ITierType data, IRenderer renderer) {
+    public SimpleTierBlock(BlockBehaviour.Properties properties, IBlockTier data, IRenderer renderer) {
         super(properties, renderer);
         this.data = data;
     }

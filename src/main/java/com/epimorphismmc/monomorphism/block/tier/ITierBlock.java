@@ -1,11 +1,11 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
 public interface ITierBlock {
-    default ITierType getTierType() {
+    default IBlockTier getTierType() {
         return null;
     }
 
-    default void setTierType(ITierType type) {
+    default void setTierType(IBlockTier type) {
         /**/
     }
 }

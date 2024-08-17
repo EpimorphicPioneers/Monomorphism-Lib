@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.pattern.predicates;
 
-import com.epimorphismmc.monomorphism.block.tier.ITierType;
+import com.epimorphismmc.monomorphism.block.tier.IBlockTier;
 import com.epimorphismmc.monomorphism.pattern.utils.containers.IValueContainer;
 
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
@@ -30,11 +30,11 @@ import static java.util.Objects.requireNonNullElseGet;
 public class TierPredicateFactory {
     private final String name;
     private boolean strict;
-    private Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map;
-    private Object2ObjectOpenHashMap<ITierType, Supplier<Block>> candidatesMap;
+    private Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>> map;
+    private Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>> candidatesMap;
     private Component errorKey;
-    private Comparator<ITierType> comparator;
-    private Predicate<ITierType> predicate;
+    private Comparator<IBlockTier> comparator;
+    private Predicate<IBlockTier> predicate;
     private Supplier<IValueContainer<?>> container;
 
     private static final Map<String, BlockInfo[]> CACHE = new HashMap<>();
@@ -53,7 +53,7 @@ public class TierPredicateFactory {
                                 getStrictPredicate(
                                         name,
                                         requireNonNullElseGet(
-                                                map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                                                map, Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>>::new),
                                         requireNonNullElseGet(container, () -> IValueContainer::noop),
                                         requireNonNullElseGet(
                                                 errorKey,
@@ -62,9 +62,9 @@ public class TierPredicateFactory {
                                         name,
                                         requireNonNullElseGet(
                                                 candidatesMap != null ? candidatesMap : map,
-                                                Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                                                Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>>::new),
                                         requireNonNullElseGet(
-                                                comparator, () -> Comparator.comparingInt(ITierType::tier)),
+                                                comparator, () -> Comparator.comparingInt(IBlockTier::tier)),
                                         requireNonNullElseGet(predicate, () -> BlockState -> true)))
                         .previewCandidates(true))
                 : new TraceabilityPredicate(new MOPredicate(
@@ -72,27 +72,27 @@ public class TierPredicateFactory {
                                         name,
                                         requireNonNullElseGet(
                                                 candidatesMap != null ? candidatesMap : map,
-                                                Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                                                Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>>::new),
                                         requireNonNullElseGet(container, () -> IValueContainer::noop)),
                                 getCandidates(
                                         name,
                                         requireNonNullElseGet(
-                                                map, Object2ObjectOpenHashMap<ITierType, Supplier<Block>>::new),
+                                                map, Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>>::new),
                                         requireNonNullElseGet(
-                                                comparator, () -> Comparator.comparingInt(ITierType::tier)),
+                                                comparator, () -> Comparator.comparingInt(IBlockTier::tier)),
                                         requireNonNullElseGet(predicate, () -> BlockState -> true)))
                         .previewCandidates(true));
     }
 
     private Predicate<MultiblockState> getPredicate(
             String name,
-            Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map,
+            Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>> map,
             Supplier<IValueContainer<?>> containerSupplier) {
         return (blockWorldState) -> {
             var blockState = blockWorldState.getBlockState();
             var objectIterator = map.object2ObjectEntrySet().fastIterator();
             while (objectIterator.hasNext()) {
-                Object2ObjectMap.Entry<ITierType, Supplier<Block>> entry = objectIterator.next();
+                Object2ObjectMap.Entry<IBlockTier, Supplier<Block>> entry = objectIterator.next();
                 if (blockState.is(entry.getValue().get())) {
                     IValueContainer<?> currentContainer =
                             blockWorldState.getMatchContext().getOrPut(name + "Value", containerSupplier.get());
@@ -106,14 +106,14 @@ public class TierPredicateFactory {
 
     private Predicate<MultiblockState> getStrictPredicate(
             String name,
-            Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map,
+            Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>> map,
             Supplier<IValueContainer<?>> containerSupplier,
             Component errorKey) {
         return (blockWorldState) -> {
             var blockState = blockWorldState.getBlockState();
             var objectIterator = map.object2ObjectEntrySet().fastIterator();
             while (objectIterator.hasNext()) {
-                Object2ObjectMap.Entry<ITierType, Supplier<Block>> entry = objectIterator.next();
+                Object2ObjectMap.Entry<IBlockTier, Supplier<Block>> entry = objectIterator.next();
                 if (blockState.is(entry.getValue().get())) {
                     var stats = entry.getKey();
                     Object currentStats = blockWorldState.getMatchContext().getOrPut(name, stats);
@@ -133,9 +133,9 @@ public class TierPredicateFactory {
 
     private Supplier<BlockInfo[]> getCandidates(
             String name,
-            Object2ObjectOpenHashMap<ITierType, Supplier<Block>> map,
-            Comparator<ITierType> comparator,
-            Predicate<ITierType> predicate) {
+            Object2ObjectOpenHashMap<IBlockTier, Supplier<Block>> map,
+            Comparator<IBlockTier> comparator,
+            Predicate<IBlockTier> predicate) {
         return () -> CACHE.computeIfAbsent(name, key -> map.keySet().stream()
                 .filter(predicate)
                 .sorted(comparator)

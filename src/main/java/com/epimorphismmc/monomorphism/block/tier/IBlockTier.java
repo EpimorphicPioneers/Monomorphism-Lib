@@ -2,23 +2,18 @@ package com.epimorphismmc.monomorphism.block.tier;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
-import net.minecraft.util.StringRepresentable;
-
-import org.jetbrains.annotations.NotNull;
-
 import javax.annotation.Nonnull;
+import java.util.Comparator;
 
-public interface ITierType extends StringRepresentable {
+public interface IBlockTier {
+
+    Comparator<IBlockTier> COMPARATOR = Comparator.comparingInt(IBlockTier::tier);
+
     String typeName();
 
     int tier();
 
-    @Override
-    @NotNull default String getSerializedName() {
-        return typeName();
-    }
-
-    record SimpleTierBlockType(String typeName, int tier) implements ITierType {
+    record SimpleTierBlockType(String typeName, int tier) implements IBlockTier {
         @Nonnull
         @Override
         public String toString() {
@@ -26,7 +21,7 @@ public interface ITierType extends StringRepresentable {
         }
     }
 
-    enum TierBlockType implements ITierType {
+    enum TierBlockType implements IBlockTier {
         DUMMY(-1),
         ULV(GTValues.ULV),
         LV(GTValues.LV),
