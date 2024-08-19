@@ -40,24 +40,4 @@ public class MOTransferUtils {
 
         return stack;
     }
-
-    @Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
-    public static ItemStack extractItemAccountNotifiableList(
-            IItemTransfer handler, int slot, int amount, boolean simulate) {
-        if (handler instanceof ItemTransferList transferList) {
-            int index = 0;
-            for (var transfer : transferList.transfers) {
-                if (slot - index < transfer.getSlots()) {
-                    if (transfer instanceof NotifiableItemStackHandler notifiable) {
-                        return notifiable.extractItemInternal(slot - index, amount, simulate);
-                    } else {
-                        return transfer.extractItem(slot - index, amount, simulate);
-                    }
-                }
-                index += transfer.getSlots();
-            }
-            return ItemStack.EMPTY;
-        }
-        return handler.extractItem(slot, amount, simulate);
-    }
 }
