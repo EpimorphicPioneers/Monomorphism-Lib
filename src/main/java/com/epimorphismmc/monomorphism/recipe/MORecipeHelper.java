@@ -12,11 +12,14 @@ import net.minecraft.world.level.material.Fluid;
 
 public class MORecipeHelper {
 
-    public static Content itemContent(ItemStack itemStack, int chance, int maxChance, int tierChanceBoost) {
-        return new Content(ItemRecipeCapability.CAP.of(itemStack), chance, maxChance, tierChanceBoost, null, null);
+    public static Content itemContent(
+            ItemStack itemStack, int chance, int maxChance, int tierChanceBoost) {
+        return new Content(
+                ItemRecipeCapability.CAP.of(itemStack), chance, maxChance, tierChanceBoost, null, null);
     }
 
-    public static Content itemContent(Item item, int amount, int chance, int maxChance, int tierChanceBoost) {
+    public static Content itemContent(
+            Item item, int amount, int chance, int maxChance, int tierChanceBoost) {
         return new Content(
                 ItemRecipeCapability.CAP.of(new ItemStack(item, amount)),
                 chance,
@@ -26,7 +29,8 @@ public class MORecipeHelper {
                 null);
     }
 
-    public static Content fluidContent(FluidStack fluidStack, int chance, int maxChance, int tierChanceBoost) {
+    public static Content fluidContent(
+            FluidStack fluidStack, int chance, int maxChance, int tierChanceBoost) {
         return new Content(
                 FluidRecipeCapability.CAP.of(fluidStack), chance, maxChance, tierChanceBoost, null, null);
     }
