@@ -13,8 +13,14 @@ import java.io.IOException;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * SavedData that is more resistant to crashes while writing. Thank you AE2 for the idea!
+ *
+ * @author GateGuardian
+ * @date : 2024/8/20
+ */
 @ParametersAreNonnullByDefault
-public abstract class MOSavedData extends SavedData {
+public abstract class SafeSavedData extends SavedData {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     @Override
