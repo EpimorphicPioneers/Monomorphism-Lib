@@ -56,4 +56,24 @@ public class MOValues {
         BLUE.toString() + BOLD + "传奇",
         RED.toString() + BOLD + "MAX"
     };
+
+    public static final String MODID_TOP = "theoneprobe",
+            MODID_JEI = "jei",
+            MODID_APPENG = "ae2",
+            MODID_KUBEJS = "kubejs",
+            MODID_IRIS = "iris",
+            MODID_OCULUS = "oculus",
+            MODID_SODIUM = "sodium",
+            MODID_RUBIDIUM = "rubidium",
+            MODID_EMBEDDIUM = "embeddium",
+            MODID_CREATE = "create",
+            MODID_REBORN_ENERGY = "team_reborn_energy",
+            MODID_ALMOSTUNIFIED = "almostunified",
+            MODID_CURIOS = "curios",
+            MODID_AE2WTLIB = "ae2wtlib",
+            MODID_SHIMMER = "shimmer",
+            MODID_LDLIB = "ldlib",
+            MODID_GTM = "gtceu",
+            MODID_REGISTRATE = "registrate",
+            MODID_JAVD = "javd";
 }

@@ -4,7 +4,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
 import org.joml.Vector3f;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,17 +25,6 @@ import static com.gregtechceu.gtceu.api.GTValues.RNG;
 public class MOMath {
 
     public static final double PI2 = Math.PI * 2;
-
-    @Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
-    public static int[] split(long value) {
-        IntArrayList result = new IntArrayList();
-        while (value > 0) {
-            int intValue = (int) Math.min(value, Integer.MAX_VALUE);
-            result.add(intValue);
-            value -= intValue;
-        }
-        return result.toIntArray();
-    }
 
     public static int nextInt(int minimum, int maximum) {
         return Mth.nextInt(RNG, minimum, maximum);

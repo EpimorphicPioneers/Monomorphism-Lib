@@ -1,8 +1,8 @@
 package com.epimorphismmc.monomorphism.mixins.gtm;
 
-import com.epimorphismmc.monomorphism.data.chemical.material.info.MOMaterialIconSet;
-import com.epimorphismmc.monomorphism.data.tag.MOTagPrefix;
-import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
+import com.epimorphismmc.monomorphism.integration.gtm.data.chemical.material.info.MOMaterialIconSet;
+import com.epimorphismmc.monomorphism.integration.gtm.data.tag.MOTagPrefix;
+import com.epimorphismmc.monomorphism.integration.gtm.item.IMOItemRendererProvider;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;

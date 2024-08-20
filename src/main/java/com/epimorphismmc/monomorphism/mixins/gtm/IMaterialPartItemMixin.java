@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.mixins.gtm;
 
-import com.epimorphismmc.monomorphism.item.component.IMODurabilityBar;
+import com.epimorphismmc.monomorphism.integration.gtm.item.component.IMODurabilityBar;
 
 import com.gregtechceu.gtceu.api.item.component.*;
 
