@@ -14,8 +14,6 @@
         "accessors.ShapedRecipeAccessor",
         "accessors.ShapelessRecipeAccessor",
         "gtm.ComponentItemMixin",
-        "gtm.GTBlocksMixin",
-        "gtm.ICoilTypeMixin",
         "gtm.IMaterialPartItemMixin",
         "gtm.TagPrefixItemMixin"
     ],

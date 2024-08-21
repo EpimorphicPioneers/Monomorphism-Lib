@@ -22,7 +22,6 @@ public interface IBlockTier {
     }
 
     enum TierBlockType implements IBlockTier {
-        DUMMY(-1),
         ULV(GTValues.ULV),
         LV(GTValues.LV),
         MV(GTValues.MV),
