@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.block;
+package com.epimorphismmc.monomorphism.integration.gtm.block;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;

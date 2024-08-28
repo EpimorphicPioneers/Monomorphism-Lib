@@ -29,7 +29,6 @@ import org.joml.Matrix4f;
 
 import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getModelForState;
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.*;
-import static com.epimorphismmc.monomorphism.client.utils.MORenderBufferUtils.*;
 
 @OnlyIn(Dist.CLIENT)
 public class MORenderUtils {
@@ -173,7 +172,7 @@ public class MORenderUtils {
      * line along z axis.
      */
     public static void renderCoordinateSystem(PoseStack transforms, MultiBufferSource buffer) {
-        VertexConsumer builder = getVertexBuilder(buffer, RenderType.lines());
+        VertexConsumer builder = buffer.getBuffer(RenderType.lines());
         Matrix4f matrix = transforms.last().pose();
         // X-axis
         builder.vertex(matrix, 0, 0, 0).color(255, 0, 0, 255).endVertex();
@@ -196,7 +195,7 @@ public class MORenderUtils {
     }
 
     /**
-     * Binds the texture atlas for rendering
+     * Binds the block texture atlas for rendering
      */
     public static void bindBlockAtlas() {
         bindTexture(InventoryMenu.BLOCK_ATLAS);

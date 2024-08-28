@@ -8,13 +8,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
+/**
+ * Caches and manages lists of baked quads for different directions or no specific direction.
+ * Provides thread-safe access and ensures that quads for each direction are baked only once.
+ * <p>
+ * Adapted from InfinityLib.
+ *
+ * @author GateGuardian
+ * @date : 2024/8/28
+ */
 @OnlyIn(Dist.CLIENT)
 public class QuadCache {
     private final Map<Direction, SafeQuadStore> dirQuads;
@@ -22,8 +30,9 @@ public class QuadCache {
 
     public QuadCache(Function<Direction, List<BakedQuad>> quadBaker) {
         this.dirQuads = Maps.newConcurrentMap();
-        Arrays.stream(Direction.values())
-                .forEach(face -> dirQuads.put(face, new SafeQuadStore(face, quadBaker)));
+        for (var face : Direction.values()) {
+            dirQuads.put(face, new SafeQuadStore(face, quadBaker));
+        }
         this.nullQuads = new SafeQuadStore(null, quadBaker);
     }
 
@@ -36,7 +45,7 @@ public class QuadCache {
         private final Function<Direction, List<BakedQuad>> quadBaker;
 
         private List<BakedQuad> quads;
-        private boolean baking;
+        private boolean baked;
 
         private SafeQuadStore(
                 @Nullable Direction face, Function<Direction, List<BakedQuad>> quadBaker) {
@@ -44,16 +53,16 @@ public class QuadCache {
             this.quadBaker = quadBaker;
         }
 
-        @Nullable public Direction getFace() {
+        public @Nullable Direction getFace() {
             return this.face;
         }
 
         public List<BakedQuad> getQuads() {
             if (this.quads == null) {
-                if (this.baking) {
+                if (this.baked) {
                     return ImmutableList.of();
                 } else {
-                    this.baking = true;
+                    this.baked = true;
                     this.quads = ImmutableList.copyOf(this.quadBaker.apply(this.getFace()));
                 }
             }

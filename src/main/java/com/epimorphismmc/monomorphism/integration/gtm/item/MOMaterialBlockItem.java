@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.integration.gtm.item;
 
-import com.epimorphismmc.monomorphism.block.IMaterialBlock;
+import com.epimorphismmc.monomorphism.integration.gtm.block.IMaterialBlock;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.DustProperty;

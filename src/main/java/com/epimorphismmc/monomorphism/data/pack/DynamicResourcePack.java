@@ -1,14 +1,12 @@
 package com.epimorphismmc.monomorphism.data.pack;
 
-import com.google.common.collect.Sets;
-import com.google.gson.JsonElement;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.addon.AddonFinder;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.config.ConfigHolder;
+
 import com.lowdragmc.lowdraglib.Platform;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
@@ -18,10 +16,14 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.resources.IoSupplier;
+
+import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +39,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import static com.gregtechceu.gtceu.data.pack.GTDynamicDataPack.writeJson;
 
 @MethodsReturnNonnullByDefault
@@ -44,6 +48,7 @@ import static com.gregtechceu.gtceu.data.pack.GTDynamicDataPack.writeJson;
 public class DynamicResourcePack implements PackResources {
 
     protected static final ObjectSet<String> CLIENT_DOMAINS = new ObjectOpenHashSet<>();
+
     @ApiStatus.Internal
     public static final ConcurrentMap<ResourceLocation, byte[]> DATA = new ConcurrentHashMap<>();
 
@@ -54,7 +59,9 @@ public class DynamicResourcePack implements PackResources {
     }
 
     public DynamicResourcePack(String name) {
-        this(name, AddonFinder.getAddons().stream().map(IGTAddon::addonModId).collect(Collectors.toSet()));
+        this(
+                name,
+                AddonFinder.getAddons().stream().map(IGTAddon::addonModId).collect(Collectors.toSet()));
     }
 
     public DynamicResourcePack(String name, Collection<String> domains) {
@@ -124,14 +131,20 @@ public class DynamicResourcePack implements PackResources {
     }
 
     @ApiStatus.Internal
-    public static void writeByteArray(ResourceLocation id, @Nullable String subdir, Path parent, byte[] data) {
+    public static void writeByteArray(
+            ResourceLocation id, @Nullable String subdir, Path parent, byte[] data) {
         try {
             Path file;
             if (subdir != null) {
-                file = parent.resolve(id.getNamespace()).resolve(subdir).resolve(id.getPath() + ".png"); // assume PNG
+                file = parent
+                        .resolve(id.getNamespace())
+                        .resolve(subdir)
+                        .resolve(id.getPath() + ".png"); // assume PNG
             } else {
-                file = parent.resolve(id.getNamespace()).resolve(id.getPath()); // assume the file type is also appended
-                                                                                // if a full path is given.
+                file = parent
+                        .resolve(id.getNamespace())
+                        .resolve(id.getPath()); // assume the file type is also appended
+                // if a full path is given.
             }
             Files.createDirectories(file.getParent());
             try (OutputStream output = Files.newOutputStream(file)) {
@@ -142,8 +155,7 @@ public class DynamicResourcePack implements PackResources {
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public IoSupplier<InputStream> getRootResource(String... elements) {
         return null;
     }
@@ -151,18 +163,20 @@ public class DynamicResourcePack implements PackResources {
     @Override
     public IoSupplier<InputStream> getResource(PackType type, ResourceLocation location) {
         if (type == PackType.CLIENT_RESOURCES) {
-            if (DATA.containsKey(location))
-                return () -> new ByteArrayInputStream(DATA.get(location));
+            if (DATA.containsKey(location)) return () -> new ByteArrayInputStream(DATA.get(location));
         }
         return null;
     }
 
     @Override
-    public void listResources(PackType packType, String namespace, String path, ResourceOutput resourceOutput) {
+    public void listResources(
+            PackType packType, String namespace, String path, ResourceOutput resourceOutput) {
         if (packType == PackType.CLIENT_RESOURCES) {
             if (!path.endsWith("/")) path += "/";
             final String finalPath = path;
-            DATA.keySet().stream().filter(Objects::nonNull).filter(loc -> loc.getPath().startsWith(finalPath))
+            DATA.keySet().stream()
+                    .filter(Objects::nonNull)
+                    .filter(loc -> loc.getPath().startsWith(finalPath))
                     .forEach((id) -> {
                         IoSupplier<InputStream> resource = this.getResource(packType, id);
                         if (resource != null) {
@@ -177,11 +191,11 @@ public class DynamicResourcePack implements PackResources {
         return type == PackType.CLIENT_RESOURCES ? CLIENT_DOMAINS : Set.of();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public <T> T getMetadataSection(MetadataSectionSerializer<T> metaReader) {
         if (metaReader == PackMetadataSection.TYPE) {
-            return (T) new PackMetadataSection(Component.literal("GTCEu dynamic assets"),
+            return (T) new PackMetadataSection(
+                    Component.literal("GTCEu dynamic assets"),
                     SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES));
         }
         return null;
@@ -198,23 +212,26 @@ public class DynamicResourcePack implements PackResources {
     }
 
     public static ResourceLocation getBlockStateLocation(ResourceLocation blockId) {
-        return new ResourceLocation(blockId.getNamespace(),
-                String.join("", "blockstates/", blockId.getPath(), ".json"));
+        return new ResourceLocation(
+                blockId.getNamespace(), String.join("", "blockstates/", blockId.getPath(), ".json"));
     }
 
     public static ResourceLocation getModelLocation(ResourceLocation blockId) {
-        return new ResourceLocation(blockId.getNamespace(), String.join("", "models/", blockId.getPath(), ".json"));
+        return new ResourceLocation(
+                blockId.getNamespace(), String.join("", "models/", blockId.getPath(), ".json"));
     }
 
     public static ResourceLocation getItemModelLocation(ResourceLocation itemId) {
-        return new ResourceLocation(itemId.getNamespace(), String.join("", "models/item/", itemId.getPath(), ".json"));
+        return new ResourceLocation(
+                itemId.getNamespace(), String.join("", "models/item/", itemId.getPath(), ".json"));
     }
 
     public static ResourceLocation getTextureLocation(@Nullable String path, ResourceLocation tagId) {
         if (path == null) {
-            return new ResourceLocation(tagId.getNamespace(), String.join("", "textures/", tagId.getPath(), ".png"));
+            return new ResourceLocation(
+                    tagId.getNamespace(), String.join("", "textures/", tagId.getPath(), ".png"));
         }
-        return new ResourceLocation(tagId.getNamespace(),
-                String.join("", "textures/", path, "/", tagId.getPath(), ".png"));
+        return new ResourceLocation(
+                tagId.getNamespace(), String.join("", "textures/", path, "/", tagId.getPath(), ".png"));
     }
 }

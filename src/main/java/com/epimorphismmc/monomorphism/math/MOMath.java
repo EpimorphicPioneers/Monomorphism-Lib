@@ -4,6 +4,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -71,5 +72,18 @@ public class MOMath {
 
     public static ThreadLocalRandom localRandom() {
         return ThreadLocalRandom.current();
+    }
+
+    public static Quaternionf degreeToQuaternion(double x, double y, double z) {
+        x = Math.toRadians(x);
+        y = Math.toRadians(y);
+        z = Math.toRadians(z);
+        Quaternionf qYaw = new Quaternionf(0, (float) Math.sin(y / 2), 0, (float) Math.cos(y / 2));
+        Quaternionf qPitch = new Quaternionf((float) Math.sin(x / 2), 0, 0, (float) Math.cos(x / 2));
+        Quaternionf qRoll = new Quaternionf(0, 0, (float) Math.sin(z / 2), (float) Math.cos(z / 2));
+
+        qYaw.mul(qRoll);
+        qYaw.mul(qPitch);
+        return qYaw;
     }
 }

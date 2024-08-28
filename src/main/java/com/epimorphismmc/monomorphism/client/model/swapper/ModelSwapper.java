@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.model;
+package com.epimorphismmc.monomorphism.client.model.swapper;
 
 import com.epimorphismmc.monomorphism.api.render.IModelSwapper;
 

@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.integration.gtm.pattern;
 
-import com.epimorphismmc.monomorphism.block.MOBlockProperties;
+import com.epimorphismmc.monomorphism.integration.gtm.block.MOBlockProperties;
 import com.epimorphismmc.monomorphism.integration.gtm.pattern.predicates.MOPredicate;
 import com.epimorphismmc.monomorphism.utility.MOUtils;
 

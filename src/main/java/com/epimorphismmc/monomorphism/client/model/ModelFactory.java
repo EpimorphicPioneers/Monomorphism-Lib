@@ -23,7 +23,10 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.mojang.math.Transformation;
 import org.joml.Quaternionf;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ import java.util.List;
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.blockRendererDispatcher;
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.mc;
 
+@OnlyIn(Dist.CLIENT)
 public class ModelFactory {
 
     public static final ItemModelGenerator ITEM_MODEL_GENERATOR = new ItemModelGenerator();
@@ -112,16 +116,6 @@ public class ModelFactory {
     }
 
     /**
-     * Fetches the sprite on a Texture Atlas related to a render material
-     *
-     * @param material the render material
-     * @return the sprite
-     */
-    public static TextureAtlasSprite getSprite(Material material) {
-        return getTextureAtlas(material.atlasLocation()).getSprite(material.texture());
-    }
-
-    /**
      * Converts a String to a RenderMaterial for the Block Atlas
      * @param string the String
      * @return the RenderMaterial
@@ -173,6 +167,10 @@ public class ModelFactory {
             case WEST -> BlockModelRotation.X0_Y270;
             case EAST -> BlockModelRotation.X0_Y90;
         };
+    }
+
+    public static Transformation rotateTo(Direction d) {
+        return new Transformation(null).compose(getRotation(d).getRotation());
     }
 
     public static Direction modelFacing(Direction side, Direction frontFacing) {

@@ -1,7 +1,5 @@
 package com.epimorphismmc.monomorphism.integration.gtm.block;
 
-import com.epimorphismmc.monomorphism.block.MOBlockProperties;
-
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 

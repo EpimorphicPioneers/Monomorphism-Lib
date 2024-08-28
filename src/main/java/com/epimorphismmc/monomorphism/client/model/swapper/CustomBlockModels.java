@@ -1,8 +1,8 @@
-package com.epimorphismmc.monomorphism.client.model;
+package com.epimorphismmc.monomorphism.client.model.swapper;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.google.common.collect.Multimap;
@@ -13,20 +13,20 @@ import com.tterrag.registrate.util.nullness.NonNullFunction;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-final class CustomItemModels {
+final class CustomBlockModels {
     private final Multimap<ResourceLocation, NonNullFunction<BakedModel, ? extends BakedModel>>
             modelFuncs = MultimapBuilder.hashKeys().arrayListValues().build();
-    private final Map<Item, NonNullFunction<BakedModel, ? extends BakedModel>> finalModelFuncs =
+    private final Map<Block, NonNullFunction<BakedModel, ? extends BakedModel>> finalModelFuncs =
             new IdentityHashMap<>();
     private boolean funcsLoaded = false;
 
     public void register(
-            ResourceLocation item, NonNullFunction<BakedModel, ? extends BakedModel> func) {
-        modelFuncs.put(item, func);
+            ResourceLocation block, NonNullFunction<BakedModel, ? extends BakedModel> func) {
+        modelFuncs.put(block, func);
     }
 
     public void forEach(
-            NonNullBiConsumer<Item, NonNullFunction<BakedModel, ? extends BakedModel>> consumer) {
+            NonNullBiConsumer<Block, NonNullFunction<BakedModel, ? extends BakedModel>> consumer) {
         loadEntriesIfMissing();
         finalModelFuncs.forEach(consumer);
     }
@@ -41,8 +41,8 @@ final class CustomItemModels {
     private void loadEntries() {
         finalModelFuncs.clear();
         modelFuncs.asMap().forEach((location, funcList) -> {
-            Item item = ForgeRegistries.ITEMS.getValue(location);
-            if (item == null) {
+            Block block = ForgeRegistries.BLOCKS.getValue(location);
+            if (block == null) {
                 return;
             }
 
@@ -55,7 +55,7 @@ final class CustomItemModels {
                 }
             }
 
-            finalModelFuncs.put(item, finalFunc);
+            finalModelFuncs.put(block, finalFunc);
         });
     }
 }

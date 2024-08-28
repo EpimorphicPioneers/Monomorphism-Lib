@@ -112,7 +112,6 @@ public class Cuboid {
         return renderSides[ordinal] ? textures[ordinal] : null;
     }
 
-    // TODO The method FluidHelper.getStillTexture(fluid) should be incorporated into LDLib.
     public Cuboid prepFlowing(@NotNull FluidStack fluid) {
         TextureAtlasSprite still = FluidHelper.getStillTexture(fluid);
         TextureAtlasSprite flowing = MOFluidUtils.getFlowingTexture(fluid);

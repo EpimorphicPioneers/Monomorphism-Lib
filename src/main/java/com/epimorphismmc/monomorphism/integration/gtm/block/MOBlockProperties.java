@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.block;
+package com.epimorphismmc.monomorphism.integration.gtm.block;
 
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 

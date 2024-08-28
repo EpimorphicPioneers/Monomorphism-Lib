@@ -1,17 +1,13 @@
 package com.epimorphismmc.monomorphism.data.pack;
 
-import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.addon.AddonFinder;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.common.data.GTRecipes;
 import com.gregtechceu.gtceu.config.ConfigHolder;
+
 import com.lowdragmc.lowdraglib.Platform;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+
 import net.minecraft.SharedConstants;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.network.chat.Component;
@@ -21,10 +17,16 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.resources.IoSupplier;
+
+import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +41,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 public class DynamicDataPack implements PackResources {
 
@@ -52,7 +56,9 @@ public class DynamicDataPack implements PackResources {
     }
 
     public DynamicDataPack(String name) {
-        this(name, AddonFinder.getAddons().stream().map(IGTAddon::addonModId).collect(Collectors.toSet()));
+        this(
+                name,
+                AddonFinder.getAddons().stream().map(IGTAddon::addonModId).collect(Collectors.toSet()));
     }
 
     public DynamicDataPack(String name, Collection<String> domains) {
@@ -77,28 +83,35 @@ public class DynamicDataPack implements PackResources {
             if (ConfigHolder.INSTANCE.dev.dumpRecipes) {
                 writeJson(recipe.getAdvancementId(), "advancements", parent, advancement);
             }
-            DATA.put(getAdvancementLocation(Objects.requireNonNull(recipe.getAdvancementId())),
+            DATA.put(
+                    getAdvancementLocation(Objects.requireNonNull(recipe.getAdvancementId())),
                     advancement.toString().getBytes(StandardCharsets.UTF_8));
         }
     }
 
     /**
      * if subdir is null, no file ending is appended.
-     * 
+     *
      * @param id     the resource location of the file to be written.
      * @param subdir a nullable subdirectory for the data.
      * @param parent the parent folder where to write data to.
      * @param json   the json to write.
      */
     @ApiStatus.Internal
-    public static void writeJson(ResourceLocation id, @Nullable String subdir, Path parent, JsonElement json) {
+    public static void writeJson(
+            ResourceLocation id, @Nullable String subdir, Path parent, JsonElement json) {
         try {
             Path file;
             if (subdir != null) {
-                file = parent.resolve(id.getNamespace()).resolve(subdir).resolve(id.getPath() + ".json"); // assume JSON
+                file = parent
+                        .resolve(id.getNamespace())
+                        .resolve(subdir)
+                        .resolve(id.getPath() + ".json"); // assume JSON
             } else {
-                file = parent.resolve(id.getNamespace()).resolve(id.getPath()); // assume the file type is also appended
-                                                                                // if a full path is given.
+                file = parent
+                        .resolve(id.getNamespace())
+                        .resolve(id.getPath()); // assume the file type is also appended
+                // if a full path is given.
             }
             Files.createDirectories(file.getParent());
             try (OutputStream output = Files.newOutputStream(file)) {
@@ -116,8 +129,7 @@ public class DynamicDataPack implements PackResources {
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public IoSupplier<InputStream> getRootResource(String... elements) {
         return null;
     }
@@ -126,8 +138,7 @@ public class DynamicDataPack implements PackResources {
     public IoSupplier<InputStream> getResource(PackType type, ResourceLocation location) {
         if (type == PackType.SERVER_DATA) {
             var byteArray = DATA.get(location);
-            if (byteArray != null)
-                return () -> new ByteArrayInputStream(byteArray);
+            if (byteArray != null) return () -> new ByteArrayInputStream(byteArray);
             else return null;
         } else {
             return null;
@@ -135,11 +146,14 @@ public class DynamicDataPack implements PackResources {
     }
 
     @Override
-    public void listResources(PackType packType, String namespace, String path, ResourceOutput resourceOutput) {
+    public void listResources(
+            PackType packType, String namespace, String path, ResourceOutput resourceOutput) {
         if (packType == PackType.SERVER_DATA) {
             if (!path.endsWith("/")) path += "/";
             final String finalPath = path;
-            DATA.keySet().stream().filter(Objects::nonNull).filter(loc -> loc.getPath().startsWith(finalPath))
+            DATA.keySet().stream()
+                    .filter(Objects::nonNull)
+                    .filter(loc -> loc.getPath().startsWith(finalPath))
                     .forEach((id) -> {
                         IoSupplier<InputStream> resource = this.getResource(packType, id);
                         if (resource != null) {
@@ -154,21 +168,24 @@ public class DynamicDataPack implements PackResources {
         return type == PackType.SERVER_DATA ? SERVER_DOMAINS : Set.of();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public <T> T getMetadataSection(MetadataSectionSerializer<T> metaReader) {
         if (metaReader == PackMetadataSection.TYPE) {
-            return (T) new PackMetadataSection(Component.literal("GTCEu dynamic data"),
+            return (T) new PackMetadataSection(
+                    Component.literal("GTCEu dynamic data"),
                     SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA));
         } else if (metaReader.getMetadataSectionName().equals("filter")) {
             JsonObject filter = new JsonObject();
             JsonArray block = new JsonArray();
-            GTRecipes.RECIPE_FILTERS.forEach((id) -> { // Collect removed recipes in here, in the pack filter section.
-                JsonObject entry = new JsonObject();
-                entry.addProperty("namespace", "^" + id.getNamespace().replaceAll("[\\W]", "\\\\$0") + "$");
-                entry.addProperty("path", "^recipes/" + id.getPath().replaceAll("[\\W]", "\\\\$0") + "\\.json" + "$");
-                block.add(entry);
-            });
+            GTRecipes.RECIPE_FILTERS.forEach(
+                    (id) -> { // Collect removed recipes in here, in the pack filter section.
+                        JsonObject entry = new JsonObject();
+                        entry.addProperty(
+                                "namespace", "^" + id.getNamespace().replaceAll("[\\W]", "\\\\$0") + "$");
+                        entry.addProperty(
+                                "path", "^recipes/" + id.getPath().replaceAll("[\\W]", "\\\\$0") + "\\.json" + "$");
+                        block.add(entry);
+                    });
             filter.add("block", block);
             return metaReader.fromJson(filter);
         }
@@ -186,16 +203,18 @@ public class DynamicDataPack implements PackResources {
     }
 
     public static ResourceLocation getRecipeLocation(ResourceLocation recipeId) {
-        return new ResourceLocation(recipeId.getNamespace(), String.join("", "recipes/", recipeId.getPath(), ".json"));
+        return new ResourceLocation(
+                recipeId.getNamespace(), String.join("", "recipes/", recipeId.getPath(), ".json"));
     }
 
     public static ResourceLocation getAdvancementLocation(ResourceLocation advancementId) {
-        return new ResourceLocation(advancementId.getNamespace(),
+        return new ResourceLocation(
+                advancementId.getNamespace(),
                 String.join("", "advancements/", advancementId.getPath(), ".json"));
     }
 
     public static ResourceLocation getTagLocation(String identifier, ResourceLocation tagId) {
-        return new ResourceLocation(tagId.getNamespace(),
-                String.join("", "tags/", identifier, "/", tagId.getPath(), ".json"));
+        return new ResourceLocation(
+                tagId.getNamespace(), String.join("", "tags/", identifier, "/", tagId.getPath(), ".json"));
     }
 }

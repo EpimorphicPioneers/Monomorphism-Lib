@@ -1,11 +1,12 @@
 package com.epimorphismmc.monomorphism.data.pack;
 
-import lombok.RequiredArgsConstructor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.RepositorySource;
+
+import lombok.RequiredArgsConstructor;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -20,7 +21,8 @@ public class PackSource implements RepositorySource {
 
     @Override
     public void loadPacks(Consumer<Pack> onLoad) {
-        onLoad.accept(Pack.readMetaAndCreate(name,
+        onLoad.accept(Pack.readMetaAndCreate(
+                name,
                 Component.literal(name),
                 true,
                 resources::apply,

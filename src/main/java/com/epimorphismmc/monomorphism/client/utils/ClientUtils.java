@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,8 +17,6 @@ import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientUtils {
-
-    private static TextureAtlasSprite missingSprite;
 
     public static Minecraft mc() {
         return Minecraft.getInstance();
