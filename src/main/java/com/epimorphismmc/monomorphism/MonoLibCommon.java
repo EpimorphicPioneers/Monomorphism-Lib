@@ -1,21 +1,23 @@
 package com.epimorphismmc.monomorphism;
 
 import com.epimorphismmc.monomorphism.block.MOBlockMaps;
+import com.epimorphismmc.monomorphism.data.pack.resource.CacheReloadManager;
 import com.epimorphismmc.monomorphism.datagen.Datagen;
 
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
+import static com.epimorphismmc.monomorphism.utility.ServerUtils.getServer;
 
 /**
  * Mod functionality that is common to both dedicated server and client.
@@ -37,7 +39,7 @@ public abstract class MonoLibCommon implements MonoLib {
 
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(Datagen::init);
-        bus.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::registerReloadListeners);
     }
 
     @SubscribeEvent
@@ -45,14 +47,33 @@ public abstract class MonoLibCommon implements MonoLib {
         MOBlockMaps.init();
     }
 
+    protected void registerReloadListeners(AddReloadListenerEvent event) {
+        CacheReloadManager.INSTANCE.registerListener(PackType.SERVER_DATA, event::addListener);
+    }
+
     @Override
-    public @Nullable MinecraftServer getCurrentServer() {
-        return ServerLifecycleHooks.getCurrentServer();
+    public @Nullable ResourceManager getResourceManager(PackType type) {
+        if (type == PackType.SERVER_DATA) {
+            var server = getServer();
+            if (server != null) {
+                return server.getResourceManager();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public @Nullable RecipeManager getRecipeManager() {
+        var server = getServer();
+        if (server != null) {
+            return server.getRecipeManager();
+        }
+        return null;
     }
 
     @Override
     public RegistryAccess getRegistryAccess() {
-        var server = getCurrentServer();
+        var server = getServer();
         if (server != null) {
             return server.registryAccess();
         }
@@ -60,17 +81,8 @@ public abstract class MonoLibCommon implements MonoLib {
     }
 
     @Override
-    public Collection<ServerPlayer> getPlayers() {
-        var server = getCurrentServer();
-        if (server != null) {
-            return server.getPlayerList().getPlayers();
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
     public void queueTask(Runnable task) {
-        var server = getCurrentServer();
+        var server = getServer();
         if (server != null) {
             server.submit(new TickTask(server.getTickCount() + 1, task));
         }

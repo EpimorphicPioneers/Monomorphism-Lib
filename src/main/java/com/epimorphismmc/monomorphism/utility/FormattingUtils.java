@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MOFormattingUtils {
+public class FormattingUtils {
     public static final DecimalFormat DECIMAL_FORMAT_0F = new DecimalFormat("#");
     public static final DecimalFormat DECIMAL_FORMAT_1F = new DecimalFormat("#.#");
     public static final DecimalFormat DECIMAL_FORMAT_2F = new DecimalFormat("#.##");
@@ -29,35 +29,35 @@ public class MOFormattingUtils {
     }
 
     public static String abbreviate0F(BigInteger number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_0F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_0F);
     }
 
     public static String abbreviate0F(BigDecimal number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_0F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_0F);
     }
 
     public static String abbreviate1F(double number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_1F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_1F);
     }
 
     public static String abbreviate1F(BigInteger number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_1F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_1F);
     }
 
     public static String abbreviate1F(BigDecimal number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_1F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_1F);
     }
 
     public static String abbreviate2F(double number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_2F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_2F);
     }
 
     public static String abbreviate2F(BigInteger number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_2F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_2F);
     }
 
     public static String abbreviate2F(BigDecimal number) {
-        return abbreviate(number, MOFormattingUtils.DECIMAL_FORMAT_2F);
+        return abbreviate(number, FormattingUtils.DECIMAL_FORMAT_2F);
     }
 
     public static String abbreviate(double number, DecimalFormat df) {

@@ -1,7 +1,8 @@
 package com.epimorphismmc.monomorphism.client.utils;
 
-import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
-import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+import com.epimorphismmc.monomorphism.client.render.Cuboid;
+import com.epimorphismmc.monomorphism.client.render.CuboidRenderer;
+import com.epimorphismmc.monomorphism.utility.FluidUtils;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -10,9 +11,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -21,8 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.fluids.FluidStack;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix4f;
@@ -31,7 +30,7 @@ import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getModelF
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.*;
 
 @OnlyIn(Dist.CLIENT)
-public class MORenderUtils {
+public class RenderUtils {
 
     private static final BlockPos DEFAULT_POS = new BlockPos(0, 0, 0);
 
@@ -136,7 +135,7 @@ public class MORenderUtils {
             int combinedOverlay,
             CuboidRenderer.FaceDisplay faceDisplay) {
         CuboidRenderer.renderCuboid(
-                cuboid.prepStill(fluid).setColor(FluidHelper.getColor(fluid) | 0xff000000),
+                cuboid.prepStill(fluid).setColor(FluidUtils.getColor(fluid) | 0xff000000),
                 poseStack,
                 bufferSource.getBuffer(Sheets.translucentCullBlockSheet()),
                 combinedLight,
@@ -156,7 +155,7 @@ public class MORenderUtils {
             int combinedOverlay,
             CuboidRenderer.FaceDisplay faceDisplay) {
         CuboidRenderer.renderCuboid(
-                cuboid.prepFlowing(fluid).setColor(FluidHelper.getColor(fluid) | 0xff000000),
+                cuboid.prepFlowing(fluid).setColor(FluidUtils.getColor(fluid) | 0xff000000),
                 poseStack,
                 bufferSource.getBuffer(Sheets.translucentCullBlockSheet()),
                 combinedLight,
@@ -183,21 +182,5 @@ public class MORenderUtils {
         // Z-axis
         builder.vertex(matrix, 0, 0, 0).color(0, 0, 255, 255).endVertex();
         builder.vertex(matrix, 0, 0, 1).color(0, 0, 255, 255).endVertex();
-    }
-
-    /**
-     * Binds a texture for rendering
-     *
-     * @param location the ResourceLocation for the texture
-     */
-    public static void bindTexture(ResourceLocation location) {
-        RenderSystem.setShaderTexture(0, location);
-    }
-
-    /**
-     * Binds the block texture atlas for rendering
-     */
-    public static void bindBlockAtlas() {
-        bindTexture(InventoryMenu.BLOCK_ATLAS);
     }
 }

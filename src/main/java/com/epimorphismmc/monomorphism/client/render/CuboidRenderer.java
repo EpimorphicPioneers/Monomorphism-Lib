@@ -1,4 +1,4 @@
-package com.epimorphismmc.monomorphism.client.utils;
+package com.epimorphismmc.monomorphism.client.render;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

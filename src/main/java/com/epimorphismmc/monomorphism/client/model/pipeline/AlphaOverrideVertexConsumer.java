@@ -14,15 +14,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class AlphaVertexConsumer extends VertexConsumerWrapper {
+public class AlphaOverrideVertexConsumer extends VertexConsumerWrapper {
     private final int alpha;
 
-    public AlphaVertexConsumer(VertexConsumer inner, int alpha) {
+    public AlphaOverrideVertexConsumer(VertexConsumer inner, int alpha) {
         super(inner);
         this.alpha = alpha;
     }
 
-    public AlphaVertexConsumer(VertexConsumer inner, double alpha) {
+    public AlphaOverrideVertexConsumer(VertexConsumer inner, double alpha) {
         super(inner);
         this.alpha = (int) (alpha * 255F);
     }

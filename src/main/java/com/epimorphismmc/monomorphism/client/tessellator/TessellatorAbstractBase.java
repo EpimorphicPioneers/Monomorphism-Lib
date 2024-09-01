@@ -27,6 +27,9 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
+import static com.epimorphismmc.monomorphism.MOValues.UNIT;
+import static com.epimorphismmc.monomorphism.MOValues.WHOLE;
+
 @OnlyIn(Dist.CLIENT)
 @SuppressWarnings("unused")
 public abstract class TessellatorAbstractBase implements ITessellator {
@@ -154,14 +157,13 @@ public abstract class TessellatorAbstractBase implements ITessellator {
     @Override
     public TessellatorAbstractBase addScaledVertexWithUV(
             float x, float y, float z, float u, float v) {
-        return this.addVertexWithUV(x * Constants.UNIT, y * Constants.UNIT, z * Constants.UNIT, u, v);
+        return this.addVertexWithUV(x * UNIT, y * UNIT, z * UNIT, u, v);
     }
 
     @Override
     public TessellatorAbstractBase addScaledVertexWithUV(
             float x, float y, float z, TextureAtlasSprite icon, float u, float v) {
-        return this.addVertexWithUV(
-                x * Constants.UNIT, y * Constants.UNIT, z * Constants.UNIT, icon, u, v);
+        return this.addVertexWithUV(x * UNIT, y * UNIT, z * UNIT, icon, u, v);
     }
 
     @Override
@@ -549,7 +551,7 @@ public abstract class TessellatorAbstractBase implements ITessellator {
             double angle = ((i + 1) % quads) * 2 * Math.PI / quads;
             float newX = (float) (r * Math.cos(angle)) + x;
             float newZ = (float) (r * Math.sin(angle)) + z;
-            float newU = Constants.WHOLE * ((float) (i + 1)) / quads;
+            float newU = WHOLE * ((float) (i + 1)) / quads;
             this.addScaledVertexWithUV(prevX, y, prevZ, prevU, vMax);
             this.addScaledVertexWithUV(prevX, y + h, prevZ, prevU, 0);
             this.addScaledVertexWithUV(newX, y + h, newZ, newU, 0);
@@ -578,7 +580,7 @@ public abstract class TessellatorAbstractBase implements ITessellator {
             double angle = ((i + 1) % quads) * 2 * Math.PI / quads;
             float newX = (float) (r * Math.cos(angle)) + x;
             float newZ = (float) (r * Math.sin(angle)) + z;
-            float newU = Constants.WHOLE * ((float) (i + 1)) / quads;
+            float newU = WHOLE * ((float) (i + 1)) / quads;
             this.addScaledVertexWithUV(prevX, y, prevZ, texture, prevU, vMax);
             this.addScaledVertexWithUV(prevX, y + h, prevZ, texture, prevU, 0);
             this.addScaledVertexWithUV(newX, y + h, newZ, texture, newU, 0);
@@ -600,7 +602,7 @@ public abstract class TessellatorAbstractBase implements ITessellator {
             double angle = ((i + 1) % quads) * 2 * Math.PI / quads;
             float newX = (float) (r * Math.cos(angle)) + x;
             float newZ = (float) (r * Math.sin(angle)) + z;
-            float newU = Constants.WHOLE * ((float) (i + 1)) / quads;
+            float newU = WHOLE * ((float) (i + 1)) / quads;
             this.addScaledVertexWithUV(prevX, y, prevZ, prevU, vMax);
             this.addScaledVertexWithUV(newX, y, newZ, newU, vMax);
             this.addScaledVertexWithUV(newX, y + h, newZ, newU, 0);
@@ -629,7 +631,7 @@ public abstract class TessellatorAbstractBase implements ITessellator {
             double angle = ((i + 1) % quads) * 2 * Math.PI / quads;
             float newX = (float) (r * Math.cos(angle)) + x;
             float newZ = (float) (r * Math.sin(angle)) + z;
-            float newU = Constants.WHOLE * ((float) (i + 1)) / quads;
+            float newU = WHOLE * ((float) (i + 1)) / quads;
             this.addScaledVertexWithUV(prevX, y, prevZ, texture, prevU, vMax);
             this.addScaledVertexWithUV(newX, y, newZ, texture, newU, vMax);
             this.addScaledVertexWithUV(newX, y + h, newZ, texture, newU, 0);

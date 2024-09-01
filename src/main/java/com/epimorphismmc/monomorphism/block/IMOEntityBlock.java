@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.extensions.IForgeBlock;
 
 import java.util.function.BiFunction;
 
@@ -19,8 +18,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public interface IMOEntityBlock<T extends BlockEntity & IMOBlockEntity>
-        extends IMOBlock, IForgeBlock, EntityBlock {
+public interface IMOEntityBlock<T extends BlockEntity & IMOBlockEntity> extends EntityBlock {
     @Override
     @Nullable default T newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return this.getTileEntityFactory().apply(pos, state);

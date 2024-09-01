@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 @OnlyIn(Dist.CLIENT)
-public class VertexData {
+public class Vertex {
 
     private final VertexFormat format;
     private float x, y, z;
@@ -18,7 +18,7 @@ public class VertexData {
     private float r, g, b, a;
     private float nX, nY, nZ;
 
-    public VertexData(VertexFormat format) {
+    public Vertex(VertexFormat format) {
         this.format = format;
     }
 
@@ -58,31 +58,32 @@ public class VertexData {
         }
     }
 
+    // TODO
     private void applyVertexDataForType(
             int index, VertexFormatElement element, VertexConsumer consumer) {
         switch (element.getUsage()) {
             case POSITION:
-                consumer.vertex(index, x, y, z, 1);
+                consumer.vertex(x, y, z);
                 break;
             case UV:
                 // UV exists for two different VertexFormatElements; one is texture, another light map
                 if (element.getType() == VertexFormatElement.Type.FLOAT) {
                     // We are certain this is texture, put the UV's
-                    consumer.uv(index, u, v, 0, 1);
+                    consumer.uv(u, v);
                 } else {
                     // This is for light map, put (0, 0) for automatic light map
-                    consumer.uv2(index, 0, 0);
+                    consumer.uv2(0, 0);
                 }
                 break;
             case COLOR:
-                consumer.color(index, r, g, b, a);
+                consumer.color(r, g, b, a);
                 break;
             case NORMAL:
-                consumer.normal(index, nX, nY, nZ, 0);
+                consumer.normal(nX, nY, nZ);
                 break;
             default:
                 // We don't care about PADDING or other elements
-                consumer.vertex(index);
+
         }
     }
 }

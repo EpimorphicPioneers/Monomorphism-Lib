@@ -2,7 +2,7 @@ package com.epimorphismmc.monomorphism.integration.ldlib.gui.widget;
 
 import com.epimorphismmc.monomorphism.gui.utils.MODrawerHelper;
 import com.epimorphismmc.monomorphism.integration.ldlib.transfer.item.BigItemStackTransfer;
-import com.epimorphismmc.monomorphism.utility.MOFormattingUtils;
+import com.epimorphismmc.monomorphism.utility.FormattingUtils;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
@@ -107,7 +107,7 @@ public class BigSlotWidget extends SlotWidget {
                 DrawerHelper.drawItemStack(graphics, itemStack, pos.x + 1, pos.y + 1, -1, " ");
                 if (itemStack.getCount() > 1) {
                     MODrawerHelper.renderStackCount(
-                            graphics, MOFormattingUtils.abbreviate2F(itemStack.getCount()), pos.x + 1, pos.y + 1);
+                            graphics, FormattingUtils.abbreviate2F(itemStack.getCount()), pos.x + 1, pos.y + 1);
                 }
             }
         }

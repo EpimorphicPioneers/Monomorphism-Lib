@@ -1,16 +1,12 @@
-package com.epimorphismmc.monomorphism.client.utils;
+package com.epimorphismmc.monomorphism.client.render;
 
-import com.epimorphismmc.monomorphism.utility.MOFluidUtils;
-
-import com.gregtechceu.gtceu.utils.GTUtil;
-
-import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
-import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+import com.epimorphismmc.monomorphism.utility.FluidUtils;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidStack;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -19,6 +15,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
+
+import static com.epimorphismmc.monomorphism.MOValues.DIRECTIONS;
 
 @OnlyIn(Dist.CLIENT)
 @NoArgsConstructor
@@ -82,7 +80,7 @@ public class Cuboid {
     }
 
     public Cuboid setSideRender(Predicate<Direction> shouldRender) {
-        for (Direction direction : GTUtil.DIRECTIONS) {
+        for (Direction direction : DIRECTIONS) {
             setSideRender(direction, shouldRender.test(direction));
         }
         return this;
@@ -113,13 +111,13 @@ public class Cuboid {
     }
 
     public Cuboid prepFlowing(@NotNull FluidStack fluid) {
-        TextureAtlasSprite still = FluidHelper.getStillTexture(fluid);
-        TextureAtlasSprite flowing = MOFluidUtils.getFlowingTexture(fluid);
+        TextureAtlasSprite still = FluidUtils.getStillTexture(fluid);
+        TextureAtlasSprite flowing = FluidUtils.getFlowingTexture(fluid);
         return setTextures(still, still, flowing, flowing, flowing, flowing);
     }
 
     public Cuboid prepStill(@NotNull FluidStack fluid) {
-        TextureAtlasSprite still = FluidHelper.getStillTexture(fluid);
+        TextureAtlasSprite still = FluidUtils.getStillTexture(fluid);
         return setTextures(still, still, still, still, still, still);
     }
 

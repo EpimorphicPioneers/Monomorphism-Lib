@@ -6,14 +6,13 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
-
-import java.util.Collection;
 
 public interface MonoLib {
 
@@ -36,18 +35,9 @@ public interface MonoLib {
      */
     @Nullable Level getClientLevel();
 
-    /**
-     * Since in a Minecraft client, multiple servers can be launched and stopped during a single session, the result of
-     * this method should not be stored globally.
-     *
-     * @return The currently running Minecraft server instance, if there is one.
-     */
-    @Nullable MinecraftServer getCurrentServer();
+    @Nullable ResourceManager getResourceManager(PackType type);
 
-    /**
-     * @return A stream of all players in the game. On the client it'll be empty if no level is loaded.
-     */
-    Collection<ServerPlayer> getPlayers();
+    RecipeManager getRecipeManager();
 
     /**
      * @return a registry access object based on the logical side

@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.utility;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
@@ -10,8 +11,13 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.minecraftforge.forgespi.language.IModInfo;
+
+import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -53,19 +59,23 @@ public class Platform {
         return modList.isLoaded(modId);
     }
 
-    public static String getModName(String modId) {
+    public static Optional<IModInfo> getModInfo(String modId) {
         var modList = ModList.get();
         if (modList == null) {
             return LoadingModList.get().getMods().stream()
                     .filter(info -> info.getModId().equals(modId))
-                    .findAny()
-                    .map(ModInfo::getDisplayName)
-                    .orElse(modId);
+                    .map(IModInfo.class::cast)
+                    .findAny();
         }
-        return modList
-                .getModContainerById(modId)
-                .map(mc -> mc.getModInfo().getDisplayName())
-                .orElse(modId);
+        return modList.getModContainerById(modId).map(ModContainer::getModInfo);
+    }
+
+    public static String getModName(String modId) {
+        return getModInfo(modId).map(IModInfo::getDisplayName).orElse(modId);
+    }
+
+    public static @Nullable ArtifactVersion getModVersion(String modId) {
+        return getModInfo(modId).map(IModInfo::getVersion).orElse(null);
     }
 
     public static Path getGamePath() {

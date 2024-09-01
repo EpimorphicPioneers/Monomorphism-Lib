@@ -1,14 +1,12 @@
 package com.epimorphismmc.monomorphism.utility;
 
-import com.epimorphismmc.monomorphism.MonoLib;
-
-import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
-import com.mojang.authlib.GameProfile;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -110,21 +108,21 @@ public class MOUtils {
         }
     }
 
-    public static @Nullable ServerPlayer getPlayerByUUID(@Nullable UUID id) {
-        var server = MonoLib.instance().getCurrentServer();
-        if (server != null) {
-            return (id != null && id != Util.NIL_UUID) ? server.getPlayerList().getPlayer(id) : null;
-        }
-        return null;
-    }
+    public static boolean addToInventoryOrDrop(
+            ItemStack stack, Level level, BlockPos pos, @Nullable Player player) {
+        if (!level.isClientSide && !stack.isEmpty()) {
+            if (player != null) {
+                if (player.addItem(stack)) {
+                    return true;
+                }
+            }
 
-    public static String getPlayerName(@NotNull UUID playerId, @Nullable ServerPlayer player) {
-        return player != null
-                ? player.getDisplayName().getString()
-                : Optional.ofNullable(MonoLib.instance().getCurrentServer())
-                        .map(MinecraftServer::getProfileCache)
-                        .flatMap(cache -> cache.get(playerId))
-                        .map(GameProfile::getName)
-                        .orElse("[Anonymous]");
+            ItemEntity entity =
+                    new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, stack);
+            entity.setDefaultPickUpDelay();
+            level.addFreshEntity(entity);
+            return level.addFreshEntity(entity);
+        }
+        return false;
     }
 }

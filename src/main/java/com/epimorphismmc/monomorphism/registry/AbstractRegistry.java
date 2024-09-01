@@ -1,11 +1,7 @@
 package com.epimorphismmc.monomorphism.registry;
 
 import com.epimorphismmc.monomorphism.MonoLib;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import lombok.Getter;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -13,6 +9,12 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModLoadingContext;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -25,8 +27,10 @@ public abstract class AbstractRegistry<K, V> implements IRegistry<K, V> {
     public static final Map<ResourceLocation, AbstractRegistry<?, ?>> REGISTERED = new HashMap<>();
 
     protected final BiMap<K, V> registry;
+
     @Getter
     protected final ResourceLocation registryName;
+
     @Getter
     protected boolean frozen = true;
 
@@ -78,15 +82,19 @@ public abstract class AbstractRegistry<K, V> implements IRegistry<K, V> {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean checkActiveModContainer() {
         ModContainer container = ModLoadingContext.get().getActiveContainer();
-        return container != null && (container.getModId().equals(this.registryName.getNamespace()) ||
-                container.getModId().equals(MonoLib.MODID) ||
-                container.getModId().equals("minecraft")); // check for minecraft modid in case of datagen or a mishap
+        return container != null
+                && (container.getModId().equals(this.registryName.getNamespace())
+                        || container.getModId().equals(MonoLib.MODID)
+                        || container
+                                .getModId()
+                                .equals("minecraft")); // check for minecraft modid in case of datagen or a mishap
     }
 
     @Override
     public void register(K key, V value) {
         if (frozen) {
-            throw new IllegalStateException("[register] registry %s has been frozen".formatted(registryName));
+            throw new IllegalStateException(
+                    "[register] registry %s has been frozen".formatted(registryName));
         }
         if (containKey(key)) {
             throw new IllegalStateException(
@@ -95,14 +103,15 @@ public abstract class AbstractRegistry<K, V> implements IRegistry<K, V> {
         registry.put(key, value);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public V replace(K key, V value) {
         if (frozen) {
-            throw new IllegalStateException("[replace] registry %s has been frozen".formatted(registryName));
+            throw new IllegalStateException(
+                    "[replace] registry %s has been frozen".formatted(registryName));
         }
         if (!containKey(key)) {
-            MonoLib.LOGGER.warn("[replace] couldn't find key %s in registry %s".formatted(registryName, key));
+            MonoLib.LOGGER.warn(
+                    "[replace] couldn't find key %s in registry %s".formatted(registryName, key));
         }
         return registry.put(key, value);
     }
@@ -110,7 +119,8 @@ public abstract class AbstractRegistry<K, V> implements IRegistry<K, V> {
     @Override
     public V registerOrOverride(K key, V value) {
         if (frozen) {
-            throw new IllegalStateException("[register] registry %s has been frozen".formatted(registryName));
+            throw new IllegalStateException(
+                    "[register] registry %s has been frozen".formatted(registryName));
         }
         return registry.put(key, value);
     }
@@ -140,8 +150,7 @@ public abstract class AbstractRegistry<K, V> implements IRegistry<K, V> {
         return registry;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public V get(K key) {
         return registry.get(key);
     }
@@ -200,14 +209,15 @@ public abstract class AbstractRegistry<K, V> implements IRegistry<K, V> {
 
         @Override
         public Codec<V> codec() {
-            return Codec.STRING
-                    .flatXmap(
-                            str -> Optional.ofNullable(this.get(str)).map(DataResult::success)
-                                    .orElseGet(() -> DataResult
-                                            .error(() -> "Unknown registry key in " + this.registryName + ": " + str)),
-                            obj -> Optional.ofNullable(this.getKey(obj)).map(DataResult::success)
-                                    .orElseGet(() -> DataResult.error(
-                                            () -> "Unknown registry element in " + this.registryName + ": " + obj)));
+            return Codec.STRING.flatXmap(
+                    str -> Optional.ofNullable(this.get(str))
+                            .map(DataResult::success)
+                            .orElseGet(() -> DataResult.error(
+                                    () -> "Unknown registry key in " + this.registryName + ": " + str)),
+                    obj -> Optional.ofNullable(this.getKey(obj))
+                            .map(DataResult::success)
+                            .orElseGet(() -> DataResult.error(
+                                    () -> "Unknown registry element in " + this.registryName + ": " + obj)));
         }
     }
 
@@ -248,14 +258,15 @@ public abstract class AbstractRegistry<K, V> implements IRegistry<K, V> {
 
         @Override
         public Codec<V> codec() {
-            return ResourceLocation.CODEC
-                    .flatXmap(
-                            rl -> Optional.ofNullable(this.get(rl)).map(DataResult::success)
-                                    .orElseGet(() -> DataResult
-                                            .error(() -> "Unknown registry key in " + this.registryName + ": " + rl)),
-                            obj -> Optional.ofNullable(this.getKey(obj)).map(DataResult::success)
-                                    .orElseGet(() -> DataResult.error(
-                                            () -> "Unknown registry element in " + this.registryName + ": " + obj)));
+            return ResourceLocation.CODEC.flatXmap(
+                    rl -> Optional.ofNullable(this.get(rl))
+                            .map(DataResult::success)
+                            .orElseGet(() -> DataResult.error(
+                                    () -> "Unknown registry key in " + this.registryName + ": " + rl)),
+                    obj -> Optional.ofNullable(this.getKey(obj))
+                            .map(DataResult::success)
+                            .orElseGet(() -> DataResult.error(
+                                    () -> "Unknown registry element in " + this.registryName + ": " + obj)));
         }
     }
 }

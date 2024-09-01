@@ -1,8 +1,8 @@
 package com.epimorphismmc.monomorphism.mixins;
 
 import com.epimorphismmc.monomorphism.MOValues;
+import com.epimorphismmc.monomorphism.reflection.ReflectionUtils;
 import com.epimorphismmc.monomorphism.utility.Platform;
-import com.epimorphismmc.monomorphism.utility.ReflectionUtils;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;

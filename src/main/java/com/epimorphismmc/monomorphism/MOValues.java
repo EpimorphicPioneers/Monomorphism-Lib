@@ -1,5 +1,7 @@
 package com.epimorphismmc.monomorphism;
 
+import net.minecraft.core.Direction;
+
 import static net.minecraft.ChatFormatting.*;
 
 public class MOValues {
@@ -76,4 +78,6 @@ public class MOValues {
             MODID_GTM = "gtceu",
             MODID_REGISTRATE = "registrate",
             MODID_JAVD = "javd";
+
+    public static final Direction[] DIRECTIONS = Direction.values();
 }

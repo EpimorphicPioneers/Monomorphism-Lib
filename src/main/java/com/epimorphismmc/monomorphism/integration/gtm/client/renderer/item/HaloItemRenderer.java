@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.integration.gtm.client.renderer.item;
 
-import com.epimorphismmc.monomorphism.client.model.pipeline.AlphaVertexConsumer;
-import com.epimorphismmc.monomorphism.client.utils.MORenderUtils;
+import com.epimorphismmc.monomorphism.client.model.pipeline.AlphaOverrideVertexConsumer;
+import com.epimorphismmc.monomorphism.client.utils.RenderOps;
 import com.epimorphismmc.monomorphism.integration.gtm.item.IMOItemRendererProvider;
 import com.epimorphismmc.monomorphism.integration.gtm.item.component.IHaloEffect;
 
@@ -87,7 +87,7 @@ public class HaloItemRenderer extends WrappedItemRenderer {
                     RenderSystem.setShaderColor(r, g, b, a);
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
                     TextureAtlasSprite sprite = ModelFactory.getBlockSprite(hri.haloTexture());
-                    MORenderUtils.bindBlockAtlas();
+                    RenderOps.bindBlockAtlas();
                     float spread = hri.haloSize() / 16F;
                     float min = 0F - spread;
                     float max = 1F + spread;
@@ -185,7 +185,7 @@ public class HaloItemRenderer extends WrappedItemRenderer {
                             light,
                             overlay,
                             matrices,
-                            new AlphaVertexConsumer(vertexConsumer, alphaOverride));
+                            new AlphaOverrideVertexConsumer(vertexConsumer, alphaOverride));
         }
     }
 

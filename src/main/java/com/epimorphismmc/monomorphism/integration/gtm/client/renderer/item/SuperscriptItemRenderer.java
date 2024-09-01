@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.integration.gtm.client.renderer.item;
 
 import com.epimorphismmc.monomorphism.MonoLib;
-import com.epimorphismmc.monomorphism.client.utils.MORenderUtils;
+import com.epimorphismmc.monomorphism.client.utils.RenderOps;
 import com.epimorphismmc.monomorphism.integration.gtm.item.IMOItemRendererProvider;
 import com.epimorphismmc.monomorphism.integration.gtm.item.component.INumberSuperscriptEffect;
 import com.epimorphismmc.monomorphism.integration.gtm.item.component.IVoltageSuperscriptEffect;
@@ -82,7 +82,7 @@ public class SuperscriptItemRenderer extends WrappedItemRenderer {
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             TextureAtlasSprite sprite = ModelFactory.getBlockSprite(texture);
-            MORenderUtils.bindBlockAtlas();
+            RenderOps.bindBlockAtlas();
 
             float minU = sprite.getU0();
             float maxU = sprite.getU1();

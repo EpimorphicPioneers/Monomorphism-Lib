@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.FluidType;
 
 import org.jetbrains.annotations.Nullable;
 
-public class MOFluidUtils {
+public class FluidUtils {
 
     /**
      * The representation of 1 bucket(b) in millibuckets(mB).

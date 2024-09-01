@@ -4,6 +4,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
@@ -13,6 +14,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
@@ -76,7 +78,7 @@ public class ClientUtils {
      *
      * @return the TextureManager object
      */
-    public static TextureManager getTextureManager() {
+    public static TextureManager textureManager() {
         return mc().getTextureManager();
     }
 
@@ -117,5 +119,9 @@ public class ClientUtils {
      */
     public static int getScaledWindowHeight() {
         return Minecraft.getInstance().getWindow().getGuiScaledHeight();
+    }
+
+    public static @Nullable ClientPacketListener connection() {
+        return mc().getConnection();
     }
 }

@@ -1,8 +1,9 @@
 package com.epimorphismmc.monomorphism.registry;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+
+import com.mojang.serialization.Codec;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,8 +21,7 @@ import java.util.Set;
  */
 public interface IRegistry<K, V> extends Iterable<V> {
 
-    @NotNull
-    @Override
+    @NotNull @Override
     default Iterator<V> iterator() {
         return values().iterator();
     }
@@ -45,8 +45,7 @@ public interface IRegistry<K, V> extends Iterable<V> {
 
     void register(K key, V value);
 
-    @Nullable
-    V replace(K key, V value);
+    @Nullable V replace(K key, V value);
 
     V registerOrOverride(K key, V value);
 
@@ -60,8 +59,7 @@ public interface IRegistry<K, V> extends Iterable<V> {
 
     Map<K, V> registry();
 
-    @Nullable
-    V get(K key);
+    @Nullable V get(K key);
 
     V getOrDefault(K key, V defaultValue);
 
@@ -71,13 +69,11 @@ public interface IRegistry<K, V> extends Iterable<V> {
 
     void writeBuf(V value, FriendlyByteBuf buf);
 
-    @Nullable
-    V readBuf(FriendlyByteBuf buf);
+    @Nullable V readBuf(FriendlyByteBuf buf);
 
     Tag saveToNBT(V value);
 
-    @Nullable
-    V loadFromNBT(Tag tag);
+    @Nullable V loadFromNBT(Tag tag);
 
     Codec<V> codec();
 }

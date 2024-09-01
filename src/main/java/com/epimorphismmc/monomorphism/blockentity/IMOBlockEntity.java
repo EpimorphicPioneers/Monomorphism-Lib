@@ -2,13 +2,7 @@ package com.epimorphismmc.monomorphism.blockentity;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
-import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
-import com.lowdragmc.lowdraglib.syncdata.blockentity.IAsyncAutoSyncBlockEntity;
-import com.lowdragmc.lowdraglib.syncdata.blockentity.IAutoPersistBlockEntity;
-import com.lowdragmc.lowdraglib.syncdata.blockentity.IRPCBlockEntity;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -16,8 +10,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 
 import org.jetbrains.annotations.Nullable;
 
-public interface IMOBlockEntity
-        extends IAsyncAutoSyncBlockEntity, IRPCBlockEntity, IAutoPersistBlockEntity, IEnhancedManaged {
+public interface IMOBlockEntity {
     default BlockEntity self() {
         return (BlockEntity) this;
     }
@@ -82,14 +75,4 @@ public interface IMOBlockEntity
     default void tick() {}
 
     long getOffset();
-
-    @Override
-    default void saveCustomPersistedData(CompoundTag tag, boolean forDrop) {
-        IAutoPersistBlockEntity.super.saveCustomPersistedData(tag, forDrop);
-    }
-
-    @Override
-    default void loadCustomPersistedData(CompoundTag tag) {
-        IAutoPersistBlockEntity.super.loadCustomPersistedData(tag);
-    }
 }

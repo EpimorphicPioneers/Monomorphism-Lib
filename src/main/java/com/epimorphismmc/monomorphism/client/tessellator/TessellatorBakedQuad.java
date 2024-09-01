@@ -1,8 +1,8 @@
 package com.epimorphismmc.monomorphism.client.tessellator;
 
 import com.epimorphismmc.monomorphism.client.model.ModelFactory;
+import com.epimorphismmc.monomorphism.client.model.pipeline.Vertex;
 
-import com.epimorphismmc.monomorphism.client.model.pipeline.VertexData;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
@@ -36,7 +36,7 @@ public class TessellatorBakedQuad extends TessellatorAbstractBase {
     private final List<BakedQuad> quads;
 
     /** Currently constructed vertices */
-    private final List<VertexData> vertexData;
+    private final List<Vertex> vertexData;
 
     /** Current drawing mode */
     private int drawMode;
@@ -170,7 +170,7 @@ public class TessellatorBakedQuad extends TessellatorAbstractBase {
         this.transform(pos);
 
         // Create the new vertex data element.
-        final VertexData vert = new VertexData(getVertexFormat());
+        final Vertex vert = new Vertex(getVertexFormat());
         vert.setXYZ(pos.x(), pos.y(), pos.z());
         vert.setUV(u, v);
         vert.setRGBA(this.getRed(), this.getGreen(), this.getBlue(), this.getAlpha());
@@ -186,7 +186,7 @@ public class TessellatorBakedQuad extends TessellatorAbstractBase {
                 builder.setShade(this.getApplyDiffuseLighting());
                 builder.setDirection(dir);
                 builder.setSprite(this.icon);
-                for (VertexData vertex : this.vertexData) {
+                for (Vertex vertex : this.vertexData) {
                     vertex.applyVertexData(builder);
                     builder.endVertex();
                 }
