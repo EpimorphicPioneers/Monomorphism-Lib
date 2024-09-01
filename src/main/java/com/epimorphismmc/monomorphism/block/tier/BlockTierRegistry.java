@@ -35,12 +35,12 @@ public class BlockTierRegistry<T extends IBlockTier> {
     }
 
     public void register(T blockTier) {
-        tierTagMap.put(blockTier, TagUtils.optionalTag(ForgeRegistries.BLOCKS.getRegistryKey(), location.withSuffix("/%s".formatted(blockTier.tier()))));
+        tierTagMap.put(blockTier, TagUtils.optionalTag(ForgeRegistries.BLOCKS.getRegistryKey(), location.withSuffix("/%s".formatted(blockTier.typeName()))));
     }
 
     public void registerAll(Collection<T> blockTiers) {
         for (T blockTier : blockTiers) {
-            tierTagMap.put(blockTier, TagUtils.optionalTag(ForgeRegistries.BLOCKS.getRegistryKey(), location.withSuffix("/%s".formatted(blockTier.tier()))));
+            tierTagMap.put(blockTier, TagUtils.optionalTag(ForgeRegistries.BLOCKS.getRegistryKey(), location.withSuffix("/%s".formatted(blockTier.typeName()))));
         }
     }
 
