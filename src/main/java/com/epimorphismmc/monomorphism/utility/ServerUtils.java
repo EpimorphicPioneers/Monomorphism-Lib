@@ -1,18 +1,20 @@
 package com.epimorphismmc.monomorphism.utility;
 
-import com.mojang.authlib.GameProfile;
 import net.minecraft.Util;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.server.ServerLifecycleHooks;
+
+import com.mojang.authlib.GameProfile;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class ServerUtils {

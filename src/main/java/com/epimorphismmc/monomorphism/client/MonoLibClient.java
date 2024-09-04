@@ -40,7 +40,8 @@ public class MonoLibClient extends MonoLibCommon {
     }
 
     private void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
-        CacheReloadManager.INSTANCE.registerListener(PackType.CLIENT_RESOURCES, event::registerReloadListener);
+        CacheReloadManager.INSTANCE.registerListener(
+                PackType.CLIENT_RESOURCES, event::registerReloadListener);
     }
 
     @Override

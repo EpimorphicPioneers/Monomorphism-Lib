@@ -173,8 +173,7 @@ public class Quad {
         }
 
         private Vec2 normalize(Vec2 min, Vec2 max, Vec2 vec) {
-            return new Vec2(
-                    Quad.normalize(min.x, max.x, vec.x), Quad.normalize(min.y, max.y, vec.y));
+            return new Vec2(Quad.normalize(min.x, max.x, vec.x), Quad.normalize(min.y, max.y, vec.y));
         }
 
         private Vec2[] lerp(Vec2 min, Vec2 max, Vec2... vecs) {
