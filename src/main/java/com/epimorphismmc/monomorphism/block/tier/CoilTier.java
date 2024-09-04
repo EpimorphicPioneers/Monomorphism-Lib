@@ -2,12 +2,18 @@ package com.epimorphismmc.monomorphism.block.tier;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.block.ICoilType;
+import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import lombok.experimental.Delegate;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class CoilTier {
 
@@ -52,6 +58,21 @@ public class CoilTier {
         @Override
         public int tier() {
             return tier;
+        }
+
+        @Override
+        public List<Component> getTooltips(BlockTierRegistry<?> registry) {
+            var location = registry.getLocation();
+            var key = "block_tier.%s.%s".formatted(location.getNamespace(), location.getPath());
+            var material = getMaterial();
+            if (material != null) {
+                return List.of(
+                        Component.translatable(key,
+                        Component.literal(tier + " (")
+                                .append(Component.translatable(getMaterial().getUnlocalizedName()))
+                                .append(")")));
+            }
+            return Collections.emptyList();
         }
     }
 }

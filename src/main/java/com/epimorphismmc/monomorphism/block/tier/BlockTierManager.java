@@ -1,11 +1,19 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
+import com.epimorphismmc.monomorphism.client.input.InputUtils;
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockTierManager {
 
@@ -13,8 +21,26 @@ public class BlockTierManager {
 
     private final Object2ObjectMap<ResourceLocation, BlockTierRegistry<?>> registries = new Object2ObjectOpenHashMap<>();
 
+    @OnlyIn(Dist.CLIENT)
     public void onItemTooltip(ItemTooltipEvent event) {
-
+        var item = event.getItemStack().getItem();
+        var player = event.getEntity();
+        if (player != null && item instanceof BlockItem blockItem) {
+            var block = blockItem.getBlock();
+            var flags = event.getFlags();
+            var tooltip = event.getToolTip();
+            List<Component> components = new ArrayList<>();
+            for (var registry : registries.values()) {
+                registry.handleTooltip(block, player, components, flags);
+                if (!InputUtils.isCtrlDown() && !components.isEmpty()) {
+                    tooltip.add(Component.translatable("monomorphism.ctrl_info"));
+                    return;
+                }
+            }
+            if (!components.isEmpty()) {
+                tooltip.addAll(components);
+            }
+        }
     }
 
     @NotNull

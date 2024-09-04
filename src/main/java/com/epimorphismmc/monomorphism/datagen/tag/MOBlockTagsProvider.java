@@ -3,6 +3,7 @@ package com.epimorphismmc.monomorphism.datagen.tag;
 import com.epimorphismmc.monomorphism.block.tier.CoilTier;
 import com.epimorphismmc.monomorphism.block.tier.IBlockTier;
 import com.epimorphismmc.monomorphism.block.tier.MOBlockTiers;
+import com.epimorphismmc.monomorphism.block.tier.VoltageTier;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
 import net.minecraft.core.HolderLookup;
@@ -30,7 +31,7 @@ public class MOBlockTagsProvider extends BlockTagsProvider {
             CraftingComponent.initializeComponents();
         }
 
-        var tiers = IBlockTier.TierBlockType.values();
+        var tiers = VoltageTier.values();
         for (int i = 0; i < tiers.length; i++) {
             tag(MOBlockTiers.MACHINES.getTag(tiers[i])).add(toBlock(CraftingComponent.CASING.getIngredient(i)));
         }

@@ -1,9 +1,10 @@
 {
+  "block_tier.monomorphism.coils": "线圈等级：%s",
+  "block_tier.monomorphism.machines": "机械方块等级：%s",
   "gui.monomorphism.change_parallel.desc": "调整机器并行数",
   "gui.monomorphism.machine_parallel.title": "当前机器并行",
   "monomorphism.alt_info": "§7按住§6ALT§7以显示更多信息",
   "monomorphism.ctrl_info": "§7按住§6CTRL§7以显示更多信息",
-  "monomorphism.machine.owner": "所有者：%s",
   "monomorphism.shift_info": "§7按住§6SHIFT§7以显示更多信息",
   "monomorphism.universal.tier": "§7等级：%s"
 }

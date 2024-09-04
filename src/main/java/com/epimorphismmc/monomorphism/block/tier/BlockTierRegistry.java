@@ -3,17 +3,16 @@ package com.epimorphismmc.monomorphism.block.tier;
 import com.epimorphismmc.monomorphism.utility.TagUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectAVLTreeMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectSortedMap;
+import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -25,6 +24,8 @@ import java.util.stream.Collectors;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class BlockTierRegistry<T extends IBlockTier> {
+
+    @Getter
     private final ResourceLocation location;
 
     private final Object2ObjectSortedMap<T, TagKey<Block>> tierTagMap;
@@ -55,7 +56,7 @@ public class BlockTierRegistry<T extends IBlockTier> {
 
     public @Nullable T getTier(Block block) {
         for (var entry : tierTagMap.entrySet()) {
-            if (block.builtInRegistryHolder().is(entry.getValue())) {
+            if (isTag(block, entry.getValue())) {
                 return entry.getKey();
             }
         }
@@ -83,7 +84,15 @@ public class BlockTierRegistry<T extends IBlockTier> {
         return tag;
     }
 
-    public boolean handleTooltip(@NotNull ItemStack itemStack, @Nullable Player player, List<Component> list, TooltipFlag flags) {
-        return false;
+    public void handleTooltip(Block block, Player player, List<Component> list, TooltipFlag flags) {
+        for (var entry : tierTagMap.entrySet()) {
+            if (isTag(block, entry.getValue())) {
+                list.addAll(entry.getKey().getTooltips(this));
+            }
+        }
+    }
+
+    private boolean isTag(Block block, TagKey<Block> tag) {
+        return block.builtInRegistryHolder().is(tag);
     }
 }

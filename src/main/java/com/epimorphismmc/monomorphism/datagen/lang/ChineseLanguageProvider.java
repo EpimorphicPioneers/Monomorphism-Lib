@@ -19,6 +19,7 @@ public class ChineseLanguageProvider extends LanguageProvider {
         add("monomorphism.universal.tier", "§7等级：%s");
         add("gui.monomorphism.machine_parallel.title", "当前机器并行");
         add("gui.monomorphism.change_parallel.desc", "调整机器并行数");
-        add("monomorphism.machine.owner", "所有者：%s");
+        add("block_tier.monomorphism.machines", "机械方块等级：%s");
+        add("block_tier.monomorphism.coils", "线圈等级：%s");
     }
 }
