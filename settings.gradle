@@ -21,7 +21,7 @@ dependencyResolutionManagement {
         def jeiVersion = "15.12.1.46"
         def reiVersion = "12.1.725"
         def emiVersion = "1.1.11"
-        def ae2Version = "15.0.18"
+        def ae2Version = "15.2.11"
         def kjsVersion = "2001.6.4-build.120"
         def gtmVersion = "1.4.0"
 
