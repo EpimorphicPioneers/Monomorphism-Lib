@@ -5,9 +5,6 @@ import com.epimorphismmc.monomorphism.block.property.MOPropertyConfiguration;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -21,12 +18,11 @@ import net.minecraft.world.level.material.Fluids;
 
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public abstract class MOBlockBase extends Block implements IMOBlock {
+public abstract class MOBlockBase extends Block {
 
     public MOBlockBase(Properties properties) {
         super(properties);
@@ -117,17 +113,5 @@ public abstract class MOBlockBase extends Block implements IMOBlock {
             state = MOProperty.Defaults.fluidlogged().apply(state, MOProperty.FluidLogged.get(fluid));
         }
         return state;
-    }
-
-    public boolean addToInventoryOrDrop(
-            ItemStack stack, Level world, BlockPos pos, @Nullable Player player) {
-        if (player != null) {
-            if (player.addItem(stack)) {
-                return true;
-            }
-        }
-        ItemEntity entity =
-                new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, stack);
-        return world.addFreshEntity(entity);
     }
 }

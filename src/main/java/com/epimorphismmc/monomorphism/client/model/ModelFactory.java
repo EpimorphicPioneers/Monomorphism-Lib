@@ -21,17 +21,23 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.mojang.math.Transformation;
 import org.joml.Quaternionf;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.blockRendererDispatcher;
+import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.itemModelShaper;
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.mc;
 
+@OnlyIn(Dist.CLIENT)
 public class ModelFactory {
 
     public static final ItemModelGenerator ITEM_MODEL_GENERATOR = new ItemModelGenerator();
@@ -69,14 +75,35 @@ public class ModelFactory {
         return modelManager().getModel(resourceLocation);
     }
 
+    public static BakedModel getBakedModel(Item item) {
+        return itemModelShaper().getItemModel(item);
+    }
+
+    public static BakedModel getBakedModel(ItemStack itemStack) {
+        return itemModelShaper().getItemModel(itemStack);
+    }
+
     /**
      * Fetches the IBakedModel for a BlockState
      *
      * @param state the BlockState
      * @return the IBakedModel
      */
-    public static BakedModel getModelForState(BlockState state) {
+    public static BakedModel getBakedModel(BlockState state) {
         return blockRendererDispatcher().getBlockModel(state);
+    }
+
+    public static ModelResourceLocation getModelLocation(Item item) {
+        return new ModelResourceLocation(RegisteredObjects.getKeyOrThrow(item), "inventory");
+    }
+
+    public static ModelResourceLocation getModelLocation(BlockState state) {
+        return BlockModelShaper.stateToModelLocation(state);
+    }
+
+    public static ModelResourceLocation getModelLocation(
+            ResourceLocation location, BlockState state) {
+        return BlockModelShaper.stateToModelLocation(location, state);
     }
 
     public static List<ModelResourceLocation> getAllBlockStateModelLocations(Block block) {
@@ -85,20 +112,16 @@ public class ModelFactory {
         block
                 .getStateDefinition()
                 .getPossibleStates()
-                .forEach(state -> models.add(BlockModelShaper.stateToModelLocation(blockRl, state)));
+                .forEach(state -> models.add(getModelLocation(blockRl, state)));
         return models;
-    }
-
-    public static ModelResourceLocation getItemModelLocation(Item item) {
-        return new ModelResourceLocation(RegisteredObjects.getKeyOrThrow(item), "inventory");
-    }
-
-    public static TextureAtlasSprite getBlockSprite(ResourceLocation location) {
-        return mc().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(location);
     }
 
     public static TextureAtlasSprite getSprite(ResourceLocation atlas, ResourceLocation location) {
         return mc().getTextureAtlas(atlas).apply(location);
+    }
+
+    public static TextureAtlasSprite getBlockSprite(ResourceLocation location) {
+        return getSprite(InventoryMenu.BLOCK_ATLAS, location);
     }
 
     /**
@@ -109,16 +132,6 @@ public class ModelFactory {
      */
     public static TextureAtlas getTextureAtlas(ResourceLocation location) {
         return modelManager().getAtlas(location);
-    }
-
-    /**
-     * Fetches the sprite on a Texture Atlas related to a render material
-     *
-     * @param material the render material
-     * @return the sprite
-     */
-    public static TextureAtlasSprite getSprite(Material material) {
-        return getTextureAtlas(material.atlasLocation()).getSprite(material.texture());
     }
 
     /**
@@ -173,6 +186,10 @@ public class ModelFactory {
             case WEST -> BlockModelRotation.X0_Y270;
             case EAST -> BlockModelRotation.X0_Y90;
         };
+    }
+
+    public static Transformation rotateTo(Direction d) {
+        return new Transformation(null).compose(getRotation(d).getRotation());
     }
 
     public static Direction modelFacing(Direction side, Direction frontFacing) {

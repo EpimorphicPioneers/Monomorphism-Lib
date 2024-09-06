@@ -4,22 +4,23 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemModelShaper;
+import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientUtils {
-
-    private static TextureAtlasSprite missingSprite;
 
     public static Minecraft mc() {
         return Minecraft.getInstance();
@@ -70,6 +71,14 @@ public class ClientUtils {
         return blockRendererDispatcher().getModelRenderer();
     }
 
+    public static BlockModelShaper blockModelShaper() {
+        return blockRendererDispatcher().getBlockModelShaper();
+    }
+
+    public static ItemModelShaper itemModelShaper() {
+        return itemRenderer().getItemModelShaper();
+    }
+
     public static GameRenderer gameRenderer() {
         return mc().gameRenderer;
     }
@@ -79,7 +88,7 @@ public class ClientUtils {
      *
      * @return the TextureManager object
      */
-    public static TextureManager getTextureManager() {
+    public static TextureManager textureManager() {
         return mc().getTextureManager();
     }
 
@@ -120,5 +129,9 @@ public class ClientUtils {
      */
     public static int getScaledWindowHeight() {
         return Minecraft.getInstance().getWindow().getGuiScaledHeight();
+    }
+
+    public static @Nullable ClientPacketListener connection() {
+        return mc().getConnection();
     }
 }

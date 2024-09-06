@@ -1,31 +1,68 @@
 package com.epimorphismmc.monomorphism.client.model;
 
+import com.epimorphismmc.monomorphism.MonoLib;
+
 import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.BlockFaceUV;
+import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.QuadTransformers;
+import net.minecraftforge.client.model.geometry.UnbakedGeometryHelper;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.joml.Vector3f;
 
+/**
+ * Based on {@link FaceBakery}, offering more convenient methods for baking quads.
+ * <p>
+ * See {@link UnbakedGeometryHelper#bakeElementFace(BlockElement, BlockElementFace, TextureAtlasSprite, Direction, ModelState, ResourceLocation)}
+ * <p>
+ * Adapted from LowDragLib.
+ *
+ * @author GateGuardian
+ * @date : 2024/8/28
+ */
 @OnlyIn(Dist.CLIENT)
 public class FaceQuadBakery {
     public static final AABB BLOCK = new AABB(0, 0, 0, 1, 1, 1);
 
-    private static final FaceQuadBaker BAKER = new FaceQuadBaker();
+    public static final AABB SLIGHTLY_OVER_BLOCK =
+            new AABB(-0.001f, -0.001f, -0.001f, 1.001f, 1.001f, 1.001f);
+
+    private static final ResourceLocation MODEL = MonoLib.id("face_quad");
+
+    public static final FaceBakery FACE_BAKERY = new FaceBakery();
+
+    public static BakedQuad bakeFace(
+            Vector3f posFrom,
+            Vector3f posTo,
+            BlockElementFace face,
+            TextureAtlasSprite sprite,
+            Direction facing,
+            ModelState rotation,
+            int emissivity,
+            boolean shade) {
+        var quad =
+                FACE_BAKERY.bakeQuad(posFrom, posTo, face, sprite, facing, rotation, null, shade, MODEL);
+        QuadTransformers.settingEmissivity(emissivity).processInPlace(quad);
+        return quad;
+    }
 
     /**
      * bake a quad of specific face.
      * @param cube cube model
-     * @param face face of the quad
+     * @param facing face of the quad
      * @param sprite texture
      * @param rotation additional rotation
      * @param tintIndex tint color index
@@ -35,27 +72,26 @@ public class FaceQuadBakery {
      */
     public static BakedQuad bakeFace(
             AABB cube,
-            Direction face,
+            Direction facing,
             TextureAtlasSprite sprite,
             ModelState rotation,
             int tintIndex,
             int emissivity,
             boolean cull,
             boolean shade) {
-        return BAKER.bakeQuad(
+        return bakeFace(
                 new Vector3f((float) cube.minX * 16f, (float) cube.minY * 16f, (float) cube.minZ * 16f),
                 new Vector3f((float) cube.maxX * 16f, (float) cube.maxY * 16f, (float) cube.maxZ * 16f),
                 new BlockElementFace(
-                        cull ? face : null,
+                        cull ? facing : null,
                         tintIndex,
                         "",
                         new BlockFaceUV(new float[] {0.0F, 0.0F, 16.0F, 16.0F}, 0)),
                 sprite,
-                face,
+                facing,
                 rotation,
-                null,
-                shade,
-                emissivity);
+                emissivity,
+                shade);
     }
 
     public static BakedQuad bakeFace(
@@ -104,7 +140,7 @@ public class FaceQuadBakery {
         Vector3f to = new Vector3f(16, 16, 16);
 
         @Setter
-        Direction face;
+        Direction facing;
 
         @Setter
         TextureAtlasSprite sprite;
@@ -119,8 +155,8 @@ public class FaceQuadBakery {
         @Setter
         UVPair uv0 = new UVPair(0, 0), uv1 = new UVPair(16, 16);
 
-        protected Builder(Direction face, TextureAtlasSprite sprite) {
-            this.face = face;
+        protected Builder(Direction facing, TextureAtlasSprite sprite) {
+            this.facing = facing;
             this.sprite = sprite;
         }
 
@@ -145,7 +181,7 @@ public class FaceQuadBakery {
          * Making texture uv cut by the cube size.
          */
         public Builder cubeUV() {
-            return switch (face) {
+            return switch (facing) {
                 case UP -> uv0(from.x(), from.z()).uv1(to.x(), to.z());
                 case DOWN -> uv0(from.x(), to.z()).uv1(to.x(), from.z());
                 case NORTH -> uv0(to.x(), to.y()).uv1(from.x(), from.y());
@@ -156,20 +192,19 @@ public class FaceQuadBakery {
         }
 
         public BakedQuad bake() {
-            return BAKER.bakeQuad(
+            return bakeFace(
                     from,
                     to,
                     new BlockElementFace(
-                            cull ? face : null,
+                            cull ? facing : null,
                             tintIndex,
                             "",
                             new BlockFaceUV(new float[] {uv0.u(), uv0.v(), uv1.u(), uv1.v()}, 0)),
                     sprite,
-                    face,
+                    facing,
                     rotation,
-                    null,
-                    shade,
-                    emissivity);
+                    emissivity,
+                    shade);
         }
     }
 }

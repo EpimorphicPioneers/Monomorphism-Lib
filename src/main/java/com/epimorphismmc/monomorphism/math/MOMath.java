@@ -4,7 +4,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,17 +26,6 @@ import static com.gregtechceu.gtceu.api.GTValues.RNG;
 public class MOMath {
 
     public static final double PI2 = Math.PI * 2;
-
-    @Deprecated(since = "gtm@1.3.2", forRemoval = true) // TODO
-    public static int[] split(long value) {
-        IntArrayList result = new IntArrayList();
-        while (value > 0) {
-            int intValue = (int) Math.min(value, Integer.MAX_VALUE);
-            result.add(intValue);
-            value -= intValue;
-        }
-        return result.toIntArray();
-    }
 
     public static int nextInt(int minimum, int maximum) {
         return Mth.nextInt(RNG, minimum, maximum);
@@ -83,5 +72,18 @@ public class MOMath {
 
     public static ThreadLocalRandom localRandom() {
         return ThreadLocalRandom.current();
+    }
+
+    public static Quaternionf degreeToQuaternion(double x, double y, double z) {
+        x = Math.toRadians(x);
+        y = Math.toRadians(y);
+        z = Math.toRadians(z);
+        Quaternionf qYaw = new Quaternionf(0, (float) Math.sin(y / 2), 0, (float) Math.cos(y / 2));
+        Quaternionf qPitch = new Quaternionf((float) Math.sin(x / 2), 0, 0, (float) Math.cos(x / 2));
+        Quaternionf qRoll = new Quaternionf(0, 0, (float) Math.sin(z / 2), (float) Math.cos(z / 2));
+
+        qYaw.mul(qRoll);
+        qYaw.mul(qPitch);
+        return qYaw;
     }
 }
