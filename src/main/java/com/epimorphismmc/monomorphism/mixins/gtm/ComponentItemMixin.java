@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.mixins.gtm;
 
-import com.epimorphismmc.monomorphism.item.IMOItemRendererProvider;
+import com.epimorphismmc.monomorphism.integration.gtm.item.IMOItemRendererProvider;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;

@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.integration.ldlib;
 
-import com.epimorphismmc.monomorphism.syncdata.SyncedFieldAccessors;
+import com.epimorphismmc.monomorphism.integration.ldlib.syncdata.SyncedFieldAccessors;
 
 import com.lowdragmc.lowdraglib.plugin.ILDLibPlugin;
 import com.lowdragmc.lowdraglib.plugin.LDLibPlugin;

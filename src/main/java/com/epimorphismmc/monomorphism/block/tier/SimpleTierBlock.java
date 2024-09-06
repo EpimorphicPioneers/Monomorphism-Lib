@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
-import com.epimorphismmc.monomorphism.block.CasingBlock;
+import com.epimorphismmc.monomorphism.integration.gtm.block.CasingBlock;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.utils.GTUtil;
