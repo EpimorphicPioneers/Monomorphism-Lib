@@ -1,6 +1,5 @@
 package com.epimorphismmc.monomorphism;
 
-import com.epimorphismmc.monomorphism.block.MOBlockMaps;
 import com.epimorphismmc.monomorphism.data.pack.resource.CacheReloadManager;
 import com.epimorphismmc.monomorphism.datagen.Datagen;
 
@@ -10,8 +9,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import org.jetbrains.annotations.Nullable;

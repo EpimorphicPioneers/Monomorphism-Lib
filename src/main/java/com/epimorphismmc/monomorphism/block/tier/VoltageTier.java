@@ -1,7 +1,7 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
-import com.google.common.collect.Lists;
 import com.gregtechceu.gtceu.api.GTValues;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.List;

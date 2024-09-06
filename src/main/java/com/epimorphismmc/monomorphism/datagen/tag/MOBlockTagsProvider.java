@@ -1,11 +1,12 @@
 package com.epimorphismmc.monomorphism.datagen.tag;
 
 import com.epimorphismmc.monomorphism.block.tier.CoilTier;
-import com.epimorphismmc.monomorphism.block.tier.IBlockTier;
 import com.epimorphismmc.monomorphism.block.tier.MOBlockTiers;
 import com.epimorphismmc.monomorphism.block.tier.VoltageTier;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.BlockItem;
@@ -13,12 +14,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
 public class MOBlockTagsProvider extends BlockTagsProvider {
-    public MOBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
+    public MOBlockTagsProvider(
+            PackOutput output,
+            CompletableFuture<HolderLookup.Provider> lookupProvider,
+            String modId,
+            @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, modId, existingFileHelper);
     }
 
@@ -33,7 +39,8 @@ public class MOBlockTagsProvider extends BlockTagsProvider {
 
         var tiers = VoltageTier.values();
         for (int i = 0; i < tiers.length; i++) {
-            tag(MOBlockTiers.MACHINES.getTag(tiers[i])).add(toBlock(CraftingComponent.CASING.getIngredient(i)));
+            tag(MOBlockTiers.MACHINES.getTag(tiers[i]))
+                    .add(toBlock(CraftingComponent.CASING.getIngredient(i)));
         }
     }
 

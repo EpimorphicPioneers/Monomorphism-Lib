@@ -1,15 +1,17 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
 import com.epimorphismmc.monomorphism.client.input.InputUtils;
-import com.google.common.base.Preconditions;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+
+import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -19,7 +21,8 @@ public class BlockTierManager {
 
     public static final BlockTierManager INSTANCE = new BlockTierManager();
 
-    private final Object2ObjectMap<ResourceLocation, BlockTierRegistry<?>> registries = new Object2ObjectOpenHashMap<>();
+    private final Object2ObjectMap<ResourceLocation, BlockTierRegistry<?>> registries =
+            new Object2ObjectOpenHashMap<>();
 
     @OnlyIn(Dist.CLIENT)
     public void onItemTooltip(ItemTooltipEvent event) {
@@ -43,17 +46,18 @@ public class BlockTierManager {
         }
     }
 
-    @NotNull
-    public <T extends IBlockTier> BlockTierRegistry<T> createRegistry(@NotNull ResourceLocation location) {
-        Preconditions.checkArgument(!registries.containsKey(location),
-                "BlockTier registry already exists for location %s", location);
+    @NotNull public <T extends IBlockTier> BlockTierRegistry<T> createRegistry(
+            @NotNull ResourceLocation location) {
+        Preconditions.checkArgument(
+                !registries.containsKey(location),
+                "BlockTier registry already exists for location %s",
+                location);
         BlockTierRegistry<T> registry = new BlockTierRegistry<>(location);
         registries.put(location, registry);
         return registry;
     }
 
-    @NotNull
-    public BlockTierRegistry<?> getRegistry(@NotNull ResourceLocation location) {
+    @NotNull public BlockTierRegistry<?> getRegistry(@NotNull ResourceLocation location) {
         return registries.get(location);
     }
 }

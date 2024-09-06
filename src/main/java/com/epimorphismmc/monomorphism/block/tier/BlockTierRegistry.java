@@ -1,9 +1,7 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
 import com.epimorphismmc.monomorphism.utility.TagUtils;
-import it.unimi.dsi.fastutil.objects.Object2ObjectAVLTreeMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectSortedMap;
-import lombok.Getter;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,13 +11,18 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectAVLTreeMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectSortedMap;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -36,12 +39,20 @@ public class BlockTierRegistry<T extends IBlockTier> {
     }
 
     public void register(T blockTier) {
-        tierTagMap.put(blockTier, TagUtils.optionalTag(ForgeRegistries.BLOCKS.getRegistryKey(), location.withSuffix("/%s".formatted(blockTier.typeName()))));
+        tierTagMap.put(
+                blockTier,
+                TagUtils.optionalTag(
+                        ForgeRegistries.BLOCKS.getRegistryKey(),
+                        location.withSuffix("/%s".formatted(blockTier.typeName()))));
     }
 
     public void registerAll(Collection<T> blockTiers) {
         for (T blockTier : blockTiers) {
-            tierTagMap.put(blockTier, TagUtils.optionalTag(ForgeRegistries.BLOCKS.getRegistryKey(), location.withSuffix("/%s".formatted(blockTier.typeName()))));
+            tierTagMap.put(
+                    blockTier,
+                    TagUtils.optionalTag(
+                            ForgeRegistries.BLOCKS.getRegistryKey(),
+                            location.withSuffix("/%s".formatted(blockTier.typeName()))));
         }
     }
 

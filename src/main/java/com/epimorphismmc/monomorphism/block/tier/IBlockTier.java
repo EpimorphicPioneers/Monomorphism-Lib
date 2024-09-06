@@ -1,7 +1,8 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
-import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
+
+import com.google.common.collect.Lists;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,6 +18,7 @@ public interface IBlockTier {
     default List<Component> getTooltips(BlockTierRegistry<?> registry) {
         var location = registry.getLocation();
         var key = "block_tier.%s.%s".formatted(location.getNamespace(), location.getPath());
-        return Lists.newArrayList(Component.translatable(key, Component.translatable(key + "." + typeName())));
+        return Lists.newArrayList(
+                Component.translatable(key, Component.translatable(key + "." + typeName())));
     }
 }

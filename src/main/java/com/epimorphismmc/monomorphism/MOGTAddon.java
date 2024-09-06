@@ -2,6 +2,7 @@ package com.epimorphismmc.monomorphism;
 
 import com.epimorphismmc.monomorphism.block.tier.CoilTier;
 import com.epimorphismmc.monomorphism.block.tier.MOBlockTiers;
+
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;

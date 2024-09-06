@@ -1,6 +1,5 @@
 package com.epimorphismmc.monomorphism.integration.gtm.pattern;
 
-import com.epimorphismmc.monomorphism.block.MOBlockMaps;
 import com.epimorphismmc.monomorphism.integration.gtm.pattern.predicates.TierPredicateFactory;
 import com.epimorphismmc.monomorphism.integration.gtm.pattern.utils.containers.IValueContainer;
 import com.epimorphismmc.monomorphism.integration.gtm.pattern.utils.containers.SimpleValueContainer;
@@ -39,7 +38,7 @@ public class MOPredicates {
 
     public static TraceabilityPredicate coilBlock() {
         return TierPredicateFactory.create("Coil")
-//                .map(MOBlockMaps.ALL_COIL_BLOCKS)
+                //                .map(MOBlockMaps.ALL_COIL_BLOCKS)
                 .errorKey(Component.translatable("gtceu.multiblock.pattern.error.coils"))
                 .strict(true)
                 .build();
@@ -47,7 +46,7 @@ public class MOPredicates {
 
     public static TraceabilityPredicate machineCasingBlock() {
         return TierPredicateFactory.create("MachineCasing")
-//                .map(MOBlockMaps.ALL_MACHINE_CASINGS)
+                //                .map(MOBlockMaps.ALL_MACHINE_CASINGS)
                 .strict(true)
                 .build();
     }

@@ -1,14 +1,13 @@
 package com.epimorphismmc.monomorphism.block.tier;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Lists;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.block.ICoilType;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import lombok.experimental.Delegate;
-import net.minecraft.client.resources.language.I18n;
+
 import net.minecraft.network.chat.Component;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import lombok.experimental.Delegate;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -20,7 +19,9 @@ public class CoilTier {
     private static final BiMap<ICoilType, ICoilTier> MAP = HashBiMap.create();
 
     public static void init() {
-        var coils = GTCEuAPI.HEATING_COILS.keySet().stream().sorted(Comparator.comparingInt(ICoilType::getCoilTemperature)).toList();
+        var coils = GTCEuAPI.HEATING_COILS.keySet().stream()
+                .sorted(Comparator.comparingInt(ICoilType::getCoilTemperature))
+                .toList();
         for (int i = 0; i < coils.size(); i++) {
             var type = coils.get(i);
             MAP.put(type, new CoilTypeWrapper(type, i));
@@ -66,8 +67,8 @@ public class CoilTier {
             var key = "block_tier.%s.%s".formatted(location.getNamespace(), location.getPath());
             var material = getMaterial();
             if (material != null) {
-                return List.of(
-                        Component.translatable(key,
+                return List.of(Component.translatable(
+                        key,
                         Component.literal(tier + " (")
                                 .append(Component.translatable(getMaterial().getUnlocalizedName()))
                                 .append(")")));

@@ -1,9 +1,7 @@
 package com.epimorphismmc.monomorphism.integration.gtm.pattern.predicates;
 
-import com.epimorphismmc.monomorphism.block.tier.ITierType;
-import com.epimorphismmc.monomorphism.integration.gtm.pattern.utils.containers.IValueContainer;
 import com.epimorphismmc.monomorphism.block.tier.IBlockTier;
-import com.epimorphismmc.monomorphism.pattern.utils.containers.IValueContainer;
+import com.epimorphismmc.monomorphism.integration.gtm.pattern.utils.containers.IValueContainer;
 
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;

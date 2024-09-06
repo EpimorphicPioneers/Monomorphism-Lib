@@ -1,6 +1,7 @@
 package com.epimorphismmc.monomorphism.utility;
 
 import com.gregtechceu.gtceu.GTCEu;
+
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -16,7 +17,8 @@ public class TagUtils {
         return TagKey.create(registry.key(), id);
     }
 
-    public static <T> TagKey<T> optionalTag(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation id) {
+    public static <T> TagKey<T> optionalTag(
+            ResourceKey<? extends Registry<T>> registryKey, ResourceLocation id) {
         return TagKey.create(registryKey, id);
     }
 
@@ -25,8 +27,8 @@ public class TagUtils {
         return optionalTag(registry, new ResourceLocation("forge", path));
     }
 
-    public static <T> TagKey<T> createTag(ResourceKey<? extends Registry<T>> registryKey, String path,
-                                          boolean vanilla) {
+    public static <T> TagKey<T> createTag(
+            ResourceKey<? extends Registry<T>> registryKey, String path, boolean vanilla) {
         if (vanilla) return optionalTag(registryKey, new ResourceLocation("minecraft", path));
         return optionalTag(registryKey, new ResourceLocation("forge", path));
     }
@@ -35,7 +37,8 @@ public class TagUtils {
         return optionalTag(registry, GTCEu.id(path));
     }
 
-    public static <T> TagKey<T> createModTag(ResourceKey<? extends Registry<T>> registryKey, String path) {
+    public static <T> TagKey<T> createModTag(
+            ResourceKey<? extends Registry<T>> registryKey, String path) {
         return TagKey.create(registryKey, GTCEu.id(path));
     }
 
