@@ -5,7 +5,6 @@ import com.epimorphismmc.monomorphism.data.pack.resource.CacheReloadManager;
 import com.epimorphismmc.monomorphism.datagen.Datagen;
 
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.server.TickTask;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -78,13 +77,5 @@ public abstract class MonoLibCommon implements MonoLib {
             return server.registryAccess();
         }
         return RegistryAccess.EMPTY;
-    }
-
-    @Override
-    public void queueTask(Runnable task) {
-        var server = getServer();
-        if (server != null) {
-            server.submit(new TickTask(server.getTickCount() + 1, task));
-        }
     }
 }

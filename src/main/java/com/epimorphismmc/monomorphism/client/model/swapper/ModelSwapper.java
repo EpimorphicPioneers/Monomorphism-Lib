@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getAllBlockStateModelLocations;
-import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getItemModelLocation;
+import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getModelLocation;
 
 public class ModelSwapper implements IModelSwapper {
 
@@ -43,7 +43,7 @@ public class ModelSwapper implements IModelSwapper {
         customBlockModels.forEach((block, modelFunc) ->
                 swapModels(modelRegistry, getAllBlockStateModelLocations(block), modelFunc));
         customItemModels.forEach(
-                (item, modelFunc) -> swapModels(modelRegistry, getItemModelLocation(item), modelFunc));
+                (item, modelFunc) -> swapModels(modelRegistry, getModelLocation(item), modelFunc));
     }
 
     private static <T extends BakedModel> void swapModels(

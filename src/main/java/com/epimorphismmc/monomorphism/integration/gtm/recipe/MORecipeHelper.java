@@ -25,7 +25,6 @@ public class MORecipeHelper {
                 chance,
                 maxChance,
                 tierChanceBoost,
-                maxChance,
                 null,
                 null);
     }

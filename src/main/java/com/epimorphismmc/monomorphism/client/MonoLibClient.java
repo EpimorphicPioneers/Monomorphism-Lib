@@ -4,7 +4,7 @@ import com.epimorphismmc.monomorphism.MonoLibCommon;
 import com.epimorphismmc.monomorphism.client.model.loader.ItemCustomLayerModel;
 import com.epimorphismmc.monomorphism.client.utils.ClientUtils;
 import com.epimorphismmc.monomorphism.data.pack.resource.CacheReloadManager;
-import com.epimorphismmc.monomorphism.utility.Platform;
+import com.epimorphismmc.monomorphism.utility.SideUtils;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.packs.PackType;
@@ -65,26 +65,11 @@ public class MonoLibClient extends MonoLibCommon {
     }
 
     @Override
-    public @Nullable Level getClientLevel() {
-        return ClientUtils.mc().level;
-    }
-
-    @Override
     public RegistryAccess getRegistryAccess() {
-        if (Platform.getEffectiveSide().isClient()) {
-            Level client = getClientLevel();
-            return client == null ? RegistryAccess.EMPTY : client.registryAccess();
+        if (SideUtils.getEffectiveSide().isClient()) {
+            return SideUtils.getClientLevel().map(Level::registryAccess).orElse(RegistryAccess.EMPTY);
         } else {
             return super.getRegistryAccess();
-        }
-    }
-
-    @Override
-    public void queueTask(Runnable task) {
-        if (Platform.getEffectiveSide().isClient()) {
-            ClientUtils.mc().submit(task);
-        } else {
-            super.queueTask(task);
         }
     }
 }

@@ -2,7 +2,7 @@ package com.epimorphismmc.monomorphism.mixins;
 
 import com.epimorphismmc.monomorphism.MOValues;
 import com.epimorphismmc.monomorphism.reflection.ReflectionUtils;
-import com.epimorphismmc.monomorphism.utility.Platform;
+import com.epimorphismmc.monomorphism.utility.ModUtils;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -23,11 +23,11 @@ public class ConfigPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (mixinClassName.contains("com.epimorphismmc.monomorphism.mixins.shimmer")) {
-            return Platform.isModLoaded(MOValues.MODID_SHIMMER);
+            return ModUtils.isModLoaded(MOValues.MODID_SHIMMER);
         } else if (mixinClassName.contains("com.epimorphismmc.monomorphism.mixins.gtm")) {
-            return Platform.isModLoaded(MOValues.MODID_GTM);
+            return ModUtils.isModLoaded(MOValues.MODID_GTM);
         } else if (mixinClassName.contains("com.epimorphismmc.monomorphism.mixins.ldlib")) {
-            return Platform.isModLoaded(MOValues.MODID_LDLIB);
+            return ModUtils.isModLoaded(MOValues.MODID_LDLIB);
         } else if (mixinClassName.contains("com.epimorphismmc.monomorphism.mixins.registrate")) {
             return ReflectionUtils.isClassFound("com.tterrag.registrate.Registrate");
         }

@@ -1,5 +1,6 @@
 package com.epimorphismmc.monomorphism.client.utils;
 
+import com.epimorphismmc.monomorphism.client.model.ModelFactory;
 import com.epimorphismmc.monomorphism.client.render.Cuboid;
 import com.epimorphismmc.monomorphism.client.render.CuboidRenderer;
 import com.epimorphismmc.monomorphism.utility.FluidUtils;
@@ -26,7 +27,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix4f;
 
-import static com.epimorphismmc.monomorphism.client.model.ModelFactory.getModelForState;
 import static com.epimorphismmc.monomorphism.client.utils.ClientUtils.*;
 
 @OnlyIn(Dist.CLIENT)
@@ -80,7 +80,7 @@ public class RenderUtils {
         Level level = mc().level;
         renderBlockModel(
                 level,
-                getModelForState(state),
+                ModelFactory.getBakedModel(state),
                 state,
                 pos,
                 transforms,

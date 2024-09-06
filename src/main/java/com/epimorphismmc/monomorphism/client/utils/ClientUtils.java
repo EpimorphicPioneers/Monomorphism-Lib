@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemModelShaper;
+import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -67,6 +69,14 @@ public class ClientUtils {
      */
     public static ModelBlockRenderer blockRenderer() {
         return blockRendererDispatcher().getModelRenderer();
+    }
+
+    public static BlockModelShaper blockModelShaper() {
+        return blockRendererDispatcher().getBlockModelShaper();
+    }
+
+    public static ItemModelShaper itemModelShaper() {
+        return itemRenderer().getItemModelShaper();
     }
 
     public static GameRenderer gameRenderer() {
