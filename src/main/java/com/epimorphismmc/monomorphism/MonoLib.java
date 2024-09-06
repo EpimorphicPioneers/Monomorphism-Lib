@@ -1,8 +1,7 @@
 package com.epimorphismmc.monomorphism;
 
 import com.epimorphismmc.monomorphism.utility.DistLogger;
-
-import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.epimorphismmc.monomorphism.utility.FormattingUtils;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +23,7 @@ public interface MonoLib {
     }
 
     static ResourceLocation id(String path) {
-        return new ResourceLocation(MODID, FormattingUtil.toLowerCaseUnder(path));
+        return new ResourceLocation(MODID, FormattingUtils.toLowerCaseUnder(path));
     }
 
     @Nullable ResourceManager getResourceManager(PackType type);

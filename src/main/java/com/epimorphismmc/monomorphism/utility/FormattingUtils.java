@@ -1,5 +1,7 @@
 package com.epimorphismmc.monomorphism.utility;
 
+import com.google.common.base.CaseFormat;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -99,5 +101,58 @@ public class FormattingUtils {
         BigDecimal divisor = entry.getKey();
         String unit = entry.getValue();
         return df.format(number.divide(divisor, 2, RoundingMode.HALF_DOWN)) + unit;
+    }
+
+    /**
+     * Does almost the same thing as .to(LOWER_UNDERSCORE, string), but it also inserts underscores between words and
+     * numbers.
+     *
+     * @param string Any string with ASCII characters.
+     * @return A string that is all lowercase, with underscores inserted before word/number boundaries:
+     *         "maragingSteel300" -> "maraging_steel_300"
+     */
+    public static String toLowerCaseUnderscore(String string) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < string.length(); i++) {
+            if (i != 0
+                    && (Character.isUpperCase(string.charAt(i))
+                            || (Character.isDigit(string.charAt(i - 1)) ^ Character.isDigit(string.charAt(i)))))
+                result.append("_");
+            result.append(Character.toLowerCase(string.charAt(i)));
+        }
+        return result.toString();
+    }
+
+    /**
+     * Does almost the same thing as .to(LOWER_UNDERSCORE, string), but it also inserts underscores between words and
+     * numbers.
+     *
+     * @param string Any string with ASCII characters.
+     * @return A string that is all lowercase, with underscores inserted before word/number boundaries:
+     *         "maragingSteel300" -> "maraging_steel_300"
+     */
+    public static String toLowerCaseUnder(String string) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, string);
+    }
+
+    /**
+     * Converts integers to roman numerals.
+     * e.g. 17 => XVII, 2781 => MMDCCLXXXI
+     */
+    public static String toRomanNumeral(int number) {
+        return "I"
+                .repeat(number)
+                .replace("IIIII", "V")
+                .replace("IIII", "IV")
+                .replace("VV", "X")
+                .replace("VIV", "IX")
+                .replace("XXXXX", "L")
+                .replace("XXXX", "XL")
+                .replace("LL", "C")
+                .replace("LXL", "XC")
+                .replace("CCCCC", "D")
+                .replace("CCCC", "CD")
+                .replace("DD", "M")
+                .replace("DCD", "CM");
     }
 }
