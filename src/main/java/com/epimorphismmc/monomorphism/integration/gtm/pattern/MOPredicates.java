@@ -1,6 +1,6 @@
 package com.epimorphismmc.monomorphism.integration.gtm.pattern;
 
-import com.epimorphismmc.monomorphism.block.MOBlockMaps;
+import com.epimorphismmc.monomorphism.integration.gtm.pattern.predicates.PredicateDirections;
 import com.epimorphismmc.monomorphism.integration.gtm.pattern.predicates.TierPredicateFactory;
 import com.epimorphismmc.monomorphism.integration.gtm.pattern.utils.containers.IValueContainer;
 import com.epimorphismmc.monomorphism.integration.gtm.pattern.utils.containers.SimpleValueContainer;
@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.PredicateBlocks;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
@@ -39,7 +40,7 @@ public class MOPredicates {
 
     public static TraceabilityPredicate coilBlock() {
         return TierPredicateFactory.create("Coil")
-                .map(MOBlockMaps.ALL_COIL_BLOCKS)
+                //                .map(MOBlockMaps.ALL_COIL_BLOCKS)
                 .errorKey(Component.translatable("gtceu.multiblock.pattern.error.coils"))
                 .strict(true)
                 .build();
@@ -47,7 +48,7 @@ public class MOPredicates {
 
     public static TraceabilityPredicate machineCasingBlock() {
         return TierPredicateFactory.create("MachineCasing")
-                .map(MOBlockMaps.ALL_MACHINE_CASINGS)
+                //                .map(MOBlockMaps.ALL_MACHINE_CASINGS)
                 .strict(true)
                 .build();
     }
@@ -117,5 +118,9 @@ public class MOPredicates {
                         return false;
                     }
                 });
+    }
+
+    public static TraceabilityPredicate direction(Block block, RelativeDirection... directions) {
+        return new TraceabilityPredicate(new PredicateDirections(block, directions));
     }
 }
