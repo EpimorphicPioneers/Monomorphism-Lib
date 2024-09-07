@@ -18,6 +18,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
         add("monomorphism.universal.tier", "§7Tier: %s");
         add("gui.monomorphism.machine_parallel.title", "The number of current machine parallels");
         add("gui.monomorphism.change_parallel.desc", "Adjust the number of machine parallels");
-        add("monomorphism.machine.owner", "Owner: %s");
+        add(
+                "monomorphism.multiblock.pattern.direction",
+                "§cThe direction the block is facing must be consistent");
     }
 }
